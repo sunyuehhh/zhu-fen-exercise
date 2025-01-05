@@ -1,7 +1,9 @@
 <template>
-  <div>App
-    <Bar></Bar>
-    <Foo></Foo>
+  <div id="app">
+    <router-link to="/">foo</router-link>
+    <router-link to="/bar">bar</router-link>
+
+    <router-view></router-view>
   </div>
 </template>
 
@@ -15,3 +17,6 @@ export default{
   }
 }
 </script>
+<style scoped>
+
+</style>
