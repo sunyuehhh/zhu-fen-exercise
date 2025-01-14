@@ -9,4 +9,4 @@ class Person{
 
 let person=new Person()
 // person.PI=3.15
-console.log(person)
+// console.log(person)

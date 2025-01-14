@@ -22,6 +22,13 @@ module.exports={
     rules:[
       {
         test:/\.jsx?$/,
+        loader:'eslint-loader',
+        exclude:/node_modules/,
+        options:{fix:true},
+        enforce:'pre',//指定loader的类型 pre normal post inline
+      },
+      {
+        test:/\.jsx?$/,
         use:{
           loader:'babel-loader',
           options:{
