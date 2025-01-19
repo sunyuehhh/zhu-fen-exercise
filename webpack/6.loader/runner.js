@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const { runLoaders } = require("loader-runner");
+const { runLoaders } = require("./loader-runner");
 // 这是我要使用loader处理的文件
 const entryFile = path.resolve(__dirname, "src/index.js");
 
