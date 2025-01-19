@@ -21,23 +21,30 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: "babel-loader1",
-            options: {
-              presets: ["@babel/preset-env"],
-            },
-          },
-          {
-            loader: "babel-loader2",
-            options: {
-              presets: ["@babel/preset-env"],
-            },
-          },
-        ],
-      },
+        test:/\.less$/,
+        use:[
+          "style-loader",//可以把css内容变成style标签，插到我们的页面里面去
+          "less-loader"//可以把less的源代码变成css的源代码
+        ]
+      }
+      // {
+      //   test: /\.js$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     {
+      //       loader: "babel-loader1",
+      //       options: {
+      //         presets: ["@babel/preset-env"],
+      //       },
+      //     },
+      //     {
+      //       loader: "babel-loader2",
+      //       options: {
+      //         presets: ["@babel/preset-env"],
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
   plugins: [
