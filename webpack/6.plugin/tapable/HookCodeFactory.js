@@ -8,8 +8,18 @@ class HookCodeFactory{
 
   }
 
-  args(){
-    return this.options.args.join(",")
+  args(config={}){
+    const {before,after}=config
+    let allArgs=this.options.args||[]
+    if(before){
+      allArgs=[before,...allArgs]
+    }
+    if(after){
+      allArgs=[...allArgs,...after]
+    }
+    if(allArgs.length>0){
+      return allArgs.join(",");//
+    }
   }
 
   header(){
@@ -27,6 +37,8 @@ class HookCodeFactory{
       case 'sync'://创建一个同步执行的函数
         fn=new Function(this.args(),(this.header()+this.content()))
         break
+      case 'async':
+        fn=new Function(this.args({after:'_callback'}))
 
     }
 
@@ -63,6 +75,10 @@ class HookCodeFactory{
     }
 
     return code
+  }
+
+  callTapsParallel(){
+
   }
 
 }

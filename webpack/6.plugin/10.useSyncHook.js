@@ -1,4 +1,4 @@
-const SyncHook=require("./tapable/SyncHook")
+const {SyncHook}=require("./tapable")
 const hook=new SyncHook(['name','age'])
 
 hook.tap('1',(name,age)=>{
