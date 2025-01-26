@@ -1,1 +1,2 @@
-export default msg=1
+var msg='111'
+export default msg

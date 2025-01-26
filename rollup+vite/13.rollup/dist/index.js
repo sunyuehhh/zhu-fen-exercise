@@ -1,3 +1,4 @@
-console.log('腻子代码');
+var logger = new URL('assets/asset-Dx1NSP19',document.baseURI).href;
 
-console.log('main');
+// import('./msg.js').then((res)=>console.log(res))
+console.log(logger);

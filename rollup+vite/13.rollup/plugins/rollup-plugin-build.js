@@ -23,6 +23,7 @@ function build(pluginOptions){
     },
     shouldTransformCacheModule({code,id}){
       console.log('shouldTransformCacheModule',code,id)
+      return true   //每次从缓存在加载都需要重新转换
     },
     async moduleParsed(moduleInfo){
       console.log('moduleParse',moduleInfo)
