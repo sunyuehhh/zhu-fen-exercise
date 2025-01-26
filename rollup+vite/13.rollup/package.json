@@ -1,0 +1,16 @@
+{
+  "name": "13.rollup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rollup": "^4.32.0"
+  }
+}
