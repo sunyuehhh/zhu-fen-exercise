@@ -1,5 +1,7 @@
 const fs=require('fs-extra')
-const {parse,compileScript,rewriteDefault,compileTemplate}=require('vue/compiler-sfc')
+const {parse,compileScript,rewriteDefault,compileTemplate,compileStyleAsync}=require('vue/compiler-sfc');
+const hash=require('hash-sum')
+const dedent=require('dedent')
 function vue(){
   let root;
   return {
@@ -14,12 +16,32 @@ function vue(){
         }
       }
     },
-    async transform(code,id){
-      if(id.endsWith('.vue')){
-        const {filename}=parseVueRequest(id);
-        if(filename.endsWith('.vue')){
-          return await transformMain(code,filename)
+    async load(id){
+      const {filename,query}=parseVueRequest(id)
+      if(query.has('vue')){
+        const descriptor=await getDescriptor(filename)
+        if(query.get('type')==='style'){
+          let styleBlock=descriptor.styles[Number(query.get('index'))];
+          if(styleBlock){
+            return {
+              code:styleBlock.content,  //h1{color:red}
+              // id
+            }
+          }
         }
+      }
+    },
+    async transform(code,id){
+      const {filename,query}=parseVueRequest(id);
+      if(filename.endsWith('.vue')){
+          if(query.get('type')==='style'){
+            // 样式
+            const descriptor=getDescriptor(filename)
+            let result=await transformStyle(code,descriptor,Number(query.get('index')));
+            return result         
+          }else{
+            return await transformMain(code,filename)
+          }
       }
 
       return null
@@ -29,11 +51,35 @@ function vue(){
   }
 }
 
+async function  transformStyle(code,descriptor,index) {
+  const styleBlock=descriptor?.styles?.[index]
+  const result=await compileStyleAsync({
+    filename:descriptor.filename,//文件名
+    source:code,//样式的源代码
+    id:`data-v-${descriptor.id}`,//为了实现局部作用域，需要一个唯一的ID
+    scoped:styleBlock?.scoped//实现局部样式
+  })
+
+  let styleCode=result.code
+
+
+  return {
+    code:`
+    var style=document.createElement('style');
+    style.innerHTML=${JSON.stringify(styleCode)};
+    document.head.appendChild(style);
+    `
+  }
+  
+}
+
 async function transformMain(source,filename){
   const descriptor=await getDescriptor(filename)
   const scriptCode=genScriptCode(descriptor,filename)//返回脚本代码
   const templateCode= genTemplateCode(descriptor,filename)
+  const styleCode=genStyleCode(descriptor,filename)
   let code=[
+    styleCode,
     scriptCode,
     templateCode,
     '_sfc_main.render=render;',
@@ -43,6 +89,26 @@ async function transformMain(source,filename){
     code
   }
 
+
+}
+
+
+function genStyleCode(descriptor,filename){
+  let styleCode=''
+  if(descriptor.styles?.length>0){
+    descriptor.styles?.forEach((style,index) => {
+      const query=`?vue&type=style&index=${index}&lang.css`
+      const styleRequest=(filename+query).replace(/\\/g,'/');
+      styleCode+=`\nimport "${styleRequest}"`
+      // styleCode+=`\nimport "/src/App.vue?vue&type=style&index=0&lang.css"`
+      
+    });
+
+  }
+
+  console.log(styleCode,'styleCode')
+
+  return styleCode
 
 }
 
@@ -66,6 +132,7 @@ async function getDescriptor(filename){
   const result=parse(content,{filename})
 
   const {descriptor}=result;
+  descriptor.id=hash(filename)
   return descriptor
 
 

@@ -1,5 +1,5 @@
 <template>
-<div>vue{{state.name}}</div>
+<h1>vue{{state.name}}</h1>
 </template>
 
 <script>
