@@ -1,27 +1,26 @@
 const pathLib=require('path');
 const resolve=require('resolve');
-const fs=require('fs');
+const fs=require('fs-extra');
 //即是一个vite插件，也是一个rollup插件
-function resolvePlugin({root,resolve:{alias={}}}){
+function resolvePlugin({root,resolve={alias:{}}}){
   return {
     name:'resolve',
     // path   绝对  相对  第三方
     resolveId(path,importer){
-      if(path.startsWith('/')){//如果path以/开头，说明它是一个根目录下的绝对路径
-        return {id:pathLib.resolve(root,path.slice(1))}
-        // 如果path是绝对路径
-      }else if(pathLib.isAbsolute(path)){
+      // fs.pathExistsSync(path)
+      if(pathLib.isAbsolute(path)&&fs.pathExistsSync(path)){
         return {id:path}
 
-      }else if(path.startsWith('.')){
+      }else if(path.startsWith('/')){//如果path以/开头，说明它是一个根目录下的绝对路径
+        return {id:pathLib.resolve(root,path.slice(1))}
+        // 如果path是绝对路径
+      }else  if(path.startsWith('.')){
       const basedir=pathLib.dirname(importer)
       const fsPath=pathLib.resolve(basedir,path)
       return {
       id:fsPath
     }
-
       }
-
       if(path.startsWith('@')){
         const basedir=alias['@']
         const fsPath=pathLib.resolve(basedir,path)

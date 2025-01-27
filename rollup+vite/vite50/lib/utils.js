@@ -6,4 +6,12 @@ function normalizePath(path){
 
 }
 
+const knowJSSrcRE=/\.js/
+function isJSRequest(url){
+  return knowJSSrcRE.test(url)
+}
+
+
+exports.isJSRequest=isJSRequest
+
 exports.normalizePath=normalizePath
