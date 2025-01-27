@@ -1,3 +1,5 @@
 import {createApp} from 'vue'
-console.log(createApp,'main')
+import App from './App.vue'
+
+createApp(App).mount('#app')
 
