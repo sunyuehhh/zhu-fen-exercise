@@ -8,7 +8,7 @@ function transformMiddleware(server){
     // 获取路径名称
     // 获取路径名  src/main.js?id=1  pathname=/src/main.js  query={id:1}
     let pathname=parse(req.url).pathname;
-    if(isJSRequest(pathname)){
+    if(isJSRequest(req.url)){
       // 如果请求的资源是js的话  需要重写第三方导入路径
       // 此处传的一定是req.url  如果只传pathname 会丢失query
       // 而我们后面会写vue插件   会依赖查询参数

@@ -7,14 +7,16 @@ function resolvePlugin({root,resolve={alias:{}}}){
     name:'resolve',
     // path   绝对  相对  第三方
     resolveId(path,importer){
-      // fs.pathExistsSync(path)
-      if(pathLib.isAbsolute(path)&&fs.pathExistsSync(path)){
-        return {id:path}
-
-      }else if(path.startsWith('/')){//如果path以/开头，说明它是一个根目录下的绝对路径
+      if(path.startsWith('/')){//如果path以/开头，说明它是一个根目录下的绝对路径
         return {id:pathLib.resolve(root,path.slice(1))}
         // 如果path是绝对路径
-      }else  if(path.startsWith('.')){
+      }
+      // fs.pathExistsSync(path)
+      if(pathLib.isAbsolute(path)){
+        return {id:path}
+
+      }
+        if(path.startsWith('.')){
       const basedir=pathLib.dirname(importer)
       const fsPath=pathLib.resolve(basedir,path)
       return {

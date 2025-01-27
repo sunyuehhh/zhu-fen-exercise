@@ -1,4 +1,5 @@
 const fs=require('fs-extra')
+const {parse}=require('url');
 async function transformRequest(url,server) {
   // resolveId
   const { pluginContainer }=server
@@ -13,11 +14,15 @@ async function transformRequest(url,server) {
   if(loadResult){
     code=loadResult.code
   }else{
-    code=await fs.readFileSync(id,'utf-8')
+    let fsPath=parse(id).pathname;
+    code=await fs.readFileSync(fsPath,'utf-8')
   }
 
+
   // transform
-  const result=pluginContainer.transform(code,id)
+  const result=await pluginContainer.transform(code,id)
+
+  // debugger
 
   return result
 
