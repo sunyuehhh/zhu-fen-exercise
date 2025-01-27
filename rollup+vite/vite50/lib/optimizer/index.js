@@ -2,6 +2,7 @@ const { build } = require('esbuild');
 const scanImports=require('./scan');
 const path=require('path');
 const fs=require('fs-extra');
+const { normalizePath } = require('../utils');
 /**
  * 分析项目依赖的第三方依赖
  * @param {*} config 
@@ -37,12 +38,17 @@ for(const id in deps){
     write:true,
     format:'esm'
   })
-
-
 }
 
 fs.ensureDir(depsCacheDir);
-await fs.writeFile(metaDataPath,JSON.stringify(metadata))
+await fs.writeFile(metaDataPath,JSON.stringify(metadata,(key,value)=>{
+  if(key==='file'||key==='src'){
+    return normalizePath(path.relative(depsCacheDir,value))
+
+  }
+
+  return value
+}))
 
 return {metadata}
 }

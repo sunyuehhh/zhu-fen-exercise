@@ -18,6 +18,7 @@ async function scanImports(config){
     write:true,//在真实的代码中write=false,不需要写入硬盘
     plugins:[scanPlugin]
   })
+  return depImports
 }
 
 
