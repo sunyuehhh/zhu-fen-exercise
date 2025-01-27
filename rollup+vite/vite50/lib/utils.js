@@ -6,7 +6,7 @@ function normalizePath(path){
 
 }
 
-const knowJSSrcRE=/\.js/
+const knowJSSrcRE=/\.(js|vue)($|\?)/
 function isJSRequest(url){
   return knowJSSrcRE.test(url)
 }
