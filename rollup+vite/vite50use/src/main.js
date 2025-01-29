@@ -1,5 +1,9 @@
-import {createApp} from 'vue'
-import App from './App.vue'
+import {render} from './renderModule.js'
+render()
 
-createApp(App).mount('#app')
+if(import.meta.hot){
+  import.meta.hot.accept(['./renderModule.js'],([renderModule])=>{
+    renderModule.render()
 
+  })
+}

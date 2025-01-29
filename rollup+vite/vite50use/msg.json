@@ -1,0 +1,10 @@
+{
+  "type": "update",
+  "updates": [
+    {
+      "type": "js-update",
+      "path": "/src/main.js",
+      "acceptedPath": "/src/renderModule.js"
+    }
+  ]
+}

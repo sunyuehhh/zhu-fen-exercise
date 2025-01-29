@@ -16,7 +16,7 @@ function resolvePlugin({root,resolve={alias:{}}}){
         return {id:path}
 
       }
-        if(path.startsWith('.')){
+        if(path?.startsWith('.')){
       const basedir=pathLib.dirname(importer)
       const fsPath=pathLib.resolve(basedir,path)
       return {

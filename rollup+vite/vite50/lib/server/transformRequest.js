@@ -18,6 +18,9 @@ async function transformRequest(url,server) {
     code=await fs.readFileSync(fsPath,'utf-8')
   }
 
+  // 
+  await server.moduleGraph.ensureEntryFromUrl(url)
+
 
   // transform
   const result=await pluginContainer.transform(code,id)
