@@ -31,3 +31,4 @@ promise2.then(data=>{
 },err=>{
   console.log(err,'error')
 })
+

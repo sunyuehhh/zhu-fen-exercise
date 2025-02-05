@@ -51,6 +51,10 @@ class Promise{
     this.onRejectedCallback=[]
 
     const resolve=(value)=>{
+      // 为了满足ECMAScript的功能自己额外添加的
+      if(value instanceof Promise){
+       return value.then(resolve,reject)
+      }
       if(this.status==PENDING){
       this.value=value
       this.status=FULFILLED
@@ -141,6 +145,8 @@ class Promise{
 
   }
 
+
+
 }
 
 
@@ -156,5 +162,34 @@ Promise.deferred=function(){
 }
 // npm install promise-aplus-tests -D
 // 执行命令   promise-aplus-test3 promise.js  会测试  看代码是否符合规范
+
+
+
+Promise.resolve=(value)=>{
+  return new Promise((resolve,reject)=>{
+    resolve(value)
+  })
+}
+
+
+Promise.race=function(values){
+  return new Promise((resolve,reject)=>{
+    values.forEach((item,i)=>{
+      Promise.resolve(item).then(resolve,reject)
+
+    })
+
+  })
+
+}
+
+Promise.prototype.finally=function(fn){
+  return this.then(()=>{
+    fn()
+  },()=>{
+    fn()
+  })
+
+}
 
 module.exports=Promise
