@@ -44,7 +44,39 @@ class Server{
     
   }
 
-  sendFile(assetsUrl,req,res){
+  sendFile(assetsUrl,req,res,statObj){
+    // // 默认情况下  对访问过的资源 浏览器都会对这些资源进行缓存操作 ，我们可以基于缓存来实现缓存(对比缓存，强制缓存)
+
+    // // 协商   默认首页是没有缓存的  会在发送请求的时候  增加Cache-Control:max-age=0  max-age=0意味着一定要向服务器发送请求
+    // // (取消强制缓存)
+    // console.log(req.url,'req.url')
+    // // 强制缓存  不会向服务端发送请求  所以用的是本地的   如果服务端文件变化了  不会生效  hash值来保证使用最新的内容
+    // res.setHeader('Cache-Control','max-age=20');//20s不要再向服务端发送请求了  强制缓存一般对变化不大的文件进行缓存
+
+    // // expires  本地时间和服务器时间可能不一致  导致缓存失效
+    // // res.setHeader('Expires',new Date((Date.now()+10*10000)).toGMTString())
+
+
+
+    // 协商缓存   特点是询问服务器需不需要使用缓存
+    
+    // 第一次你来我给你一个文件的最后修改时间 3:00 下次你来请求  带上这个时间 我来比较以下时间是否发生变化
+    console.log(statObj?.ctime,'statObj.ctime')
+    // res.setHeader('Last-Modified',statObj.ctime.toGMTString())
+    const ctime=statObj.ctime.toGMTString()
+    res.setHeader('Last-Modified',ctime)
+    if(req.headers['if-modified-since']==ctime){//第二次来我要比较一下时间是否一致
+      res.statusCode=304
+      return res.end()
+    }
+
+
+
+
+
+
+
+
     const fileType=mime.getType(assetsUrl)||'text/plain'
     res.setHeader('Content-Type',fileType+';charset=utf-8')
 
@@ -63,7 +95,7 @@ class Server{
     try {
       const newAssetsUrl= path.join(assetsUrl,'index.html')
       await fsPromise.stat(newAssetsUrl)
-      this.sendFile(newAssetsUrl,req,res)
+      this.sendFile(newAssetsUrl,req,res,statObj)
     } catch (error) {
       // 展示这个文件下面的所有文件
       const dirs=await fsPromise.readdir(assetsUrl);//将访问的路径的子目录列举出来
@@ -182,7 +214,7 @@ class Server{
       const statObj=await fsPromise.stat(accessUrl)
       // 获取文件是否存在
       if(statObj.isFile()){
-        this.sendFile(accessUrl,req,res)
+        this.sendFile(accessUrl,req,res,statObj)
 
 
       }else{
