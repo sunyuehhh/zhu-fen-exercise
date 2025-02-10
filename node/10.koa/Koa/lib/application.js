@@ -2,16 +2,19 @@ const http = require("http");
 const request = require("./request");
 const response = require("./response");
 const context=require('./context')
+const compose=require('./koa-compose')
 class Application {
   constructor() {
     this.request = Object.create(request);
     this.response = Object.create(response);
     this.context=Object.create(context)
+    this.middleware=[]
   }
   // 使用一个请求处理函数
   use(fn) {
     // 先把这个fn暂存起来 等待以后请求到来的时候进行调用
-    this.middleware = fn;
+    this.middleware.push(fn)
+    return this
   }
   listen(...args) {
     // 创建一个http服务器
@@ -19,19 +22,27 @@ class Application {
     // 把端口号和成功后的回调
     server.listen(...args);
   }
-
   callback = () => {
+    // 把中间件的函数数组组成一个函数
+    const fn=compose(this.middleware)
     // http createServer参数
     const handleRequest = (req, res) => {
       // 创建一个新的context对象 此对象里保存着原生的请求和响应对象
       const ctx = this.createContext(req, res);
-      this.middleware(ctx);
-      //   取出ctx.body,并且真正写入响应体
-      return res.end(ctx.response.body);
+      // this.middleware(ctx);
+      // //   取出ctx.body,并且真正写入响应体
+      // return res.end(ctx.response.body);
+      return this.handleRequest(ctx,fn)
     };
-
     return handleRequest;
   };
+
+  handleRequest(ctx,fnMiddleware){
+    const handleResponse=()=>respond(ctx)
+    const onerror=(error)=>ctx.onerror(error)
+    return fnMiddleware(ctx).then(handleResponse).catch(onerror)
+
+  }
 
   createContext(req, res) {
     const context = Object.create(this.context)
@@ -45,5 +56,9 @@ class Application {
     return context;
   }
 }
+function respond(ctx){
+  const {res,body}=ctx
+  res.end(body)
 
+}
 module.exports = Application;
