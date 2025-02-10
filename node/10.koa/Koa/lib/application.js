@@ -2,7 +2,8 @@ const http = require("http");
 const request = require("./request");
 const response = require("./response");
 const context=require('./context')
-const compose=require('./koa-compose')
+const compose=require('./koa-compose');
+const { Stream } = require("stream");
 class Application {
   constructor() {
     this.request = Object.create(request);
@@ -58,7 +59,14 @@ class Application {
 }
 function respond(ctx){
   const {res,body}=ctx
-  res.end(body)
+  // 把响应内容写入响应流，并关闭相应流
+  // 因为body类型现在支持各种类型
+  if(Buffer.isBuffer(body)) return res.end(body);
+  if(typeof body=='string') return res.end(body);
+  // 如果响应体是流的格式  那么可以以管道的方式将可读流写入相应流
+  if(body instanceof Stream) return body.pipe(res);
+  // 原生的end只能接收字符串 buffer
+  res.end(JSON.stringify(body))
 
 }
 module.exports = Application;

@@ -1,9 +1,9 @@
 const delegate=require('./delegate')
 // 创建一个空对象并将其导出
 const proto=module.exports={
-  onerror:(error)=>{
+  onerror(error){
     this.status=500
-    this.res.end(error.message)
+    this.res.end(`Internet Server Error`)
   }
 }
 // 使用代理模块将proto对象得一些属性代理到request对象上   proto.url=>proto.request.url
