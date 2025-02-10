@@ -16,7 +16,8 @@ import querystring from 'querystring'
 import {getNetWorkInterfaces} from './utils.js'
 import mime from 'mime'
 import ejs from 'ejs'
-
+import crypto, { createHash } from 'crypto'
+import zlib from 'zlib'
 
 // 以上是内置的模块
 import chalk from 'chalk'
@@ -44,6 +45,43 @@ class Server{
     
   }
 
+  cache(){
+    // 强缓存+对比缓存
+    // 客户端访问我第一次来得时候  我希望30s内不要再访问我了，并且给你一个缓存得etag
+    // 30s  访问都用本地
+    // 超过30s后  会向服务器发送请求 携带if-no-match  服务器和现在得etag做对比看看是否返回新文件
+    // 30s  访问都用本地
+    // ...
+
+
+    res.setHeader('Cache-Control','max-age=30')
+    const etag=statObj.ctime.getTime()+'-'+statObj.size();//相对靠谱  如果在一秒之内变化了  但是size没变就会有问题  但这种情况很少
+    res.setHeader('Etag',etag)
+    if(req.headers['if-none-match']===etag){//找本地缓存，文件灭有改变
+      res.statusCode=304;
+      return res.end()
+    }
+  }
+
+  compress(req,res){
+    const encoding=req.headers['accept-encoding']
+    if(encoding){
+      if(encoding.includes('gzip')){
+        res.setHeader('Content-Encoding','gzip')
+        return zlib.createGzip()
+      }else if(encoding.includes('deflate')){
+        res.setHeader('Content-Encoding','deflate')
+        return zlib.createDeflate()
+      }else if(encoding.includes('br')){
+        res.setHeader('Content-Encoding','br')
+        return zlib.createBrotliDecompress()
+
+      }
+
+    }
+
+  }
+
   sendFile(assetsUrl,req,res,statObj){
     // // 默认情况下  对访问过的资源 浏览器都会对这些资源进行缓存操作 ，我们可以基于缓存来实现缓存(对比缓存，强制缓存)
 
@@ -60,27 +98,37 @@ class Server{
 
     // 协商缓存   特点是询问服务器需不需要使用缓存
     
-    // 第一次你来我给你一个文件的最后修改时间 3:00 下次你来请求  带上这个时间 我来比较以下时间是否发生变化
-    console.log(statObj?.ctime,'statObj.ctime')
-    // res.setHeader('Last-Modified',statObj.ctime.toGMTString())
-    const ctime=statObj.ctime.toGMTString()
-    res.setHeader('Last-Modified',ctime)
-    if(req.headers['if-modified-since']==ctime){//第二次来我要比较一下时间是否一致
-      res.statusCode=304
-      return res.end()
-    }
+    // // 第一次你来我给你一个文件的最后修改时间 3:00 下次你来请求  带上这个时间 我来比较以下时间是否发生变化
+    // console.log(statObj?.ctime,'statObj.ctime')
+    // // res.setHeader('Last-Modified',statObj.ctime.toGMTString())
+    // // 最后修改时间的方案 问题?  秒为单位  (时间是绝对时间)  如果1s内改了多次 会有可能文件变化了但是用的还是以前的
+    // const ctime=statObj.ctime.toGMTString()
+    // res.setHeader('Last-Modified',ctime)
+    // if(req.headers['if-modified-since']==ctime){//第二次来我要比较一下时间是否一致
+    //   res.statusCode=304
+    //   return res.end()
+    // }
+
+    // 目的是尽可能缓存，但是不能出bug   直接比较前后的内容
 
 
-
-
-
-
+    // const md5=crypto.createHash('md5')
+    // const etag=md5.update(fsPromise.readFileSync(assetsUrl,'utf8')).digest('base64')//第二次我要比较一下时间是否一致
+    // if(req.headers['if-none-match']===etag){//找本地缓存，文件灭有改变
+    //   res.statusCode=304;
+    //   return res.end()
+    // }
+    // res.setHeader('Etag',etag)//最靠谱的  问题是在于得读取  读大文件
 
 
     const fileType=mime.getType(assetsUrl)||'text/plain'
-    res.setHeader('Content-Type',fileType+';charset=utf-8')
-
+    let stream;
+    if(stream=this.compress(req,res)){
+    createReadStream(assetsUrl).pipe(stream).pipe(res)//处理大文件，可以指定读取文件内容
+    }else{
     createReadStream(assetsUrl).pipe(res);//处理大文件，可以指定读取文件内容
+    }
+    res.setHeader('Content-Type',fileType+';charset=utf-8')
 
   }
 
