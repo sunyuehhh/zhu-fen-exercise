@@ -1,10 +1,12 @@
 const http = require("http");
 const request = require("./request");
 const response = require("./response");
+const context=require('./context')
 class Application {
   constructor() {
     this.request = Object.create(request);
     this.response = Object.create(response);
+    this.context=Object.create(context)
   }
   // 使用一个请求处理函数
   use(fn) {
@@ -32,15 +34,15 @@ class Application {
   };
 
   createContext(req, res) {
-    const ctx = { req, res };
+    const context = Object.create(this.context)
     // 需要保证每次请求带来的时候  每个context都是新的  context里每个request和response也是新的
-    const request = (ctx.request = Object.create(this.request));
-    const response = (ctx.response = Object.create(this.response));
+    const request = (context.request = Object.create(this.request));
+    const response = (context.response = Object.create(this.response));
     //让封装后的request的req属性执行原始的Nodejs请求对象
-    request.req = req;
+    request.req = context.req = req;
     //让封装后的response的res属性指向原始的Node.js的响应对象
-    response.res = res;
-    return ctx;
+    response.res = context.res = res;
+    return context;
   }
 }
 
