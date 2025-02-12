@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p id="visit"></p>
+  <script>
+    async function getContent() {
+      try {
+        const response=await fetch('http://localhost:4000/count',{
+          method:'GET',
+          credentials:'include'//设置此参数表示再跨域访问的时候要携带cookie
+        }).then(response=>response.json())
+        document.getElementById('visit').innerHTML=response.count
+      } catch (error) {
+        console.log(error)
+        
+      }
+      
+    }
+    getContent()
+  </script>
+  
+</body>
+</html>
