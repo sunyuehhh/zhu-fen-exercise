@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    window.addEventListener('message',(event)=>{
+      console.log('b 收到a发过来的消息',event.data)
+      // 如何向a发消息呢  event.source指的就是来源窗口a window     event.origin当前源localhost:4000
+      event.source.postMessage('world',event.origin)
+    })
+  </script>
+  
+</body>
+</html>
