@@ -7,7 +7,6 @@ let result=Mock.mock({
     "ip":"@ip",
     "name":"@cname",
     "userId":"@id",
-    "stars|2":["*"],
     "avatar":"@image()",
     "createAt":"@datetime",
   }]
