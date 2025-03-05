@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>公共的头部</div>
+  {% block content %}
+  <div>我是layout.html中的内容</div>
+  {% endblock %}
+  <div>公共的尾部</div>
+</body>
+</html>
