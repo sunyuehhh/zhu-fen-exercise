@@ -1,0 +1,102 @@
+2025-03-07 21:12:26,838 ERROR 10976 [-/127.0.0.1/-/17ms GET /news?limit=4] nodejs.RequestError: connect ECONNREFUSED ::1:3000, GET http://localhost:3000/news -1 (connected: false, keepalive socket: false, agent status: {"createSocketCount":1,"createSocketErrorCount":0,"closeSocketCount":0,"errorSocketCount":1,"timeoutSocketCount":0,"requestCount":0,"freeSockets":{},"sockets":{"localhost:3000:":1},"requests":{}}, socketHandledRequests: 1, socketHandledResponses: 0)
+headers: {}
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)
+    at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:128:17)
+errno: -4078
+code: "ECONNREFUSED"
+syscall: "connect"
+address: "::1"
+port: 3000
+name: "RequestError"
+data: undefined
+path: "/news?limit=4"
+status: -1
+headers: {}
+res: {"status":-1,"statusCode":-1,"statusMessage":null,"headers":{},"size":0,"aborted":false,"rt":9,"keepAliveSocket":false,"requestUrls":["http://localhost:3000/news"],"timing":null,"remoteAddress":"::1","remotePort":"","socketHandledRequests":1,"socketHandledResponses":0}
+pid: 10976
+hostname: LAPTOP-EGK9J6C0
+
+2025-03-07 21:34:10,892 ERROR 18616 [-/127.0.0.1/-/36ms GET /news?limit=4] nodejs.TypeError: Cannot read properties of undefined (reading 'title')
+    at NewsController.index (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\controller\news.js:9:56)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-development\app\middleware\egg_loader_trace.js:9:50
+    at async xframe (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\xframe.js:7:5)
+    at async xssProtection (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\xssProtection.js:7:5)
+    at async nosniff (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\nosniff.js:8:5)
+    at async noopen (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\noopen.js:8:5)
+    at async session (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-session\index.js:41:7)
+    at async bodyParser (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-bodyparser\index.js:78:5)
+    at async D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-static-cache\index.js:41:56
+
+pid: 18616
+hostname: LAPTOP-EGK9J6C0
+
+2025-03-07 21:39:05,632 ERROR 14816 [Job#17413547456211787285449869001] D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\schedule\updateCache.js execute failed, used 7ms. SyntaxError [JSONResponseFormatError]: Unexpected token < in JSON at position 0 (data json format: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /cache</pre>\n</body>\n</html>\n"), GET http://localhost:3000/cache 404 (connected: true, keepalive socket: false, agent status: {"createSocketCount":4,"createSocketErrorCount":0,"closeSocketCount":3,"errorSocketCount":0,"timeoutSocketCount":3,"requestCount":3,"freeSockets":{},"sockets":{"localhost:3000:":1},"requests":{}}, socketHandledRequests: 1, socketHandledResponses: 1)
+headers: {"x-powered-by":"Express","content-security-policy":"default-src 'none'","x-content-type-options":"nosniff","content-type":"text/html; charset=utf-8","content-length":"144","date":"Fri, 07 Mar 2025 13:39:05 GMT","connection":"keep-alive","keep-alive":"timeout=5"}
+    at JSON.parse (<anonymous>)
+    at parseJSON (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\urllib\lib\urllib.js:1239:24)
+    at D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\urllib\lib\urllib.js:943:23
+    at decodeContent (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\urllib\lib\urllib.js:740:14)
+    at handleResponseCloseAndEnd (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\urllib\lib\urllib.js:924:7)
+    at IncomingMessage.<anonymous> (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\urllib\lib\urllib.js:962:7)
+    at IncomingMessage.emit (node:events:529:35)
+    at endReadableNT (node:internal/streams/readable:1400:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  data: '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '<meta charset="utf-8">\n' +
+    '<title>Error</title>\n' +
+    '</head>\n' +
+    '<body>\n' +
+    '<pre>Cannot GET /cache</pre>\n' +
+    '</body>\n' +
+    '</html>\n',
+  path: '/cache',
+  status: 404,
+  headers: {
+    'x-powered-by': 'Express',
+    'content-security-policy': "default-src 'none'",
+    'x-content-type-options': 'nosniff',
+    'content-type': 'text/html; charset=utf-8',
+    'content-length': '144',
+    date: 'Fri, 07 Mar 2025 13:39:05 GMT',
+    connection: 'keep-alive',
+    'keep-alive': 'timeout=5'
+  },
+  res: {
+    status: 404,
+    statusCode: 404,
+    statusMessage: 'Not Found',
+    headers: {
+      'x-powered-by': 'Express',
+      'content-security-policy': "default-src 'none'",
+      'x-content-type-options': 'nosniff',
+      'content-type': 'text/html; charset=utf-8',
+      'content-length': '144',
+      date: 'Fri, 07 Mar 2025 13:39:05 GMT',
+      connection: 'keep-alive',
+      'keep-alive': 'timeout=5'
+    },
+    size: 144,
+    aborted: false,
+    rt: 6,
+    keepAliveSocket: false,
+    data: '<!DOCTYPE html>\n' +
+      '<html lang="en">\n' +
+      '<head>\n' +
+      '<meta charset="utf-8">\n' +
+      '<title>Error</title>\n' +
+      '</head>\n' +
+      '<body>\n' +
+      '<pre>Cannot GET /cache</pre>\n' +
+      '</body>\n' +
+      '</html>\n',
+    requestUrls: [ 'http://localhost:3000/cache' ],
+    timing: null,
+    remoteAddress: '::1',
+    remotePort: 3000,
+    socketHandledRequests: 1,
+    socketHandledResponses: 1
+  }
+}

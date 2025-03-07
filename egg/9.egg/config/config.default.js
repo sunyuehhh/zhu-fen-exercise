@@ -26,5 +26,9 @@ module.exports=app=>{
     url:'http://localhost:3000/news'
   }
 
+  config.cache={
+    url:'http://localhost:3000/cache'
+  }
+
   return config
 }

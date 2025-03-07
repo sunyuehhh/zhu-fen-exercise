@@ -1,0 +1,33 @@
+2025-03-07 21:12:26,839 ERROR 10976 [-/127.0.0.1/-/17ms GET /news?limit=4] nodejs.RequestError: connect ECONNREFUSED ::1:3000, GET http://localhost:3000/news -1 (connected: false, keepalive socket: false, agent status: {"createSocketCount":1,"createSocketErrorCount":0,"closeSocketCount":0,"errorSocketCount":1,"timeoutSocketCount":0,"requestCount":0,"freeSockets":{},"sockets":{"localhost:3000:":1},"requests":{}}, socketHandledRequests: 1, socketHandledResponses: 0)
+headers: {}
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)
+    at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:128:17)
+errno: -4078
+code: "ECONNREFUSED"
+syscall: "connect"
+address: "::1"
+port: 3000
+name: "RequestError"
+data: undefined
+path: "/news?limit=4"
+status: -1
+headers: {}
+res: {"status":-1,"statusCode":-1,"statusMessage":null,"headers":{},"size":0,"aborted":false,"rt":9,"keepAliveSocket":false,"requestUrls":["http://localhost:3000/news"],"timing":null,"remoteAddress":"::1","remotePort":"","socketHandledRequests":1,"socketHandledResponses":0}
+pid: 10976
+hostname: LAPTOP-EGK9J6C0
+
+2025-03-07 21:34:10,892 ERROR 18616 [-/127.0.0.1/-/36ms GET /news?limit=4] nodejs.TypeError: Cannot read properties of undefined (reading 'title')
+    at NewsController.index (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\controller\news.js:9:56)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-development\app\middleware\egg_loader_trace.js:9:50
+    at async xframe (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\xframe.js:7:5)
+    at async xssProtection (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\xssProtection.js:7:5)
+    at async nosniff (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\nosniff.js:8:5)
+    at async noopen (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\noopen.js:8:5)
+    at async session (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-session\index.js:41:7)
+    at async bodyParser (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-bodyparser\index.js:78:5)
+    at async D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-static-cache\index.js:41:56
+
+pid: 18616
+hostname: LAPTOP-EGK9J6C0
+

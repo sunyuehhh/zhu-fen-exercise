@@ -13,6 +13,9 @@
   "news": {
     "url": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js"
   },
+  "cache": {
+    "url": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js"
+  },
   "session": {
     "maxAge": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-session\\config\\config.default.js",
     "key": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-session\\config\\config.default.js",

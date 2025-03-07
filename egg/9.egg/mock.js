@@ -25,4 +25,10 @@ app.get('/news',function(req,res){
   
 
 })
+
+
+app.get('/cache',function(req,res){
+  res.json({title:('服务器返回的新闻标题'+Date.now())})
+
+})
 app.listen(3000)

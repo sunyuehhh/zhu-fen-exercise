@@ -6,7 +6,7 @@ class NewsController extends Controller {
     // 控制器里要接收并处理校验参数
     const limit=ctx.query?ctx.query.limit:5
     const list=await this.service.news.list(limit);
-    await ctx.render('news',{list})
+    await ctx.render('news',{list,title:this?.ctx?.app?.cache?.title||'默认新闻列表'})
   }
 }
 

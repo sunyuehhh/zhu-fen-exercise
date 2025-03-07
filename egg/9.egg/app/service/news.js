@@ -12,7 +12,7 @@ class NewsService extends Service{
       dataType:'json'
     })
 
-    console.log(result)
+    // console.log(result)
     return result.data.data
 
   }
