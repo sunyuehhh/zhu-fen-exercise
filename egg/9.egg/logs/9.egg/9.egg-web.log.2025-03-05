@@ -1,0 +1,75 @@
+2025-03-05 22:02:03,855 ERROR 12728 [-/127.0.0.1/-/7ms GET /news] nodejs.Error: Please set config.keys first
+    at get keys [as keys] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\lib\application.js:266:15)
+    at get cookies [as cookies] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\app\extend\context.js:22:66)
+    at get [egg-security#CSRF_SECRET] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:91:35)
+    at Object.ensureCsrfSecret (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:104:13)
+    at csrf (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\csrf.js:15:11)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:42:32)
+    at D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:34:12
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at session (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-session\index.js:41:13)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+
+pid: 12728
+hostname: LAPTOP-EGK9J6C0
+
+2025-03-05 22:03:42,773 ERROR 14360 [-/127.0.0.1/-/7ms GET /news] nodejs.Error: Please set config.keys first
+    at get keys [as keys] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\lib\application.js:266:15)
+    at get cookies [as cookies] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\app\extend\context.js:22:66)
+    at get [egg-security#CSRF_SECRET] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:91:35)
+    at Object.ensureCsrfSecret (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:104:13)
+    at csrf (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\csrf.js:15:11)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:42:32)
+    at D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:34:12
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at session (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-session\index.js:41:13)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+
+pid: 14360
+hostname: LAPTOP-EGK9J6C0
+
+2025-03-05 22:04:21,814 ERROR 1300 [-/127.0.0.1/-/6ms GET /news] nodejs.Error: Please set config.keys first
+    at get keys [as keys] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\lib\application.js:266:15)
+    at get cookies [as cookies] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\app\extend\context.js:22:66)
+    at get [egg-security#CSRF_SECRET] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:91:35)
+    at Object.ensureCsrfSecret (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:104:13)
+    at csrf (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\csrf.js:15:11)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:42:32)
+    at D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:34:12
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at session (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-session\index.js:41:13)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+
+pid: 1300
+hostname: LAPTOP-EGK9J6C0
+
+2025-03-05 22:04:55,288 ERROR 14260 [-/127.0.0.1/-/6ms GET /news] nodejs.Error: Please set config.keys first
+    at get keys [as keys] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\lib\application.js:266:15)
+    at get cookies [as cookies] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg\app\extend\context.js:22:66)
+    at get [egg-security#CSRF_SECRET] (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:91:35)
+    at Object.ensureCsrfSecret (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\app\extend\context.js:104:13)
+    at csrf (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\lib\middlewares\csrf.js:15:11)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:42:32)
+    at D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-security\node_modules\koa-compose\index.js:34:12
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at session (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-session\index.js:41:13)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+
+pid: 14260
+hostname: LAPTOP-EGK9J6C0
+
+2025-03-05 22:26:33,365 ERROR 2296 [-/127.0.0.1/-/15ms GET /news] nodejs.TypeError: this.service.list is not a function
+    at NewsController.index (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\controller\news.js:8:35)
+    at Object.callFn (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-core\lib\utils\index.js:44:21)
+    at Object.classControllerMiddleware (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\egg-core\lib\loader\mixin\controller.js:87:20)
+    at Object.callFn (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\@eggjs\router\lib\utils.js:17:21)
+    at wrappedController (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\@eggjs\router\lib\egg_router.js:322:18)
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-compose\index.js:44:32)
+    at next (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-compose\index.js:45:18)
+    at D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\@eggjs\router\lib\router.js:190:18
+    at dispatch (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-compose\index.js:44:32)
+    at D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\koa-compose\index.js:36:12
+
+pid: 2296
+hostname: LAPTOP-EGK9J6C0
+

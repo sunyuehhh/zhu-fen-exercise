@@ -1,0 +1,9 @@
+2025-03-06 05:24:31,102 INFO 14860 [egg-logrotator] agent logger reload: got log-reload message
+2025-03-07 20:59:54,633 ERROR 14860 nodejs.ClusterClientNoResponseError: client no response in 142523529ms exceeding maxIdleTime 60000ms, maybe the connection is close on other side.
+    at Timeout._onTimeout (D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\node_modules\cluster-client\lib\leader.js:79:25)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7)
+name: "ClusterClientNoResponseError"
+pid: 14860
+hostname: LAPTOP-EGK9J6C0
+
