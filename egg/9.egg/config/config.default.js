@@ -30,5 +30,16 @@ module.exports=app=>{
     url:'http://localhost:3000/cache'
   }
 
+  // config.mysql={
+  //   client:{
+  //     host:'127.0.0.1',
+  //     user:'root',
+  //     password:'Wm@130835',
+  //     port:3306,
+  //     database:'cms-development'
+  //   },
+  //   app:true,//要把mysql模块挂载再app对象上  app.mysql
+  // }
+
   return config
 }

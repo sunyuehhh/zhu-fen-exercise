@@ -11,10 +11,16 @@ class NewsService extends Service{
       },
       dataType:'json'
     })
+    let list=result.data.data
+    list.forEach(item => {
+      item.createAt=ctx.helper.fromNow(item.createAt)
+      
+    });
+    return list
 
-    // console.log(result)
-    return result.data.data
-
+    // query是执行SQL语句的意思  增删改查都可以写
+    // let result=await this.app.mysql.query(`SELECT * FROM news LIMIT ${limit}`)
+    // return result
   }
 }
 

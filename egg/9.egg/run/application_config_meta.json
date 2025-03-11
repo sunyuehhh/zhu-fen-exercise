@@ -187,9 +187,11 @@
     "dependencies": {
       "egg": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "egg-bin": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+      "egg-mysql": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "egg-view-nunjucks": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "express": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-      "mockjs": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
+      "mockjs": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+      "moment": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
     }
   },
   "baseDir": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",

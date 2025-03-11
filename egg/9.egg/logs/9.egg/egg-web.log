@@ -1029,3 +1029,607 @@
 2025-03-07 21:46:52,327 INFO 20160 [egg:core] dump config after load, 7ms
 2025-03-07 21:46:52,348 INFO 20160 [egg-watcher:application] watcher start success
 2025-03-07 21:46:52,360 INFO 20160 [egg:core] dump config after ready, 4ms
+2025-03-07 21:47:02,430 INFO 3888 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-07 21:47:02,464 INFO 3888 [egg-multipart] stream mode enable
+2025-03-07 21:47:02,563 INFO 3888 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-07 21:47:02,566 INFO 3888 [egg-security] use csrf middleware
+2025-03-07 21:47:02,568 INFO 3888 [egg-security] use methodnoallow middleware
+2025-03-07 21:47:02,568 INFO 3888 [egg-security] use noopen middleware
+2025-03-07 21:47:02,571 INFO 3888 [egg-security] use nosniff middleware
+2025-03-07 21:47:02,571 INFO 3888 [egg-security] use xssProtection middleware
+2025-03-07 21:47:02,572 INFO 3888 [egg-security] use xframe middleware
+2025-03-07 21:47:02,573 INFO 3888 [egg-security] use dta middleware
+2025-03-07 21:47:02,573 INFO 3888 [egg-security] compose 7 middlewares into one security middleware
+2025-03-07 21:47:02,584 INFO 3888 [egg:core] dump config after load, 5ms
+2025-03-07 21:47:02,609 INFO 3888 [egg-watcher:application] watcher start success
+2025-03-07 21:47:02,615 INFO 3888 [egg:core] dump config after ready, 5ms
+2025-03-07 21:47:09,013 INFO 3888 [egg-view-nunjucks] loading templates from ["D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\app\\view"]
+2025-03-07 21:54:50,027 INFO 8860 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-07 21:54:50,061 INFO 8860 [egg-multipart] stream mode enable
+2025-03-07 21:54:50,165 INFO 8860 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-07 21:54:50,168 INFO 8860 [egg-security] use csrf middleware
+2025-03-07 21:54:50,169 INFO 8860 [egg-security] use methodnoallow middleware
+2025-03-07 21:54:50,170 INFO 8860 [egg-security] use noopen middleware
+2025-03-07 21:54:50,172 INFO 8860 [egg-security] use nosniff middleware
+2025-03-07 21:54:50,173 INFO 8860 [egg-security] use xssProtection middleware
+2025-03-07 21:54:50,173 INFO 8860 [egg-security] use xframe middleware
+2025-03-07 21:54:50,174 INFO 8860 [egg-security] use dta middleware
+2025-03-07 21:54:50,174 INFO 8860 [egg-security] compose 7 middlewares into one security middleware
+2025-03-07 21:54:50,185 INFO 8860 [egg:core] dump config after load, 7ms
+2025-03-07 21:54:50,205 INFO 8860 [egg-watcher:application] watcher start success
+2025-03-07 21:54:50,217 INFO 8860 [egg:core] dump config after ready, 5ms
+2025-03-11 22:01:16,854 INFO 6312 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:01:16,893 INFO 6312 [egg-multipart] stream mode enable
+2025-03-11 22:01:17,022 INFO 6312 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:01:17,025 INFO 6312 [egg-security] use csrf middleware
+2025-03-11 22:01:17,027 INFO 6312 [egg-security] use methodnoallow middleware
+2025-03-11 22:01:17,028 INFO 6312 [egg-security] use noopen middleware
+2025-03-11 22:01:17,030 INFO 6312 [egg-security] use nosniff middleware
+2025-03-11 22:01:17,031 INFO 6312 [egg-security] use xssProtection middleware
+2025-03-11 22:01:17,031 INFO 6312 [egg-security] use xframe middleware
+2025-03-11 22:01:17,032 INFO 6312 [egg-security] use dta middleware
+2025-03-11 22:01:17,032 INFO 6312 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:01:17,045 INFO 6312 [egg:core] dump config after load, 8ms
+2025-03-11 22:01:17,068 INFO 6312 [egg-watcher:application] watcher start success
+2025-03-11 22:01:17,084 INFO 6312 [egg:core] dump config after ready, 4ms
+2025-03-11 22:08:10,240 INFO 2608 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:08:10,277 INFO 2608 [egg-multipart] stream mode enable
+2025-03-11 22:08:10,395 INFO 2608 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:08:10,398 INFO 2608 [egg-security] use csrf middleware
+2025-03-11 22:08:10,400 INFO 2608 [egg-security] use methodnoallow middleware
+2025-03-11 22:08:10,401 INFO 2608 [egg-security] use noopen middleware
+2025-03-11 22:08:10,406 INFO 2608 [egg-security] use nosniff middleware
+2025-03-11 22:08:10,407 INFO 2608 [egg-security] use xssProtection middleware
+2025-03-11 22:08:10,407 INFO 2608 [egg-security] use xframe middleware
+2025-03-11 22:08:10,408 INFO 2608 [egg-security] use dta middleware
+2025-03-11 22:08:10,409 INFO 2608 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:08:10,419 INFO 2608 [egg:core] dump config after load, 6ms
+2025-03-11 22:08:10,440 INFO 2608 [egg-watcher:application] watcher start success
+2025-03-11 22:08:10,452 INFO 2608 [egg:core] dump config after ready, 5ms
+2025-03-11 22:09:53,968 INFO 19164 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:09:54,005 INFO 19164 [egg-multipart] stream mode enable
+2025-03-11 22:09:54,114 INFO 19164 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:09:54,117 INFO 19164 [egg-security] use csrf middleware
+2025-03-11 22:09:54,119 INFO 19164 [egg-security] use methodnoallow middleware
+2025-03-11 22:09:54,120 INFO 19164 [egg-security] use noopen middleware
+2025-03-11 22:09:54,123 INFO 19164 [egg-security] use nosniff middleware
+2025-03-11 22:09:54,124 INFO 19164 [egg-security] use xssProtection middleware
+2025-03-11 22:09:54,125 INFO 19164 [egg-security] use xframe middleware
+2025-03-11 22:09:54,126 INFO 19164 [egg-security] use dta middleware
+2025-03-11 22:09:54,126 INFO 19164 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:09:54,138 INFO 19164 [egg:core] dump config after load, 4ms
+2025-03-11 22:09:54,158 INFO 19164 [egg-watcher:application] watcher start success
+2025-03-11 22:09:54,171 INFO 19164 [egg:core] dump config after ready, 6ms
+2025-03-11 22:10:01,275 INFO 1916 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:01,312 INFO 1916 [egg-multipart] stream mode enable
+2025-03-11 22:10:01,418 INFO 1916 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:01,421 INFO 1916 [egg-security] use csrf middleware
+2025-03-11 22:10:01,423 INFO 1916 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:01,423 INFO 1916 [egg-security] use noopen middleware
+2025-03-11 22:10:01,426 INFO 1916 [egg-security] use nosniff middleware
+2025-03-11 22:10:01,426 INFO 1916 [egg-security] use xssProtection middleware
+2025-03-11 22:10:01,427 INFO 1916 [egg-security] use xframe middleware
+2025-03-11 22:10:01,428 INFO 1916 [egg-security] use dta middleware
+2025-03-11 22:10:01,429 INFO 1916 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:01,440 INFO 1916 [egg:core] dump config after load, 7ms
+2025-03-11 22:10:01,462 INFO 1916 [egg-watcher:application] watcher start success
+2025-03-11 22:10:01,473 INFO 1916 [egg:core] dump config after ready, 5ms
+2025-03-11 22:10:03,284 INFO 1724 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:03,316 INFO 1724 [egg-multipart] stream mode enable
+2025-03-11 22:10:03,426 INFO 1724 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:03,429 INFO 1724 [egg-security] use csrf middleware
+2025-03-11 22:10:03,430 INFO 1724 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:03,431 INFO 1724 [egg-security] use noopen middleware
+2025-03-11 22:10:03,434 INFO 1724 [egg-security] use nosniff middleware
+2025-03-11 22:10:03,435 INFO 1724 [egg-security] use xssProtection middleware
+2025-03-11 22:10:03,435 INFO 1724 [egg-security] use xframe middleware
+2025-03-11 22:10:03,436 INFO 1724 [egg-security] use dta middleware
+2025-03-11 22:10:03,436 INFO 1724 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:03,448 INFO 1724 [egg:core] dump config after load, 7ms
+2025-03-11 22:10:03,468 INFO 1724 [egg-watcher:application] watcher start success
+2025-03-11 22:10:03,479 INFO 1724 [egg:core] dump config after ready, 4ms
+2025-03-11 22:10:11,921 INFO 8968 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:11,957 INFO 8968 [egg-multipart] stream mode enable
+2025-03-11 22:10:12,070 INFO 8968 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:12,074 INFO 8968 [egg-security] use csrf middleware
+2025-03-11 22:10:12,075 INFO 8968 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:12,076 INFO 8968 [egg-security] use noopen middleware
+2025-03-11 22:10:12,079 INFO 8968 [egg-security] use nosniff middleware
+2025-03-11 22:10:12,080 INFO 8968 [egg-security] use xssProtection middleware
+2025-03-11 22:10:12,080 INFO 8968 [egg-security] use xframe middleware
+2025-03-11 22:10:12,081 INFO 8968 [egg-security] use dta middleware
+2025-03-11 22:10:12,081 INFO 8968 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:12,092 INFO 8968 [egg:core] dump config after load, 7ms
+2025-03-11 22:10:12,115 INFO 8968 [egg-watcher:application] watcher start success
+2025-03-11 22:10:12,126 INFO 8968 [egg:core] dump config after ready, 5ms
+2025-03-11 22:10:13,343 INFO 2280 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:13,377 INFO 2280 [egg-multipart] stream mode enable
+2025-03-11 22:10:13,473 INFO 2280 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:13,476 INFO 2280 [egg-security] use csrf middleware
+2025-03-11 22:10:13,478 INFO 2280 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:13,478 INFO 2280 [egg-security] use noopen middleware
+2025-03-11 22:10:13,481 INFO 2280 [egg-security] use nosniff middleware
+2025-03-11 22:10:13,481 INFO 2280 [egg-security] use xssProtection middleware
+2025-03-11 22:10:13,482 INFO 2280 [egg-security] use xframe middleware
+2025-03-11 22:10:13,482 INFO 2280 [egg-security] use dta middleware
+2025-03-11 22:10:13,483 INFO 2280 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:13,495 INFO 2280 [egg:core] dump config after load, 7ms
+2025-03-11 22:10:13,521 INFO 2280 [egg-watcher:application] watcher start success
+2025-03-11 22:10:13,526 INFO 2280 [egg:core] dump config after ready, 4ms
+2025-03-11 22:10:25,194 INFO 11804 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:25,226 INFO 11804 [egg-multipart] stream mode enable
+2025-03-11 22:10:25,339 INFO 11804 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:25,343 INFO 11804 [egg-security] use csrf middleware
+2025-03-11 22:10:25,345 INFO 11804 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:25,346 INFO 11804 [egg-security] use noopen middleware
+2025-03-11 22:10:25,348 INFO 11804 [egg-security] use nosniff middleware
+2025-03-11 22:10:25,349 INFO 11804 [egg-security] use xssProtection middleware
+2025-03-11 22:10:25,349 INFO 11804 [egg-security] use xframe middleware
+2025-03-11 22:10:25,350 INFO 11804 [egg-security] use dta middleware
+2025-03-11 22:10:25,350 INFO 11804 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:25,362 INFO 11804 [egg:core] dump config after load, 7ms
+2025-03-11 22:10:25,384 INFO 11804 [egg-watcher:application] watcher start success
+2025-03-11 22:10:25,396 INFO 11804 [egg:core] dump config after ready, 6ms
+2025-03-11 22:10:27,078 INFO 17996 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:27,113 INFO 17996 [egg-multipart] stream mode enable
+2025-03-11 22:10:27,222 INFO 17996 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:27,225 INFO 17996 [egg-security] use csrf middleware
+2025-03-11 22:10:27,227 INFO 17996 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:27,228 INFO 17996 [egg-security] use noopen middleware
+2025-03-11 22:10:27,231 INFO 17996 [egg-security] use nosniff middleware
+2025-03-11 22:10:27,231 INFO 17996 [egg-security] use xssProtection middleware
+2025-03-11 22:10:27,232 INFO 17996 [egg-security] use xframe middleware
+2025-03-11 22:10:27,233 INFO 17996 [egg-security] use dta middleware
+2025-03-11 22:10:27,233 INFO 17996 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:27,244 INFO 17996 [egg:core] dump config after load, 7ms
+2025-03-11 22:10:27,265 INFO 17996 [egg-watcher:application] watcher start success
+2025-03-11 22:10:27,277 INFO 17996 [egg:core] dump config after ready, 4ms
+2025-03-11 22:10:53,236 INFO 372 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:53,275 INFO 372 [egg-multipart] stream mode enable
+2025-03-11 22:10:53,391 INFO 372 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:53,395 INFO 372 [egg-security] use csrf middleware
+2025-03-11 22:10:53,396 INFO 372 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:53,398 INFO 372 [egg-security] use noopen middleware
+2025-03-11 22:10:53,401 INFO 372 [egg-security] use nosniff middleware
+2025-03-11 22:10:53,402 INFO 372 [egg-security] use xssProtection middleware
+2025-03-11 22:10:53,402 INFO 372 [egg-security] use xframe middleware
+2025-03-11 22:10:53,403 INFO 372 [egg-security] use dta middleware
+2025-03-11 22:10:53,403 INFO 372 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:53,415 INFO 372 [egg:core] dump config after load, 5ms
+2025-03-11 22:10:53,438 INFO 372 [egg-watcher:application] watcher start success
+2025-03-11 22:10:53,451 INFO 372 [egg:core] dump config after ready, 5ms
+2025-03-11 22:10:57,427 INFO 4760 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:10:57,477 INFO 4760 [egg-multipart] stream mode enable
+2025-03-11 22:10:57,590 INFO 4760 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:10:57,594 INFO 4760 [egg-security] use csrf middleware
+2025-03-11 22:10:57,595 INFO 4760 [egg-security] use methodnoallow middleware
+2025-03-11 22:10:57,596 INFO 4760 [egg-security] use noopen middleware
+2025-03-11 22:10:57,598 INFO 4760 [egg-security] use nosniff middleware
+2025-03-11 22:10:57,600 INFO 4760 [egg-security] use xssProtection middleware
+2025-03-11 22:10:57,601 INFO 4760 [egg-security] use xframe middleware
+2025-03-11 22:10:57,602 INFO 4760 [egg-security] use dta middleware
+2025-03-11 22:10:57,602 INFO 4760 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:10:57,614 INFO 4760 [egg:core] dump config after load, 7ms
+2025-03-11 22:10:57,637 INFO 4760 [egg-watcher:application] watcher start success
+2025-03-11 22:10:57,648 INFO 4760 [egg:core] dump config after ready, 5ms
+2025-03-11 22:11:02,122 INFO 17552 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:11:02,163 INFO 17552 [egg-multipart] stream mode enable
+2025-03-11 22:11:02,284 INFO 17552 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:11:02,288 INFO 17552 [egg-security] use csrf middleware
+2025-03-11 22:11:02,289 INFO 17552 [egg-security] use methodnoallow middleware
+2025-03-11 22:11:02,290 INFO 17552 [egg-security] use noopen middleware
+2025-03-11 22:11:02,292 INFO 17552 [egg-security] use nosniff middleware
+2025-03-11 22:11:02,293 INFO 17552 [egg-security] use xssProtection middleware
+2025-03-11 22:11:02,294 INFO 17552 [egg-security] use xframe middleware
+2025-03-11 22:11:02,295 INFO 17552 [egg-security] use dta middleware
+2025-03-11 22:11:02,295 INFO 17552 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:11:02,307 INFO 17552 [egg:core] dump config after load, 7ms
+2025-03-11 22:11:02,331 INFO 17552 [egg-watcher:application] watcher start success
+2025-03-11 22:11:02,344 INFO 17552 [egg:core] dump config after ready, 5ms
+2025-03-11 22:11:06,051 INFO 11352 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:11:06,089 INFO 11352 [egg-multipart] stream mode enable
+2025-03-11 22:11:06,216 INFO 11352 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:11:06,219 INFO 11352 [egg-security] use csrf middleware
+2025-03-11 22:11:06,221 INFO 11352 [egg-security] use methodnoallow middleware
+2025-03-11 22:11:06,222 INFO 11352 [egg-security] use noopen middleware
+2025-03-11 22:11:06,225 INFO 11352 [egg-security] use nosniff middleware
+2025-03-11 22:11:06,225 INFO 11352 [egg-security] use xssProtection middleware
+2025-03-11 22:11:06,226 INFO 11352 [egg-security] use xframe middleware
+2025-03-11 22:11:06,227 INFO 11352 [egg-security] use dta middleware
+2025-03-11 22:11:06,227 INFO 11352 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:11:06,241 INFO 11352 [egg:core] dump config after load, 9ms
+2025-03-11 22:11:06,266 INFO 11352 [egg-watcher:application] watcher start success
+2025-03-11 22:11:06,277 INFO 11352 [egg:core] dump config after ready, 4ms
+2025-03-11 22:11:08,686 INFO 5028 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:11:08,723 INFO 5028 [egg-multipart] stream mode enable
+2025-03-11 22:11:08,824 INFO 5028 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:11:08,827 INFO 5028 [egg-security] use csrf middleware
+2025-03-11 22:11:08,829 INFO 5028 [egg-security] use methodnoallow middleware
+2025-03-11 22:11:08,829 INFO 5028 [egg-security] use noopen middleware
+2025-03-11 22:11:08,832 INFO 5028 [egg-security] use nosniff middleware
+2025-03-11 22:11:08,832 INFO 5028 [egg-security] use xssProtection middleware
+2025-03-11 22:11:08,833 INFO 5028 [egg-security] use xframe middleware
+2025-03-11 22:11:08,834 INFO 5028 [egg-security] use dta middleware
+2025-03-11 22:11:08,834 INFO 5028 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:11:08,846 INFO 5028 [egg:core] dump config after load, 4ms
+2025-03-11 22:11:08,868 INFO 5028 [egg-watcher:application] watcher start success
+2025-03-11 22:11:08,879 INFO 5028 [egg:core] dump config after ready, 5ms
+2025-03-11 22:11:23,393 INFO 14456 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:11:23,429 INFO 14456 [egg-multipart] stream mode enable
+2025-03-11 22:11:23,537 INFO 14456 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:11:23,539 INFO 14456 [egg-security] use csrf middleware
+2025-03-11 22:11:23,541 INFO 14456 [egg-security] use methodnoallow middleware
+2025-03-11 22:11:23,542 INFO 14456 [egg-security] use noopen middleware
+2025-03-11 22:11:23,545 INFO 14456 [egg-security] use nosniff middleware
+2025-03-11 22:11:23,546 INFO 14456 [egg-security] use xssProtection middleware
+2025-03-11 22:11:23,547 INFO 14456 [egg-security] use xframe middleware
+2025-03-11 22:11:23,548 INFO 14456 [egg-security] use dta middleware
+2025-03-11 22:11:23,548 INFO 14456 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:11:23,560 INFO 14456 [egg:core] dump config after load, 5ms
+2025-03-11 22:11:23,581 INFO 14456 [egg-watcher:application] watcher start success
+2025-03-11 22:11:23,592 INFO 14456 [egg:core] dump config after ready, 4ms
+2025-03-11 22:11:40,470 INFO 11420 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:11:40,515 INFO 11420 [egg-multipart] stream mode enable
+2025-03-11 22:11:40,643 INFO 11420 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:11:40,647 INFO 11420 [egg-security] use csrf middleware
+2025-03-11 22:11:40,648 INFO 11420 [egg-security] use methodnoallow middleware
+2025-03-11 22:11:40,649 INFO 11420 [egg-security] use noopen middleware
+2025-03-11 22:11:40,653 INFO 11420 [egg-security] use nosniff middleware
+2025-03-11 22:11:40,654 INFO 11420 [egg-security] use xssProtection middleware
+2025-03-11 22:11:40,655 INFO 11420 [egg-security] use xframe middleware
+2025-03-11 22:11:40,657 INFO 11420 [egg-security] use dta middleware
+2025-03-11 22:11:40,657 INFO 11420 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:11:40,670 INFO 11420 [egg:core] dump config after load, 8ms
+2025-03-11 22:11:40,694 INFO 11420 [egg-watcher:application] watcher start success
+2025-03-11 22:11:40,707 INFO 11420 [egg:core] dump config after ready, 5ms
+2025-03-11 22:11:43,227 INFO 12604 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:11:43,265 INFO 12604 [egg-multipart] stream mode enable
+2025-03-11 22:11:43,383 INFO 12604 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:11:43,386 INFO 12604 [egg-security] use csrf middleware
+2025-03-11 22:11:43,387 INFO 12604 [egg-security] use methodnoallow middleware
+2025-03-11 22:11:43,388 INFO 12604 [egg-security] use noopen middleware
+2025-03-11 22:11:43,391 INFO 12604 [egg-security] use nosniff middleware
+2025-03-11 22:11:43,392 INFO 12604 [egg-security] use xssProtection middleware
+2025-03-11 22:11:43,393 INFO 12604 [egg-security] use xframe middleware
+2025-03-11 22:11:43,394 INFO 12604 [egg-security] use dta middleware
+2025-03-11 22:11:43,394 INFO 12604 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:11:43,405 INFO 12604 [egg:core] dump config after load, 7ms
+2025-03-11 22:11:43,427 INFO 12604 [egg-watcher:application] watcher start success
+2025-03-11 22:11:43,438 INFO 12604 [egg:core] dump config after ready, 5ms
+2025-03-11 22:11:45,698 INFO 3716 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:11:45,731 INFO 3716 [egg-multipart] stream mode enable
+2025-03-11 22:11:45,837 INFO 3716 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:11:45,842 INFO 3716 [egg-security] use csrf middleware
+2025-03-11 22:11:45,843 INFO 3716 [egg-security] use methodnoallow middleware
+2025-03-11 22:11:45,844 INFO 3716 [egg-security] use noopen middleware
+2025-03-11 22:11:45,847 INFO 3716 [egg-security] use nosniff middleware
+2025-03-11 22:11:45,848 INFO 3716 [egg-security] use xssProtection middleware
+2025-03-11 22:11:45,848 INFO 3716 [egg-security] use xframe middleware
+2025-03-11 22:11:45,849 INFO 3716 [egg-security] use dta middleware
+2025-03-11 22:11:45,849 INFO 3716 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:11:45,859 INFO 3716 [egg:core] dump config after load, 5ms
+2025-03-11 22:11:45,880 INFO 3716 [egg-watcher:application] watcher start success
+2025-03-11 22:11:45,891 INFO 3716 [egg:core] dump config after ready, 4ms
+2025-03-11 22:12:50,784 INFO 14268 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:12:50,815 INFO 14268 [egg-multipart] stream mode enable
+2025-03-11 22:12:50,916 INFO 14268 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:12:50,919 INFO 14268 [egg-security] use csrf middleware
+2025-03-11 22:12:50,920 INFO 14268 [egg-security] use methodnoallow middleware
+2025-03-11 22:12:50,921 INFO 14268 [egg-security] use noopen middleware
+2025-03-11 22:12:50,923 INFO 14268 [egg-security] use nosniff middleware
+2025-03-11 22:12:50,924 INFO 14268 [egg-security] use xssProtection middleware
+2025-03-11 22:12:50,924 INFO 14268 [egg-security] use xframe middleware
+2025-03-11 22:12:50,925 INFO 14268 [egg-security] use dta middleware
+2025-03-11 22:12:50,925 INFO 14268 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:12:50,936 INFO 14268 [egg:core] dump config after load, 7ms
+2025-03-11 22:12:50,957 INFO 14268 [egg-watcher:application] watcher start success
+2025-03-11 22:12:50,968 INFO 14268 [egg:core] dump config after ready, 3ms
+2025-03-11 22:12:59,793 INFO 19096 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:12:59,827 INFO 19096 [egg-multipart] stream mode enable
+2025-03-11 22:12:59,942 INFO 19096 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:12:59,946 INFO 19096 [egg-security] use csrf middleware
+2025-03-11 22:12:59,947 INFO 19096 [egg-security] use methodnoallow middleware
+2025-03-11 22:12:59,948 INFO 19096 [egg-security] use noopen middleware
+2025-03-11 22:12:59,950 INFO 19096 [egg-security] use nosniff middleware
+2025-03-11 22:12:59,951 INFO 19096 [egg-security] use xssProtection middleware
+2025-03-11 22:12:59,951 INFO 19096 [egg-security] use xframe middleware
+2025-03-11 22:12:59,954 INFO 19096 [egg-security] use dta middleware
+2025-03-11 22:12:59,955 INFO 19096 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:12:59,965 INFO 19096 [egg:core] dump config after load, 5ms
+2025-03-11 22:12:59,987 INFO 19096 [egg-watcher:application] watcher start success
+2025-03-11 22:12:59,999 INFO 19096 [egg:core] dump config after ready, 4ms
+2025-03-11 22:13:01,923 INFO 13304 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:13:01,958 INFO 13304 [egg-multipart] stream mode enable
+2025-03-11 22:13:02,064 INFO 13304 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:13:02,068 INFO 13304 [egg-security] use csrf middleware
+2025-03-11 22:13:02,069 INFO 13304 [egg-security] use methodnoallow middleware
+2025-03-11 22:13:02,070 INFO 13304 [egg-security] use noopen middleware
+2025-03-11 22:13:02,073 INFO 13304 [egg-security] use nosniff middleware
+2025-03-11 22:13:02,074 INFO 13304 [egg-security] use xssProtection middleware
+2025-03-11 22:13:02,074 INFO 13304 [egg-security] use xframe middleware
+2025-03-11 22:13:02,075 INFO 13304 [egg-security] use dta middleware
+2025-03-11 22:13:02,075 INFO 13304 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:13:02,087 INFO 13304 [egg:core] dump config after load, 7ms
+2025-03-11 22:13:02,110 INFO 13304 [egg-watcher:application] watcher start success
+2025-03-11 22:13:02,121 INFO 13304 [egg:core] dump config after ready, 4ms
+2025-03-11 22:13:07,741 INFO 17256 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:13:07,778 INFO 17256 [egg-multipart] stream mode enable
+2025-03-11 22:13:07,890 INFO 17256 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:13:07,894 INFO 17256 [egg-security] use csrf middleware
+2025-03-11 22:13:07,895 INFO 17256 [egg-security] use methodnoallow middleware
+2025-03-11 22:13:07,896 INFO 17256 [egg-security] use noopen middleware
+2025-03-11 22:13:07,899 INFO 17256 [egg-security] use nosniff middleware
+2025-03-11 22:13:07,900 INFO 17256 [egg-security] use xssProtection middleware
+2025-03-11 22:13:07,901 INFO 17256 [egg-security] use xframe middleware
+2025-03-11 22:13:07,901 INFO 17256 [egg-security] use dta middleware
+2025-03-11 22:13:07,901 INFO 17256 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:13:07,915 INFO 17256 [egg:core] dump config after load, 8ms
+2025-03-11 22:13:07,937 INFO 17256 [egg-watcher:application] watcher start success
+2025-03-11 22:13:07,950 INFO 17256 [egg:core] dump config after ready, 6ms
+2025-03-11 22:13:15,243 INFO 4536 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:13:15,279 INFO 4536 [egg-multipart] stream mode enable
+2025-03-11 22:13:15,390 INFO 4536 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:13:15,394 INFO 4536 [egg-security] use csrf middleware
+2025-03-11 22:13:15,396 INFO 4536 [egg-security] use methodnoallow middleware
+2025-03-11 22:13:15,397 INFO 4536 [egg-security] use noopen middleware
+2025-03-11 22:13:15,399 INFO 4536 [egg-security] use nosniff middleware
+2025-03-11 22:13:15,400 INFO 4536 [egg-security] use xssProtection middleware
+2025-03-11 22:13:15,401 INFO 4536 [egg-security] use xframe middleware
+2025-03-11 22:13:15,401 INFO 4536 [egg-security] use dta middleware
+2025-03-11 22:13:15,401 INFO 4536 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:13:15,413 INFO 4536 [egg:core] dump config after load, 8ms
+2025-03-11 22:13:15,433 INFO 4536 [egg-watcher:application] watcher start success
+2025-03-11 22:13:15,445 INFO 4536 [egg:core] dump config after ready, 4ms
+2025-03-11 22:13:17,284 INFO 9188 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:13:17,318 INFO 9188 [egg-multipart] stream mode enable
+2025-03-11 22:13:17,412 INFO 9188 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:13:17,415 INFO 9188 [egg-security] use csrf middleware
+2025-03-11 22:13:17,416 INFO 9188 [egg-security] use methodnoallow middleware
+2025-03-11 22:13:17,417 INFO 9188 [egg-security] use noopen middleware
+2025-03-11 22:13:17,422 INFO 9188 [egg-security] use nosniff middleware
+2025-03-11 22:13:17,422 INFO 9188 [egg-security] use xssProtection middleware
+2025-03-11 22:13:17,423 INFO 9188 [egg-security] use xframe middleware
+2025-03-11 22:13:17,424 INFO 9188 [egg-security] use dta middleware
+2025-03-11 22:13:17,424 INFO 9188 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:13:17,432 INFO 9188 [egg:core] dump config after load, 4ms
+2025-03-11 22:13:17,453 INFO 9188 [egg-watcher:application] watcher start success
+2025-03-11 22:13:17,471 INFO 9188 [egg:core] dump config after ready, 11ms
+2025-03-11 22:13:34,582 INFO 8564 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:13:34,637 INFO 8564 [egg-multipart] stream mode enable
+2025-03-11 22:13:34,774 INFO 8564 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:13:34,778 INFO 8564 [egg-security] use csrf middleware
+2025-03-11 22:13:34,780 INFO 8564 [egg-security] use methodnoallow middleware
+2025-03-11 22:13:34,781 INFO 8564 [egg-security] use noopen middleware
+2025-03-11 22:13:34,785 INFO 8564 [egg-security] use nosniff middleware
+2025-03-11 22:13:34,786 INFO 8564 [egg-security] use xssProtection middleware
+2025-03-11 22:13:34,787 INFO 8564 [egg-security] use xframe middleware
+2025-03-11 22:13:34,788 INFO 8564 [egg-security] use dta middleware
+2025-03-11 22:13:34,788 INFO 8564 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:13:34,803 INFO 8564 [egg:core] dump config after load, 8ms
+2025-03-11 22:13:34,834 INFO 8564 [egg-watcher:application] watcher start success
+2025-03-11 22:13:34,843 INFO 8564 [egg:core] dump config after ready, 6ms
+2025-03-11 22:13:35,424 INFO 14268 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:13:35,475 INFO 14268 [egg-multipart] stream mode enable
+2025-03-11 22:13:35,619 INFO 14268 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:13:35,623 INFO 14268 [egg-security] use csrf middleware
+2025-03-11 22:13:35,625 INFO 14268 [egg-security] use methodnoallow middleware
+2025-03-11 22:13:35,626 INFO 14268 [egg-security] use noopen middleware
+2025-03-11 22:13:35,629 INFO 14268 [egg-security] use nosniff middleware
+2025-03-11 22:13:35,630 INFO 14268 [egg-security] use xssProtection middleware
+2025-03-11 22:13:35,631 INFO 14268 [egg-security] use xframe middleware
+2025-03-11 22:13:35,632 INFO 14268 [egg-security] use dta middleware
+2025-03-11 22:13:35,632 INFO 14268 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:13:35,645 INFO 14268 [egg:core] dump config after load, 8ms
+2025-03-11 22:13:35,668 INFO 14268 [egg-watcher:application] watcher start success
+2025-03-11 22:13:35,681 INFO 14268 [egg:core] dump config after ready, 5ms
+2025-03-11 22:13:40,215 INFO 17476 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:13:40,247 INFO 17476 [egg-multipart] stream mode enable
+2025-03-11 22:13:40,346 INFO 17476 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:13:40,351 INFO 17476 [egg-security] use csrf middleware
+2025-03-11 22:13:40,352 INFO 17476 [egg-security] use methodnoallow middleware
+2025-03-11 22:13:40,353 INFO 17476 [egg-security] use noopen middleware
+2025-03-11 22:13:40,355 INFO 17476 [egg-security] use nosniff middleware
+2025-03-11 22:13:40,356 INFO 17476 [egg-security] use xssProtection middleware
+2025-03-11 22:13:40,356 INFO 17476 [egg-security] use xframe middleware
+2025-03-11 22:13:40,357 INFO 17476 [egg-security] use dta middleware
+2025-03-11 22:13:40,357 INFO 17476 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:13:40,366 INFO 17476 [egg:core] dump config after load, 5ms
+2025-03-11 22:13:40,386 INFO 17476 [egg-watcher:application] watcher start success
+2025-03-11 22:13:40,397 INFO 17476 [egg:core] dump config after ready, 4ms
+2025-03-11 22:15:24,800 INFO 17476 [egg-view-nunjucks] loading templates from ["D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\app\\view"]
+2025-03-11 22:16:38,183 INFO 17704 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:16:38,235 INFO 17704 [egg-multipart] stream mode enable
+2025-03-11 22:16:38,377 INFO 17704 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:16:38,381 INFO 17704 [egg-security] use csrf middleware
+2025-03-11 22:16:38,382 INFO 17704 [egg-security] use methodnoallow middleware
+2025-03-11 22:16:38,383 INFO 17704 [egg-security] use noopen middleware
+2025-03-11 22:16:38,386 INFO 17704 [egg-security] use nosniff middleware
+2025-03-11 22:16:38,387 INFO 17704 [egg-security] use xssProtection middleware
+2025-03-11 22:16:38,388 INFO 17704 [egg-security] use xframe middleware
+2025-03-11 22:16:38,389 INFO 17704 [egg-security] use dta middleware
+2025-03-11 22:16:38,389 INFO 17704 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:16:38,401 INFO 17704 [egg:core] dump config after load, 8ms
+2025-03-11 22:16:38,428 INFO 17704 [egg-watcher:application] watcher start success
+2025-03-11 22:16:38,443 INFO 17704 [egg:core] dump config after ready, 7ms
+2025-03-11 22:16:46,602 INFO 17512 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:16:46,637 INFO 17512 [egg-multipart] stream mode enable
+2025-03-11 22:16:46,743 INFO 17512 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:16:46,749 INFO 17512 [egg-security] use csrf middleware
+2025-03-11 22:16:46,750 INFO 17512 [egg-security] use methodnoallow middleware
+2025-03-11 22:16:46,751 INFO 17512 [egg-security] use noopen middleware
+2025-03-11 22:16:46,753 INFO 17512 [egg-security] use nosniff middleware
+2025-03-11 22:16:46,754 INFO 17512 [egg-security] use xssProtection middleware
+2025-03-11 22:16:46,755 INFO 17512 [egg-security] use xframe middleware
+2025-03-11 22:16:46,755 INFO 17512 [egg-security] use dta middleware
+2025-03-11 22:16:46,756 INFO 17512 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:16:46,765 INFO 17512 [egg:core] dump config after load, 5ms
+2025-03-11 22:16:46,787 INFO 17512 [egg-watcher:application] watcher start success
+2025-03-11 22:16:46,798 INFO 17512 [egg:core] dump config after ready, 4ms
+2025-03-11 22:16:49,964 INFO 13848 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:16:50,006 INFO 13848 [egg-multipart] stream mode enable
+2025-03-11 22:16:50,133 INFO 13848 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:16:50,137 INFO 13848 [egg-security] use csrf middleware
+2025-03-11 22:16:50,138 INFO 13848 [egg-security] use methodnoallow middleware
+2025-03-11 22:16:50,139 INFO 13848 [egg-security] use noopen middleware
+2025-03-11 22:16:50,142 INFO 13848 [egg-security] use nosniff middleware
+2025-03-11 22:16:50,143 INFO 13848 [egg-security] use xssProtection middleware
+2025-03-11 22:16:50,144 INFO 13848 [egg-security] use xframe middleware
+2025-03-11 22:16:50,144 INFO 13848 [egg-security] use dta middleware
+2025-03-11 22:16:50,145 INFO 13848 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:16:50,157 INFO 13848 [egg:core] dump config after load, 8ms
+2025-03-11 22:16:50,178 INFO 13848 [egg-watcher:application] watcher start success
+2025-03-11 22:16:50,189 INFO 13848 [egg:core] dump config after ready, 4ms
+2025-03-11 22:16:52,866 INFO 9220 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:16:52,899 INFO 9220 [egg-multipart] stream mode enable
+2025-03-11 22:16:53,001 INFO 9220 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:16:53,005 INFO 9220 [egg-security] use csrf middleware
+2025-03-11 22:16:53,007 INFO 9220 [egg-security] use methodnoallow middleware
+2025-03-11 22:16:53,008 INFO 9220 [egg-security] use noopen middleware
+2025-03-11 22:16:53,011 INFO 9220 [egg-security] use nosniff middleware
+2025-03-11 22:16:53,011 INFO 9220 [egg-security] use xssProtection middleware
+2025-03-11 22:16:53,012 INFO 9220 [egg-security] use xframe middleware
+2025-03-11 22:16:53,013 INFO 9220 [egg-security] use dta middleware
+2025-03-11 22:16:53,013 INFO 9220 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:16:53,024 INFO 9220 [egg:core] dump config after load, 7ms
+2025-03-11 22:16:53,046 INFO 9220 [egg-watcher:application] watcher start success
+2025-03-11 22:16:53,056 INFO 9220 [egg:core] dump config after ready, 4ms
+2025-03-11 22:18:15,376 INFO 7824 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:15,410 INFO 7824 [egg-multipart] stream mode enable
+2025-03-11 22:18:15,516 INFO 7824 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:15,520 INFO 7824 [egg-security] use csrf middleware
+2025-03-11 22:18:15,521 INFO 7824 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:15,522 INFO 7824 [egg-security] use noopen middleware
+2025-03-11 22:18:15,525 INFO 7824 [egg-security] use nosniff middleware
+2025-03-11 22:18:15,525 INFO 7824 [egg-security] use xssProtection middleware
+2025-03-11 22:18:15,526 INFO 7824 [egg-security] use xframe middleware
+2025-03-11 22:18:15,527 INFO 7824 [egg-security] use dta middleware
+2025-03-11 22:18:15,527 INFO 7824 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:15,541 INFO 7824 [egg:core] dump config after load, 7ms
+2025-03-11 22:18:15,562 INFO 7824 [egg-watcher:application] watcher start success
+2025-03-11 22:18:15,574 INFO 7824 [egg:core] dump config after ready, 5ms
+2025-03-11 22:18:17,700 INFO 14292 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:17,738 INFO 14292 [egg-multipart] stream mode enable
+2025-03-11 22:18:17,846 INFO 14292 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:17,849 INFO 14292 [egg-security] use csrf middleware
+2025-03-11 22:18:17,852 INFO 14292 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:17,853 INFO 14292 [egg-security] use noopen middleware
+2025-03-11 22:18:17,855 INFO 14292 [egg-security] use nosniff middleware
+2025-03-11 22:18:17,856 INFO 14292 [egg-security] use xssProtection middleware
+2025-03-11 22:18:17,857 INFO 14292 [egg-security] use xframe middleware
+2025-03-11 22:18:17,857 INFO 14292 [egg-security] use dta middleware
+2025-03-11 22:18:17,858 INFO 14292 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:17,867 INFO 14292 [egg:core] dump config after load, 5ms
+2025-03-11 22:18:17,891 INFO 14292 [egg-watcher:application] watcher start success
+2025-03-11 22:18:17,903 INFO 14292 [egg:core] dump config after ready, 5ms
+2025-03-11 22:18:21,943 INFO 14504 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:21,977 INFO 14504 [egg-multipart] stream mode enable
+2025-03-11 22:18:22,087 INFO 14504 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:22,090 INFO 14504 [egg-security] use csrf middleware
+2025-03-11 22:18:22,092 INFO 14504 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:22,092 INFO 14504 [egg-security] use noopen middleware
+2025-03-11 22:18:22,097 INFO 14504 [egg-security] use nosniff middleware
+2025-03-11 22:18:22,098 INFO 14504 [egg-security] use xssProtection middleware
+2025-03-11 22:18:22,099 INFO 14504 [egg-security] use xframe middleware
+2025-03-11 22:18:22,100 INFO 14504 [egg-security] use dta middleware
+2025-03-11 22:18:22,100 INFO 14504 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:22,110 INFO 14504 [egg:core] dump config after load, 5ms
+2025-03-11 22:18:22,136 INFO 14504 [egg-watcher:application] watcher start success
+2025-03-11 22:18:22,142 INFO 14504 [egg:core] dump config after ready, 4ms
+2025-03-11 22:18:24,856 INFO 9592 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:24,892 INFO 9592 [egg-multipart] stream mode enable
+2025-03-11 22:18:25,002 INFO 9592 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:25,006 INFO 9592 [egg-security] use csrf middleware
+2025-03-11 22:18:25,007 INFO 9592 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:25,008 INFO 9592 [egg-security] use noopen middleware
+2025-03-11 22:18:25,011 INFO 9592 [egg-security] use nosniff middleware
+2025-03-11 22:18:25,011 INFO 9592 [egg-security] use xssProtection middleware
+2025-03-11 22:18:25,012 INFO 9592 [egg-security] use xframe middleware
+2025-03-11 22:18:25,014 INFO 9592 [egg-security] use dta middleware
+2025-03-11 22:18:25,014 INFO 9592 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:25,025 INFO 9592 [egg:core] dump config after load, 7ms
+2025-03-11 22:18:25,053 INFO 9592 [egg-watcher:application] watcher start success
+2025-03-11 22:18:25,069 INFO 9592 [egg:core] dump config after ready, 8ms
+2025-03-11 22:18:31,933 INFO 17612 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:31,969 INFO 17612 [egg-multipart] stream mode enable
+2025-03-11 22:18:32,078 INFO 17612 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:32,081 INFO 17612 [egg-security] use csrf middleware
+2025-03-11 22:18:32,083 INFO 17612 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:32,083 INFO 17612 [egg-security] use noopen middleware
+2025-03-11 22:18:32,086 INFO 17612 [egg-security] use nosniff middleware
+2025-03-11 22:18:32,086 INFO 17612 [egg-security] use xssProtection middleware
+2025-03-11 22:18:32,087 INFO 17612 [egg-security] use xframe middleware
+2025-03-11 22:18:32,088 INFO 17612 [egg-security] use dta middleware
+2025-03-11 22:18:32,088 INFO 17612 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:32,101 INFO 17612 [egg:core] dump config after load, 7ms
+2025-03-11 22:18:32,123 INFO 17612 [egg-watcher:application] watcher start success
+2025-03-11 22:18:32,134 INFO 17612 [egg:core] dump config after ready, 4ms
+2025-03-11 22:18:40,199 INFO 12052 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:40,234 INFO 12052 [egg-multipart] stream mode enable
+2025-03-11 22:18:40,346 INFO 12052 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:40,350 INFO 12052 [egg-security] use csrf middleware
+2025-03-11 22:18:40,352 INFO 12052 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:40,353 INFO 12052 [egg-security] use noopen middleware
+2025-03-11 22:18:40,356 INFO 12052 [egg-security] use nosniff middleware
+2025-03-11 22:18:40,357 INFO 12052 [egg-security] use xssProtection middleware
+2025-03-11 22:18:40,359 INFO 12052 [egg-security] use xframe middleware
+2025-03-11 22:18:40,360 INFO 12052 [egg-security] use dta middleware
+2025-03-11 22:18:40,360 INFO 12052 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:40,370 INFO 12052 [egg:core] dump config after load, 5ms
+2025-03-11 22:18:40,392 INFO 12052 [egg-watcher:application] watcher start success
+2025-03-11 22:18:40,403 INFO 12052 [egg:core] dump config after ready, 5ms
+2025-03-11 22:18:41,757 INFO 17548 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:41,793 INFO 17548 [egg-multipart] stream mode enable
+2025-03-11 22:18:41,900 INFO 17548 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:41,903 INFO 17548 [egg-security] use csrf middleware
+2025-03-11 22:18:41,905 INFO 17548 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:41,906 INFO 17548 [egg-security] use noopen middleware
+2025-03-11 22:18:41,908 INFO 17548 [egg-security] use nosniff middleware
+2025-03-11 22:18:41,909 INFO 17548 [egg-security] use xssProtection middleware
+2025-03-11 22:18:41,910 INFO 17548 [egg-security] use xframe middleware
+2025-03-11 22:18:41,911 INFO 17548 [egg-security] use dta middleware
+2025-03-11 22:18:41,911 INFO 17548 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:41,923 INFO 17548 [egg:core] dump config after load, 8ms
+2025-03-11 22:18:41,950 INFO 17548 [egg-watcher:application] watcher start success
+2025-03-11 22:18:41,958 INFO 17548 [egg:core] dump config after ready, 6ms
+2025-03-11 22:18:47,894 INFO 15248 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:47,935 INFO 15248 [egg-multipart] stream mode enable
+2025-03-11 22:18:48,059 INFO 15248 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:48,063 INFO 15248 [egg-security] use csrf middleware
+2025-03-11 22:18:48,065 INFO 15248 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:48,066 INFO 15248 [egg-security] use noopen middleware
+2025-03-11 22:18:48,068 INFO 15248 [egg-security] use nosniff middleware
+2025-03-11 22:18:48,069 INFO 15248 [egg-security] use xssProtection middleware
+2025-03-11 22:18:48,070 INFO 15248 [egg-security] use xframe middleware
+2025-03-11 22:18:48,071 INFO 15248 [egg-security] use dta middleware
+2025-03-11 22:18:48,071 INFO 15248 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:48,083 INFO 15248 [egg:core] dump config after load, 8ms
+2025-03-11 22:18:48,104 INFO 15248 [egg-watcher:application] watcher start success
+2025-03-11 22:18:48,117 INFO 15248 [egg:core] dump config after ready, 6ms
+2025-03-11 22:18:50,972 INFO 8772 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:51,008 INFO 8772 [egg-multipart] stream mode enable
+2025-03-11 22:18:51,117 INFO 8772 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:51,121 INFO 8772 [egg-security] use csrf middleware
+2025-03-11 22:18:51,122 INFO 8772 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:51,123 INFO 8772 [egg-security] use noopen middleware
+2025-03-11 22:18:51,128 INFO 8772 [egg-security] use nosniff middleware
+2025-03-11 22:18:51,129 INFO 8772 [egg-security] use xssProtection middleware
+2025-03-11 22:18:51,130 INFO 8772 [egg-security] use xframe middleware
+2025-03-11 22:18:51,130 INFO 8772 [egg-security] use dta middleware
+2025-03-11 22:18:51,130 INFO 8772 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:51,140 INFO 8772 [egg:core] dump config after load, 4ms
+2025-03-11 22:18:51,162 INFO 8772 [egg-watcher:application] watcher start success
+2025-03-11 22:18:51,173 INFO 8772 [egg:core] dump config after ready, 4ms
+2025-03-11 22:18:57,755 INFO 16748 [egg:logger] init all loggers with options: {"dir":"D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"application"}
+2025-03-11 22:18:57,790 INFO 16748 [egg-multipart] stream mode enable
+2025-03-11 22:18:57,899 INFO 16748 [egg-static] starting static serve /public/ -> D:\xuexishipin\exercise\zhu-fen-exercise\egg\9.egg\app\public
+2025-03-11 22:18:57,902 INFO 16748 [egg-security] use csrf middleware
+2025-03-11 22:18:57,904 INFO 16748 [egg-security] use methodnoallow middleware
+2025-03-11 22:18:57,904 INFO 16748 [egg-security] use noopen middleware
+2025-03-11 22:18:57,907 INFO 16748 [egg-security] use nosniff middleware
+2025-03-11 22:18:57,908 INFO 16748 [egg-security] use xssProtection middleware
+2025-03-11 22:18:57,909 INFO 16748 [egg-security] use xframe middleware
+2025-03-11 22:18:57,910 INFO 16748 [egg-security] use dta middleware
+2025-03-11 22:18:57,910 INFO 16748 [egg-security] compose 7 middlewares into one security middleware
+2025-03-11 22:18:57,922 INFO 16748 [egg:core] dump config after load, 8ms
+2025-03-11 22:18:57,944 INFO 16748 [egg-watcher:application] watcher start success
+2025-03-11 22:18:57,955 INFO 16748 [egg:core] dump config after ready, 4ms
