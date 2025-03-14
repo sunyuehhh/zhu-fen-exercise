@@ -41,5 +41,21 @@ module.exports=app=>{
   //   app:true,//要把mysql模块挂载再app对象上  app.mysql
   // }
 
+
+  config.logger = {
+    disableConsoleAfterReady: false, // 是否禁用 console
+    level: 'NONE', // 关闭日志级别
+    consoleLevel: 'NONE', // 关闭控制台日志
+    outputJSON: false, // 关闭 JSON 格式化日志
+  };
+
+
+  // middleware属性是定死的  表示我要启用的中间件
+  config.middleware=['robot']
+  // 给中间件配一个参数
+  config.robot={
+    ua:[/Chrome/]
+  }
+
   return config
 }

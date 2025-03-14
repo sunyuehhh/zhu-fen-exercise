@@ -8,13 +8,33 @@
       ".ejs": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js"
     },
     "root": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view\\config\\config.default.js",
-    "cache": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view\\config\\config.local.js"
+    "cache": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view\\config\\config.default.js"
   },
   "news": {
     "url": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js"
   },
   "cache": {
     "url": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js"
+  },
+  "logger": {
+    "disableConsoleAfterReady": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js",
+    "level": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js",
+    "consoleLevel": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.unittest.js",
+    "outputJSON": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js",
+    "dir": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "encoding": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "env": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "buffer": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.unittest.js",
+    "appLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "coreLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "agentLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "errorLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "coreLogger": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+    "allowDebugAtProd": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
+  },
+  "middleware": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js",
+  "robot": {
+    "ua": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\config.default.js"
   },
   "session": {
     "maxAge": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-session\\config\\config.default.js",
@@ -45,7 +65,7 @@
       "value": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-security\\config\\config.default.js"
     },
     "hsts": {
-      "enable": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-security\\config\\config.local.js",
+      "enable": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-security\\config\\config.default.js",
       "maxAge": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-security\\config\\config.default.js",
       "includeSubdomains": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-security\\config\\config.default.js"
     },
@@ -101,7 +121,7 @@
     "cookieMaxAge": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-i18n\\config\\config.default.js"
   },
   "watcher": {
-    "type": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-watcher\\config\\config.local.js",
+    "type": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-watcher\\config\\config.unittest.js",
     "eventSources": {
       "default": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-watcher\\config\\config.default.js",
       "development": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-watcher\\config\\config.default.js"
@@ -134,14 +154,6 @@
       "disable": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-multipart\\config\\config.default.js"
     }
   },
-  "development": {
-    "watchDirs": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-development\\config\\config.default.js",
-    "ignoreDirs": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-development\\config\\config.default.js",
-    "fastReady": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-development\\config\\config.default.js",
-    "reloadOnDebug": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-development\\config\\config.default.js",
-    "overrideDefault": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-development\\config\\config.default.js",
-    "overrideIgnore": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-development\\config\\config.default.js"
-  },
   "logrotator": {
     "filesRotateByHour": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-logrotator\\config\\config.default.js",
     "hourDelimiter": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-logrotator\\config\\config.default.js",
@@ -164,7 +176,7 @@
     "throwOnUndefined": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view-nunjucks\\config\\config.default.js",
     "trimBlocks": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view-nunjucks\\config\\config.default.js",
     "lstripBlocks": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view-nunjucks\\config\\config.default.js",
-    "cache": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view-nunjucks\\config\\config.local.js"
+    "cache": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view-nunjucks\\config\\config.default.js"
   },
   "env": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
   "name": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
@@ -179,12 +191,14 @@
     "description": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
     "main": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
     "scripts": {
-      "dev": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
+      "dev": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
+      "test": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
     },
     "keywords": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
     "author": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
     "license": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
     "dependencies": {
+      "cross-env": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "egg": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "egg-bin": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "egg-mysql": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
@@ -192,6 +206,9 @@
       "express": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "mockjs": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
       "moment": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
+    },
+    "devDependencies": {
+      "egg-mock": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
     }
   },
   "baseDir": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
@@ -225,24 +242,6 @@
       "parameterLimit": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
     },
     "onerror": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
-  },
-  "logger": {
-    "dir": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "encoding": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "env": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "level": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "consoleLevel": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "disableConsoleAfterReady": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "outputJSON": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "buffer": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "appLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "coreLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "agentLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "errorLogName": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",
-    "coreLogger": {
-      "consoleLevel": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.local.js"
-    },
-    "allowDebugAtProd": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js"
   },
   "httpclient": {
     "enableDNSCache": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\config.default.js",

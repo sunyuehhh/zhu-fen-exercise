@@ -6,4 +6,7 @@ module.exports=(app)=>{
     const {router,controller}=app
     // 定义一个路由规则  当客户端通过get方式访问/news得时候，会由index函数来返回内容
   router.get('/news',controller.news.index)
+  // 第一个路由返回一个空白表单  第二个路由要实现正真的用户添加
+  router.get('/addUser',controller.users.addUser)
+  router.post('/doAddUser',controller.users.doAddUser)
 }

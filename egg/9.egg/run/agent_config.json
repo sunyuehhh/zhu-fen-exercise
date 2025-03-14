@@ -133,14 +133,6 @@
         "disable": false
       }
     },
-    "development": {
-      "watchDirs": [],
-      "ignoreDirs": [],
-      "fastReady": false,
-      "reloadOnDebug": true,
-      "overrideDefault": false,
-      "overrideIgnore": false
-    },
     "logrotator": {
       "filesRotateByHour": null,
       "hourDelimiter": "-",
@@ -160,7 +152,7 @@
     },
     "view": {
       "root": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\app\\view",
-      "cache": false,
+      "cache": true,
       "defaultExtension": ".html",
       "defaultViewEngine": "nunjucks",
       "mapping": {
@@ -173,9 +165,9 @@
       "throwOnUndefined": false,
       "trimBlocks": false,
       "lstripBlocks": false,
-      "cache": false
+      "cache": true
     },
-    "env": "local",
+    "env": "unittest",
     "name": "9.egg",
     "keys": "<String len: 18>",
     "proxy": false,
@@ -189,18 +181,24 @@
       "description": "",
       "main": "index.js",
       "scripts": {
-        "dev": "egg-bin dev"
+        "dev": "egg-bin dev",
+        "test": "cross-env EGG_LOG=NONE egg-bin test"
       },
       "keywords": [],
       "author": "",
       "license": "ISC",
       "dependencies": {
+        "cross-env": "^7.0.3",
         "egg": "^2.23.0",
         "egg-bin": "^4.13.0",
         "egg-mysql": "^5.0.0",
         "egg-view-nunjucks": "^2.3.0",
         "express": "^4.21.2",
-        "mockjs": "^1.1.0"
+        "mockjs": "^1.1.0",
+        "moment": "^2.30.1"
+      },
+      "devDependencies": {
+        "egg-mock": "^4.2.1"
       }
     },
     "baseDir": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg",
@@ -238,19 +236,17 @@
     "logger": {
       "dir": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\logs\\9.egg",
       "encoding": "utf8",
-      "env": "local",
-      "level": "INFO",
-      "consoleLevel": "INFO",
+      "env": "unittest",
+      "level": "NONE",
+      "consoleLevel": "WARN",
       "disableConsoleAfterReady": false,
       "outputJSON": false,
-      "buffer": true,
+      "buffer": false,
       "appLogName": "9.egg-web.log",
       "coreLogName": "egg-web.log",
       "agentLogName": "egg-agent.log",
       "errorLogName": "common-error.log",
-      "coreLogger": {
-        "consoleLevel": "WARN"
-      },
+      "coreLogger": {},
       "allowDebugAtProd": false,
       "type": "agent"
     },
@@ -305,9 +301,17 @@
     "cache": {
       "url": "http://localhost:3000/cache"
     },
+    "middleware": [
+      "robot"
+    ],
+    "robot": {
+      "ua": [
+        {}
+      ]
+    },
     "coreMiddlewares": "~config~coreMiddleware",
-    "appMiddlewares": [],
-    "appMiddleware": "~config~appMiddlewares"
+    "appMiddlewares": "~config~middleware",
+    "appMiddleware": "~config~middleware"
   },
   "plugins": {
     "session": {
@@ -383,10 +387,7 @@
       "env": [],
       "from": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\plugin.js",
       "path": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-watcher",
-      "version": "3.1.1",
-      "dependents": [
-        "development"
-      ]
+      "version": "3.1.1"
     },
     "schedule": {
       "enable": true,
@@ -414,21 +415,6 @@
       "from": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\plugin.js",
       "path": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-multipart",
       "version": "2.13.1"
-    },
-    "development": {
-      "enable": true,
-      "package": "egg-development",
-      "name": "development",
-      "dependencies": [
-        "watcher"
-      ],
-      "optionalDependencies": [],
-      "env": [
-        "local"
-      ],
-      "from": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg\\config\\plugin.js",
-      "path": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-development",
-      "version": "2.7.0"
     },
     "logrotator": {
       "enable": true,
@@ -481,6 +467,15 @@
       "from": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\config\\plugin.js",
       "path": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-view-nunjucks",
       "version": "2.3.0"
+    },
+    "egg-mock": {
+      "enable": true,
+      "path": "D:\\xuexishipin\\exercise\\zhu-fen-exercise\\egg\\9.egg\\node_modules\\egg-mock",
+      "name": "egg-mock",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "version": "4.2.1"
     }
   }
 }

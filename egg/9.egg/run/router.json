@@ -11,5 +11,30 @@
     "stack": [
       "wrappedController"
     ]
+  },
+  {
+    "name": null,
+    "methods": [
+      "HEAD",
+      "GET"
+    ],
+    "paramNames": [],
+    "path": "/addUser",
+    "regexp": "/^\\/addUser(?:\\/(?=$))?$/",
+    "stack": [
+      "wrappedController"
+    ]
+  },
+  {
+    "name": null,
+    "methods": [
+      "POST"
+    ],
+    "paramNames": [],
+    "path": "/doAddUser",
+    "regexp": "/^\\/doAddUser(?:\\/(?=$))?$/",
+    "stack": [
+      "wrappedController"
+    ]
   }
 ]
