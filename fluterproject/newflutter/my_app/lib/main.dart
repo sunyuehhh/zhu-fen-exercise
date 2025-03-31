@@ -6,6 +6,8 @@ import './SelfContainer.dart';
 import './SelfImage.dart';
 import './increase/increase.dart';
 import './lakes/Lakes.dart';
+import './moviescroll/MovieScroll2.dart';
+import 'moviescroll/Detail.dart';
 
 void main()=>runApp(MyApp());
 
@@ -22,7 +24,12 @@ class MyApp extends StatelessWidget{
       // home:SelfContainer()
       // home: SelfImage(),
       // home:Increase(title:'increase1'),
-      home: Lakes(),
+      // home: Lakes(),
+
+
+    //带你应海报无缝滚动
+      home: MovieScroll(),
+      // home: Detail(),
     );
 
   }
