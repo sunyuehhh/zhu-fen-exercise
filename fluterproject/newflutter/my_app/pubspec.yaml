@@ -17,7 +17,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  dio: ^2.1.13
+  dio: ^5.8.0+1
 
 
 

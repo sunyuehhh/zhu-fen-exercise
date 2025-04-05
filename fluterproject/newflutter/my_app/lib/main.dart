@@ -9,6 +9,9 @@ import './lakes/Lakes.dart';
 import './moviescroll/MovieScroll2.dart';
 import 'moviescroll/Detail.dart';
 
+// 请求数据
+import 'http/SelfHttp.dart';
+
 void main()=>runApp(MyApp());
 
 class MyApp extends StatelessWidget{
@@ -28,8 +31,12 @@ class MyApp extends StatelessWidget{
 
 
     //带你应海报无缝滚动
-      home: MovieScroll(),
+    //   home: MovieScroll(),
       // home: Detail(),
+
+
+    //   数据请求
+        home:SelfHttp()
     );
 
   }
