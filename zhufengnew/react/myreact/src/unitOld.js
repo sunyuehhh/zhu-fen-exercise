@@ -1,6 +1,6 @@
-import { createElement, Element } from "./element";
+import { createElement, Element } from "./elementOld";
 import $ from "jquery";
-import types from './types'
+import types from './typesOld'
 let diffQueue=[]; //差异队列
 let updateDepth = 0; //更新的级别
 class Unit {
