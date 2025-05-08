@@ -2,38 +2,31 @@
 // import ReactDOM from 'react-dom'
 import React from "./react"
 import ReactDOM from './react-dom'
-// let jsx=<h1 className="title" style={{color:'red'}}>hello</h1>
 
-// console.log(jsx,'jsx')
+class Counter extends React.Component{
+  // 类的构造函数中唯一可以给this.state直接赋值的地方
+  constructor(props){
+    super(props)
+    this.state={
+      number:0
+    }
+  }
 
-// function FunctionComponent(props){
-//   let element=<h1 className="title" style={{color:'red'}}>
-//     {props.msg}
-//     <span>world</span>
-//   </h1>
-
-//   return element
-// }
-
-// let element=<FunctionComponent msg="消息" age={12} />
-
-// console.log(element,'element')
-
-
-class ClassComponent extends React.Component{
-  render(){
-      let element=<h1 className="title" style={{color:'red'}}>
-    {this.props.msg}
-    <span>world</span>
-  </h1>
-
-  return element
+  handleClick = () => {
+    this.setState({
+      number:this.state.number+1
+    })
 
   }
+  render(){
+    return <div>
+      <p>{this.props.title}</p>
+      <p>{this.state.number}</p>
+      <button onClick={this.handleClick}>+</button>
+    </div>
+  }
+
 }
 
+ReactDOM.render(<Counter title="定时器" />,document.getElementById('root'))
 
-let element=<ClassComponent msg="消息" age={12} />
-
-
-ReactDOM.render(element,document.getElementById('root'))

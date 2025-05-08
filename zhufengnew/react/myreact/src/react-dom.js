@@ -34,18 +34,26 @@ function createDOM(vdom){
 
     }
   }
+
+  // 当我们根据虚拟DOM创建真实DDOM
+  vdom.dom=dom
   return dom
 }
 
 function mountClassComponent(vdom){
   let {type,props}=vdom
-  let renderVdom=new type(props).render()
+  let classInstance=new type(props)
+  let renderVdom=classInstance.render()
+  // 把类组件渲染的虚拟DOM放到类的实例上
+  classInstance.oldRenderVdom= vdom.oldRenderVdom= renderVdom
   return createDOM(renderVdom)
 }
 
 function mountFunctionComponent(vdom){
   let {type,props}=vdom
   let renderVdom=type(props)
+  // 把函数组件渲染的虚拟DOM放在函数组件自己的虚拟dom上
+  vdom.oldRenderVdom=renderVdom
   return createDOM(renderVdom)
 }
 
@@ -73,6 +81,10 @@ function updateProps(dom,oldProps={},newProps={}){
         dom.style[attr]=styleObj[attr]
       }
 
+    }else if (/^on[A-Z]/.test(key)) {
+      // 事件处理（如 onClick、onChange）
+      const eventType = key.toLowerCase().slice(2); // onClick -> click
+      dom.addEventListener(eventType, newProps[key]);
     }else{
       // id  className
       dom[key]=newProps[key]
@@ -84,6 +96,29 @@ function updateProps(dom,oldProps={},newProps={}){
       delete dom[key]
     }
   }
+
+}
+/**
+ * 根据虚拟DOM获取真实DOM
+ * @param {*} vdom 
+ */
+export function findDOM(vdom){
+  if(!vdom) return null
+  if(vdom.dom){
+    return vdom.dom
+  }else{
+    let renderVdom=vdom.oldRenderVdom
+    return findDOM(renderVdom)
+  }
+
+}
+
+
+export function compareTwoVdom(parentDOM,oldVdom,newVdom){
+  let oldDOM=findDOM(oldVdom);
+  let newDOM=createDOM(newVdom)
+  console.log(newDOM,newVdom,'&&&&&&&&&&&&&&&&&&&')
+  parentDOM.replaceChild(newDOM,oldDOM)
 
 }
 const ReactDOM={
