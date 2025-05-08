@@ -1,5 +1,5 @@
 import { REACT_TEXT } from "./constants";
-
+import { REACT_COMPONENT } from "./constants"
 /**
  * 把虚拟DOM变为真实DOM  插入父节点中
  * @param {*} vdom 
@@ -16,6 +16,12 @@ function createDOM(vdom){
   let dom;
   if(type===REACT_TEXT){
     dom=document.createTextNode(props)
+  }else if(typeof type==='function'){
+    if(type.isReactComponent===REACT_COMPONENT){
+      return mountClassComponent(vdom)
+    }else{
+    return mountFunctionComponent(vdom)
+    }
   }else{
     dom=document.createElement(type)
   }
@@ -31,6 +37,17 @@ function createDOM(vdom){
   return dom
 }
 
+function mountClassComponent(vdom){
+  let {type,props}=vdom
+  let renderVdom=new type(props).render()
+  return createDOM(renderVdom)
+}
+
+function mountFunctionComponent(vdom){
+  let {type,props}=vdom
+  let renderVdom=type(props)
+  return createDOM(renderVdom)
+}
 
 function reconcileChildren(childrenVdom,parentDOM){
   for(let i=0;i<childrenVdom?.length;i++){

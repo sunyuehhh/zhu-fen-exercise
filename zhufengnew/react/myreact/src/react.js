@@ -1,5 +1,6 @@
 import { REACT_ElEMENT } from "./constants"
 import { toVdom } from "./utils"
+import { Component } from "./component"
 function createElement(type,config,children){
   if(config){
     delete config._source
@@ -14,6 +15,12 @@ function createElement(type,config,children){
     props.children=toVdom(children)
   }
 
+  console.log('createElement',{
+    $$typeof:REACT_ElEMENT,
+    type,
+    props
+  })
+
   return {
     $$typeof:REACT_ElEMENT,
     type,
@@ -23,7 +30,8 @@ function createElement(type,config,children){
 
 
 const React={
-  createElement
+  createElement,
+  Component
 }
 
 export default React
