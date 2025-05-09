@@ -1,5 +1,6 @@
 import { REACT_TEXT } from "./constants";
 import { REACT_COMPONENT } from "./constants"
+import {addEvent} from './event'
 /**
  * 把虚拟DOM变为真实DOM  插入父节点中
  * @param {*} vdom 
@@ -83,8 +84,9 @@ function updateProps(dom,oldProps={},newProps={}){
 
     }else if (/^on[A-Z]/.test(key)) {
       // 事件处理（如 onClick、onChange）
-      const eventType = key.toLowerCase().slice(2); // onClick -> click
-      dom.addEventListener(eventType, newProps[key]);
+      // const eventType = key.toLowerCase().slice(2); // onClick -> click
+      // dom.addEventListener(eventType, newProps[key]);
+      addEvent(dom,key.toLowerCase(),newProps[key])
     }else{
       // id  className
       dom[key]=newProps[key]

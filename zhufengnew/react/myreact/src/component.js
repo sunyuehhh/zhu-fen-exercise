@@ -1,5 +1,17 @@
 import { REACT_COMPONENT } from "./constants"
 import { findDOM ,compareTwoVdom} from "./react-dom"
+export const updateQueue={
+  isBatchingUpdate:false,//当前是否处于批量更新模式
+  updates:new Set(),//当前更新队列中保存的所有的updaters实例，每个updater都对应一个组件
+  batchUpdate(){//批量更新的方法
+    updateQueue.isBatchingUpdate=false
+    for(const updater of updateQueue.updates){
+      updater.updateComponent() 
+    }
+    updateQueue.updates.clear()
+
+  }
+}
 class Updater{
   constructor(classInstance){
     this.classInstance=classInstance
@@ -13,7 +25,12 @@ class Updater{
   }
 
   emitUpdate(){
+    if(updateQueue.isBatchingUpdate){
+      // 如果但其概念处于批量更新模式，只添加updater实例到队列中，并不会
+      updateQueue.updates.add(this)
+    }else{
     this.updateComponent()
+    }
   }
 
   // 1.计算新的组件状态 2.重新执行组件的render方法到新的虚拟DOM 3.把新的虚拟DOM同步到真实DOM上
