@@ -59,6 +59,7 @@ function mountForwardComponent(vdom){
 function mountClassComponent(vdom){
   let {type,props,ref}=vdom
   let classInstance=new type(props)
+  vdom.classInstance=classInstance
   // 组件将要挂载
   if(classInstance.UNSAFE_componentWillMount){
     classInstance.UNSAFE_componentWillMount()
@@ -134,19 +135,131 @@ export function findDOM(vdom){
   if(vdom.dom){
     return vdom.dom
   }else{
-    let renderVdom=vdom.oldRenderVdom
-    return findDOM(renderVdom)
+    if(vdom.classInstance){
+      vdom=vdom.classInstance.oldRenderVdom
+    }else{
+      vdom=vdom.oldRenderVdom
+    }
+    // let renderVdom=vdom.oldRenderVdom
+    return findDOM(vdom)
   }
 
 }
 
 
-export function compareTwoVdom(parentDOM,oldVdom,newVdom){
-  let oldDOM=findDOM(oldVdom);
-  let newDOM=createDOM(newVdom)
-  console.log(newDOM,newVdom,'&&&&&&&&&&&&&&&&&&&')
-  parentDOM.replaceChild(newDOM,oldDOM)
+export function compareTwoVdom(oldDOM,parentDOM,oldVdom,newVdom){
+  if(!oldVdom&&!newVdom){
+    return 
+  }else if(oldVdom&&!newVdom){
+    // 如果老节点存在，新节点不存在，需要直接删除老节点就可以了
+    unMountVdom(oldVdom)
+  }else if(!oldVdom&&newVdom){
+    let newDOM=createDOM(newVdom)
+    parentDOM.appendChild(newDOM)
+    if(newDOM.componentDidMount){
+      newDOM.componentDidMount()
+    }
 
+  }else if(oldVdom&&newVdom&&oldVdom.type!==newVdom.type){
+    unMountVdom(oldVdom)
+
+    let newDOM=createDOM(newVdom)
+    parentDOM.appendChild(newDOM)
+    if(newDOM.componentDidMount){
+      newDOM.componentDidMount()
+    }
+
+  }else{
+    // 如果老节点有值 并且新节点有值  并且类型相同
+    updateElement(oldVdom,newVdom)
+  }
+
+  // let oldDOM=findDOM(oldVdom);
+  // let newDOM=createDOM(newVdom)
+  // console.log(newDOM,newVdom,'&&&&&&&&&&&&&&&&&&&')
+  // parentDOM.replaceChild(newDOM,oldDOM)
+
+}
+
+
+/**
+ * 对新老虚拟DOM节点进行深度对比
+ * @param {*} oldVdom 
+ * @param {*} newVdom 
+ */
+function updateElement(oldVdom,newVdom){
+  if(oldVdom.type===REACT_TEXT){
+    let currentDOM=newVdom.dom=findDOM(oldVdom)
+    if(oldVdom.props!==newVdom.props){
+      currentDOM.textContent=newVdom.props;
+    }
+  }else if(typeof oldVdom.type==='string'){
+    let currentDOM=newVdom.dom=findDOM(oldVdom);
+    updateProps(currentDOM,oldVdom.props,newVdom.props)
+    updateChildren(currentDOM,oldVdom.props.children,newVdom.props.children)
+  }else if(typeof oldVdom.type==='function'){
+    if(oldVdom.type.isReactComponent){
+      // 类组件
+      updateClassComponent(oldVdom,newVdom)
+    }else{
+      updateFunctionComponent(oldVdom,newVdom)
+    }
+
+  }
+}
+
+function updateClassComponent(oldVdom,newVdom){
+  const classInstance=newVdom.classInstance=oldVdom.classInstance
+  if(classInstance.UNSAFE_componentWillReceiveProps){
+    classInstance.UNSAFE_componentWillReceiveProps()
+  }
+  classInstance.updater.emitUpdate(newVdom.props)
+
+}
+
+function updateFunctionComponent(oldVdom,newVdom){
+  let currentDOM=findDOM(oldVdom)
+  if(!currentDOM) return
+  let {type,props}=newVdom
+  let newRenderVdom =type(props)
+  compareTwoVdom(currentDOM,currentDOM.parentNode,oldVdom.oldRenderVdom,newRenderVdom)
+  newVdom.oldRenderVdom=newRenderVdom
+
+}
+/**
+ * 更新子节点
+ * @param {*} parentDOM  父真实DOM 
+ * @param {*} oldVChildren 老儿子虚拟DOM数组
+ * @param {*} newVChildren 新儿子虚拟DOM数组
+ */
+function updateChildren(parentDOM,oldVChildren,newVChildren){
+  oldVChildren=Array.isArray(oldVChildren)?oldVChildren:[oldVChildren]
+  newVChildren=Array.isArray(newVChildren)?newVChildren:[newVChildren]
+  let maxLength=Math.max(oldVChildren.length,newVChildren.length)
+  for(let i=0;i<maxLength;i++){
+    compareTwoVdom(findDOM(oldVChildren[i]),parentDOM,oldVChildren[i],newVChildren[i])
+  }
+}
+
+/**
+ * 卸载老节点
+ * @param {*} vdom 
+ */
+function unMountVdom(vdom){
+  let {type,props,ref,classInstance}=vdom
+  let currentDOM=findDOM(vdom)
+  console.log('卸载',classInstance)
+  if(classInstance&&classInstance.componentWillUnmount){
+    classInstance.componentWillUnmount()
+  }
+  if(ref){
+    ref.current=null
+  }
+  if(props.children){
+    let children=Array.isArray(props.children)?props.children:[props.children]
+    children.forEach(unMountVdom)
+  }
+  if(currentDOM) currentDOM.parentNode.removeChild(currentDOM)
 }
 const ReactDOM={
   render

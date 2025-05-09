@@ -28,7 +28,8 @@ class Updater{
     this.emitUpdate()
   }
 
-  emitUpdate(){
+  emitUpdate(nextProps){
+    this.nextProps=nextProps
     updateQueue.updates.add(this)
     queueMicrotask(updateQueue.batchUpdate)
     // if(updateQueue.isBatchingUpdate){
@@ -41,12 +42,13 @@ class Updater{
 
   // 1.计算新的组件状态 2.重新执行组件的render方法到新的虚拟DOM 3.把新的虚拟DOM同步到真实DOM上
   updateComponent(){
-    const {classInstance,pendingState,callbacks}=this
+    const {classInstance,pendingState,nextProps,callbacks}=this
     // 如果长度大于0,说明有等待生效的更新
-    if(pendingState.length>0){
+    // 如果有新的属性 或者说有新的状态进行更新
+    if(nextProps||pendingState.length>0){
       // 1.计算新的组件状态
       let newState=this.getState()
-      shouldUpdate(classInstance,newState)
+      shouldUpdate(classInstance,nextProps, newState)
 
     }
 
@@ -77,16 +79,19 @@ class Updater{
   }
 }
 
-function shouldUpdate(classInstance,newState){
+function shouldUpdate(classInstance,nextProps,newState){
   // 表示是否要更新
   let willUpdate=true
   // 有方法并且执行结果为false 才表示不需要更新
   // 现在我们还没有处理属性的更新
-  if(classInstance.shouldComponentUpdate&&!classInstance.shouldComponentUpdate(classInstance.props,newState)){
+  if(classInstance.shouldComponentUpdate&&!classInstance.shouldComponentUpdate(nextProps,newState)){
     willUpdate=false
   }
   if(willUpdate&&classInstance.UNSAFE_componentWillUpdate){
     classInstance.UNSAFE_componentWillUpdate()
+  }
+  if(nextProps){
+    classInstance.props=nextProps
   }
   // 不管要不要更新，类的实例的state都会改变，都会指定新的状态
   classInstance.state=newState
@@ -110,7 +115,7 @@ export class Component{
     let oldRenderVdom=this.oldRenderVdom
     let oldDOM=findDOM(oldRenderVdom)
     let newRenderVdom=this.render();
-    compareTwoVdom(oldDOM.parentNode,oldRenderVdom,newRenderVdom)
+    compareTwoVdom(oldDOM,oldDOM.parentNode,oldRenderVdom,newRenderVdom)
     this.oldRenderVdom=newRenderVdom
     if(this.componentDidUpdate){
       this.componentDidUpdate(this.props,this.state)

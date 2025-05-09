@@ -88,8 +88,8 @@ class ChildCounter extends React.Component{
     </>
   }
 
-  componentWillMount(){
-    console.log('ChildCounter 6.componentWillMount')
+  componentWillUnmount(){
+    console.log('ChildCounter 6.componentWillUnmount')
   }
 
 }
