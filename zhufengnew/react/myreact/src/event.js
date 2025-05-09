@@ -25,7 +25,7 @@ function dispatchEvent(event){
   // 使劲按名称clicj 和事件源  就是你点的谁
   const  {type,target}=event
   const eventType=`on${type}`
-  updateQueue.isBatchingUpdate=true
+  // updateQueue.isBatchingUpdate=true
   let syntheticEvent=createSyntheticEvent(event)
 
   let currentTarget=target
@@ -42,7 +42,7 @@ function dispatchEvent(event){
   }
   currentTarget=currentTarget.parentNode
   }
-  updateQueue.batchUpdate()
+  // updateQueue.batchUpdate()
 
 }
 
@@ -60,6 +60,8 @@ function createSyntheticEvent(nativeEvent){
 
   syntheticEvent.preventDefault=preventDefault
   syntheticEvent.stopPropagation=stopPropagation
+
+  return syntheticEvent
 
 }
 

@@ -1,4 +1,4 @@
-import { REACT_TEXT } from "./constants";
+import { REACT_FORWARD_REF, REACT_TEXT } from "./constants";
 import { REACT_COMPONENT } from "./constants"
 import {addEvent} from './event'
 /**
@@ -9,13 +9,19 @@ import {addEvent} from './event'
 function render(vdom,container){
   let newDOM=createDOM(vdom)
   container.appendChild(newDOM)
+  if(newDOM.componentDidMount){
+    newDOM.componentDidMount()
+  }
 }
 
 function createDOM(vdom){
-  let {type,props}=vdom
+  let {type,props,ref}=vdom
   // 根据不同的虚拟DOM的类型创建新的DOM
   let dom;
-  if(type===REACT_TEXT){
+  if(type&&type.$$typeof===REACT_FORWARD_REF){
+    return mountForwardComponent(vdom)
+
+  }else if(type===REACT_TEXT){
     dom=document.createTextNode(props)
   }else if(typeof type==='function'){
     if(type.isReactComponent===REACT_COMPONENT){
@@ -38,16 +44,35 @@ function createDOM(vdom){
 
   // 当我们根据虚拟DOM创建真实DDOM
   vdom.dom=dom
+  if(ref) {
+    ref.current=dom
+  }
   return dom
 }
 
+function mountForwardComponent(vdom){
+  let {type,props,ref}=vdom
+  let renderVdom=type.render(props,ref)
+  return createDOM(renderVdom)
+}
+
 function mountClassComponent(vdom){
-  let {type,props}=vdom
+  let {type,props,ref}=vdom
   let classInstance=new type(props)
+  // 组件将要挂载
+  if(classInstance.UNSAFE_componentWillMount){
+    classInstance.UNSAFE_componentWillMount()
+  }
+  if(ref) ref.current=classInstance;
   let renderVdom=classInstance.render()
   // 把类组件渲染的虚拟DOM放到类的实例上
   classInstance.oldRenderVdom= vdom.oldRenderVdom= renderVdom
-  return createDOM(renderVdom)
+  let dom=createDOM(renderVdom)
+  // 
+  if(classInstance.componentDidMount){
+    dom.componentDidMount=classInstance.componentDidMount.bind(classInstance)
+  }
+  return dom
 }
 
 function mountFunctionComponent(vdom){

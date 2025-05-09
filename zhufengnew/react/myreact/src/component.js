@@ -16,26 +16,32 @@ class Updater{
   constructor(classInstance){
     this.classInstance=classInstance
     this.pendingState=[]
+    this.callbacks=[]
 
   }
 
-  addState(partialState){
+  addState(partialState,callback){
     this.pendingState.push(partialState)
+    if(callback){
+      this.callbacks.push(callback)
+    }
     this.emitUpdate()
   }
 
   emitUpdate(){
-    if(updateQueue.isBatchingUpdate){
-      // 如果但其概念处于批量更新模式，只添加updater实例到队列中，并不会
-      updateQueue.updates.add(this)
-    }else{
-    this.updateComponent()
-    }
+    updateQueue.updates.add(this)
+    queueMicrotask(updateQueue.batchUpdate)
+    // if(updateQueue.isBatchingUpdate){
+    //   // 如果但其概念处于批量更新模式，只添加updater实例到队列中，并不会
+    //   updateQueue.updates.add(this)
+    // }else{
+    // this.updateComponent()
+    // }
   }
 
   // 1.计算新的组件状态 2.重新执行组件的render方法到新的虚拟DOM 3.把新的虚拟DOM同步到真实DOM上
   updateComponent(){
-    const {classInstance,pendingState}=this
+    const {classInstance,pendingState,callbacks}=this
     // 如果长度大于0,说明有等待生效的更新
     if(pendingState.length>0){
       // 1.计算新的组件状态
@@ -43,6 +49,11 @@ class Updater{
       shouldUpdate(classInstance,newState)
 
     }
+
+    queueMicrotask(()=>{
+      callbacks.forEach(callback=>callback())
+      callbacks.length=0
+    })
 
 
 
@@ -55,6 +66,9 @@ class Updater{
     // 获取老的状态
     let {state}=classInstance
     pendingState.forEach(nextState=>{
+      if(typeof nextState==='function'){
+        nextState=nextState(state)
+      }
       state={...state,...nextState}
     })
 
@@ -64,8 +78,21 @@ class Updater{
 }
 
 function shouldUpdate(classInstance,newState){
+  // 表示是否要更新
+  let willUpdate=true
+  // 有方法并且执行结果为false 才表示不需要更新
+  // 现在我们还没有处理属性的更新
+  if(classInstance.shouldComponentUpdate&&!classInstance.shouldComponentUpdate(classInstance.props,newState)){
+    willUpdate=false
+  }
+  if(willUpdate&&classInstance.UNSAFE_componentWillUpdate){
+    classInstance.UNSAFE_componentWillUpdate()
+  }
+  // 不管要不要更新，类的实例的state都会改变，都会指定新的状态
   classInstance.state=newState
+  if(willUpdate){
   classInstance.forceUpdate()
+  }
 }
 export class Component{
   static isReactComponent=REACT_COMPONENT
@@ -74,8 +101,8 @@ export class Component{
     this.updater=new Updater(this)
   }
 
-  setState(partialState){
-    this.updater.addState(partialState)
+  setState(partialState,callback){
+    this.updater.addState(partialState,callback)
 
   }
   forceUpdate(){
@@ -85,6 +112,9 @@ export class Component{
     let newRenderVdom=this.render();
     compareTwoVdom(oldDOM.parentNode,oldRenderVdom,newRenderVdom)
     this.oldRenderVdom=newRenderVdom
+    if(this.componentDidUpdate){
+      this.componentDidUpdate(this.props,this.state)
+    }
   }
 }
 
