@@ -1,5 +1,5 @@
-import { REACT_ElEMENT,REACT_FORWARD_REF } from "./constants"
-import { toVdom } from "./utils"
+import { REACT_CONTEXT, REACT_ElEMENT,REACT_FORWARD_REF, REACT_FRAGMENT, REACT_PROVIDER } from "./constants"
+import { toVdom,shallowEqual } from "./utils"
 import { Component } from "./component"
 function createElement(type,config,children){
   let ref;
@@ -50,12 +50,51 @@ function forwardRef(render){
   }
 }
 
+function createContext(){
+  const context={
+    $$typeof:REACT_CONTEXT,
+    _currentValue:undefined
+  }
+
+  context.Provider={
+    $$typeof:REACT_PROVIDER,
+    _context:context,
+
+  }
+
+  context.Consumer={
+    $$typeof:REACT_CONTEXT,
+    _context:context,
+  }
+
+  return context
+}
+
+
+function cloneElement(element,newProps,...newChildren){
+  let oldChildren=element.props&&element.props.children
+  let children=[...(Array.isArray(oldChildren)?oldChildren:[oldChildren]),...newChildren].filter(Boolean)
+
+
+}
+
+// shallowEqual
+class PureComponent extends Component{
+  shouldComponentUpdate(nextProps,nextState){
+    return !shallowEqual(this.props,nextProps)||!shallowEqual(this.state,nextState)
+
+  }
+}
 
 const React={
   createElement,
   Component,
   createRef,
-  forwardRef
+  forwardRef,
+  Fragment:REACT_FRAGMENT,
+  createContext,
+  cloneElement,
+  PureComponent
 }
 
 export default React

@@ -114,11 +114,26 @@ export class Component{
     console.log('强制更新')
     let oldRenderVdom=this.oldRenderVdom
     let oldDOM=findDOM(oldRenderVdom)
+    console.log(this,'this')
+    if(this.constructor.contextType){
+      console.log(this.constructor,'*********')
+      this.context=this.constructor.contextType._currentValue;
+    }
+    if(this.constructor.getDerivedStateFromProps){
+      let newState=this.constructor.getDerivedStateFromProps(this.props,this.state)
+      if(newState){
+        this.state={
+          ...this.state,...newState
+        }
+      }
+
+    }
+    let snapShot=this?.getSnapshotBeforeUpdate?.()
     let newRenderVdom=this.render();
     compareTwoVdom(oldDOM,oldDOM.parentNode,oldRenderVdom,newRenderVdom)
     this.oldRenderVdom=newRenderVdom
     if(this.componentDidUpdate){
-      this.componentDidUpdate(this.props,this.state)
+      this.componentDidUpdate(this.props,this.state,snapShot)
     }
   }
 }
