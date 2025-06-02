@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 事件委托的对象不再是document 而是挂载的容器了 1.可以让一个页面可以使用多个React版本 -->
+  <div id="root">
+    <div id="parent">
+      <p id="child">事件执行</p>
+    </div>
+  </div>
+
+  <script>
+
+    let root=document.getElementById('root')
+    let parent=document.getElementById('parent');
+    let child=document.getElementById('child')
+    
+
+    root.addEventListener('click',(event)=>dispatchEvent(event,true),true);//true=useCapture 注册一个捕获监听
+    root.addEventListener('click',(event)=>dispatchEvent(event,false));//冒泡
+
+
+    function dispatchEvent(event,useCapture){
+      let paths=[]
+      let current=event.target
+      while(current){
+        paths.push(current)
+        current=current.parentNode
+      }
+
+      if(useCapture){
+      for(let i=paths.length-1;i>=0;i--){
+        let handler=paths[i].onClickCapture
+        handler&&handler()
+      }
+      }else{
+      for(let i=0;i<paths.length;i++){
+        let handler=paths[i].onClick
+        handler&&handler()
+      }
+    }
+    }
+
+
+    parent.addEventListener('click',()=>{
+      console.log('父元素原生捕获')
+    },true)
+    parent.addEventListener('click',()=>{
+      console.log('父元素原生冒泡')
+    })
+
+    child.addEventListener('click',()=>{
+      console.log('子元素原生冒泡')
+    })
+
+    child.addEventListener('click',()=>{
+      console.log('子元素原生捕获')
+    },true)
+
+
+    document.addEventListener('click',()=>{
+      console.log('document冒泡')
+    })
+    document.addEventListener('click',()=>{
+      console.log('document捕获')
+    },true)
+
+
+    parent.onClick=function(){
+      console.log('父亲React冒泡')
+    }
+    parent.onClickCapture=function(){
+      console.log('父亲React捕获')
+    }
+
+    child.onClick=function(){
+      console.log('儿子React冒泡')
+    }
+    child.onClickCapture=function(){
+      console.log('儿子React捕获')
+    }
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

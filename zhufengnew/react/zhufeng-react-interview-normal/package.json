@@ -1,0 +1,31 @@
+{
+  "name": "zhufeng-react-interview-normal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-syntax-jsx": "^7.27.1",
+    "@babel/plugin-transform-react-jsx": "^7.27.1",
+    "@babel/types": "^7.27.1",
+    "react": "^0.0.0-experimental-4448b187-20250515",
+    "react-dom": "^0.0.0-experimental-4448b187-20250515"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.27.1",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "babel-loader": "^10.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "webpack": "^5.99.8",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
+  }
+}
