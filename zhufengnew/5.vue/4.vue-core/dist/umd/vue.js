@@ -183,26 +183,82 @@
   // ?: 匹配不捕获
   var qnameCapture = "((?:".concat(ncname, "\\:)?").concat(ncname, ")"); // <my:xx>
   var startTagOpen = new RegExp("^<".concat(qnameCapture)); // 标签开头的正则 捕获的内容是标签名
+  var endTag = new RegExp("^<\\/".concat(qnameCapture, "[^>]*>")); // 匹配标签结尾的 </div>
 
   var attribute = /^\s*([^\s"'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/; // 匹配属性的
   var startTagClose = /^\s*(\/?)>/; // 匹配标签结束的 >
 
-  function start(tagName, attrs) {
-    console.log(tagName, attrs, '&&&&&&&&&&&&');
-  }
   function parseHTML(html) {
+    function createASTElement(tagName, attrs) {
+      return {
+        tag: tagName,
+        type: 1,
+        children: [],
+        attrs: attrs,
+        parent: null
+      };
+    }
+    var root;
+    var currentParent;
+    var stack = [];
+    function start(tagName, attrs) {
+      console.log(tagName, attrs, 'tagName  attrs');
+      var element = createASTElement(tagName, attrs);
+      if (!root) {
+        root = element;
+      }
+      currentParent = element; //当前解析的标签 保存起来
+
+      stack.push(element);
+    }
+    function end(tagName) {
+      console.log(tagName, 'end TagName');
+      var element = stack.pop();
+      currentParent = stack[stack.length - 1]; //取出来之后  把栈中最后一个作为父节点
+      if (currentParent) {
+        //在闭合时 可以知道这个标签的父亲是谁
+        element.parent = currentParent;
+        currentParent.children.push(element);
+      }
+    }
+    function chars(text) {
+      console.log(text, 'text');
+      text = text.replace(/\s/g, '');
+      if (text) {
+        currentParent.children.push({
+          type: 3,
+          text: text
+        });
+      }
+    }
     while (html) {
       //只要html不为空字符串就一直解析
       var textEnd = html.indexOf('<');
       if (textEnd == 0) {
         // 肯定是标签
-        console.log('开始', html);
         var startTagMatch = parseTagStart(); //开始标签匹配的结果
         if (startTagMatch) {
           start(startTagMatch.tagName, startTagMatch.attrs);
+          continue;
         }
-        break;
+        var endTagMatch = html.match(endTag);
+        if (endTagMatch) {
+          end(endTagMatch[1]);
+          advance(endTagMatch[0].length);
+          continue;
+        }
       }
+      var text = void 0;
+      if (textEnd > 0) {
+        //是文本
+        text = html.substring(0, textEnd);
+      }
+      if (text) {
+        chars(text);
+        advance(text.length);
+        continue;
+      }
+      break;
     }
     function advance(n) {
       //将字符串进行截取操作  再更新html内容
@@ -210,7 +266,6 @@
     }
     function parseTagStart() {
       var start = html.match(startTagOpen);
-      console.log(start, 'start');
       if (start) {
         var match = {
           tagName: start[1],
@@ -223,14 +278,12 @@
         var attr;
         // 不是结尾标签  能匹配到属性
         while (!(_end = html.match(startTagClose)) && (attr = html.match(attribute))) {
-          console.log(attr, 'attr');
           match.attrs.push({
             name: attr[1],
             value: attr[2] || attr[3] || attr[4] || true
           });
           advance(attr[0].length);
         }
-        console.log(_end, 'end', match);
         if (_end) {
           // 结尾了
           advance(_end[0].length);
@@ -238,6 +291,7 @@
         }
       }
     }
+    return root;
   }
   function compileToFunction(template) {
     // html模板 =>render函数
@@ -245,7 +299,8 @@
 
     // 虚拟dom  是用对象来描述节点的
 
-    parseHTML(template);
+    var ast = parseHTML(template);
+    console.log(ast, 'ast');
 
     // 2.通过这棵树 重新生成的代码
   }
