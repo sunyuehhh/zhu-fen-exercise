@@ -4,6 +4,14 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Vue = factory());
 })(this, (function () { 'use strict';
 
+  function _arrayLikeToArray(r, a) {
+    (null == a || a > r.length) && (a = r.length);
+    for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+    return n;
+  }
+  function _arrayWithHoles(r) {
+    if (Array.isArray(r)) return r;
+  }
   function _classCallCheck(a, n) {
     if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
   }
@@ -17,6 +25,39 @@
     return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
       writable: !1
     }), e;
+  }
+  function _iterableToArrayLimit(r, l) {
+    var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+    if (null != t) {
+      var e,
+        n,
+        i,
+        u,
+        a = [],
+        f = !0,
+        o = !1;
+      try {
+        if (i = (t = t.call(r)).next, 0 === l) {
+          if (Object(t) !== t) return;
+          f = !1;
+        } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+      } catch (r) {
+        o = !0, n = r;
+      } finally {
+        try {
+          if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
+        } finally {
+          if (o) throw n;
+        }
+      }
+      return a;
+    }
+  }
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _slicedToArray(r, e) {
+    return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
   }
   function _toPrimitive(t, r) {
     if ("object" != typeof t || !t) return t;
@@ -40,6 +81,13 @@
     } : function (o) {
       return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
     }, _typeof(o);
+  }
+  function _unsupportedIterableToArray(r, a) {
+    if (r) {
+      if ("string" == typeof r) return _arrayLikeToArray(r, a);
+      var t = {}.toString.call(r).slice(8, -1);
+      return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+    }
   }
 
   // 拿到数组原型上的方法 (原来的方法)
@@ -293,6 +341,56 @@
     }
     return root;
   }
+
+  function genProps(attrs) {
+    //id  "app"  style "color:red"
+    // 如果是style  拼成双{}的形式
+    var str = '';
+    var _loop = function _loop() {
+      var attr = attrs[i];
+      if (attr.name === 'style') {
+        var obj = {};
+        attr.value.split(";").forEach(function (item) {
+          var _item$split = item.split(':'),
+            _item$split2 = _slicedToArray(_item$split, 2),
+            key = _item$split2[0],
+            value = _item$split2[1];
+          obj[key] = value;
+        });
+        attr.value = obj;
+      }
+      str += "".concat(attr.name, ":").concat(JSON.stringify(attr.value), ",");
+    };
+    for (var i = 0; i < attrs.length; i++) {
+      _loop();
+    }
+    return "{".concat(str.slice(0, -1), "}");
+  }
+  function gen(node) {
+    if (node.type == 1) {
+      return generate(node); //生成元素节点的字符串
+    } else {
+      var text = node.text; //获取文本
+      // 如果是普通文本  不带{{}}
+
+      return "_v(".concat(JSON.stringify(text), ")"); //_v(hello)
+    }
+  }
+  function getChildren(el) {
+    var children = el.children;
+    if (children) {
+      //将所有转化后的儿子用,拼接起来
+      return children.map(function (child) {
+        return gen(child);
+      }).join(',');
+    }
+  }
+  function generate(el) {
+    var children = getChildren(el);
+    var code = "_c('".concat(el.tag, "',").concat(el.attrs.length ? "".concat(genProps(el.attrs)) : 'undefined').concat(children ? ",".concat(children) : '', ")");
+    return code;
+  }
+
   function compileToFunction(template) {
     // html模板 =>render函数
     // 1.需要将html代码转换成"ast"语法树  可以用ast树来描述语言本身
@@ -302,7 +400,11 @@
     var ast = parseHTML(template);
     console.log(ast, 'ast');
 
-    // 2.通过这棵树 重新生成的代码
+    //  2.优化i静态节点
+
+    // 3.通过这棵树 重新生成的代码
+    var render = generate(ast);
+    console.log(render, 'render');
   }
 
   function initMixin(Vue) {
