@@ -1,3 +1,5 @@
+const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g; // 全局匹配
+
 
 function genProps(attrs){ //id  "app"  style "color:red"
   // 如果是style  拼成双{}的形式
@@ -27,7 +29,40 @@ function gen(node){
     let text=node.text;//获取文本
     // 如果是普通文本  不带{{}}
 
-    return `_v(${JSON.stringify(text)})`//_v(hello)
+    if(!defaultTagRE.test(text)){
+      return `_v(${JSON.stringify(text)})`//_v(hello)
+    }
+
+    // _v('hello {{name}} world {{msg}}')=>_v('hello'+_s(name)+'world'+_s(msg))
+    let tokens=[]
+    let lastIndex=defaultTagRE.lastIndex=0;//如果正则式全局模式  需要每次使用前置为0
+    let match,index;//每次匹配的结果
+
+
+
+    while(match=defaultTagRE.exec(text)){
+      if(!match.index){
+        break
+      }
+      index=match.index;//保存匹配到的索引
+      if(index>lastIndex){
+        tokens.push(JSON.stringify(text.slice(lastIndex,index)))
+      }
+
+      tokens.push(`_s(${match[1].trim()})`);
+      lastIndex=index+match[0].length
+
+
+    }
+
+    if(lastIndex<text.length){
+      tokens.push(JSON.stringify(text.slice(lastIndex)))
+    }
+
+    return `_v(${tokens.join('+')})`
+
+
+
 
   }
 

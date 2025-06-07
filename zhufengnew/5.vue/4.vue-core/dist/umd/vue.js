@@ -342,6 +342,8 @@
     return root;
   }
 
+  var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g; // 全局匹配
+
   function genProps(attrs) {
     //id  "app"  style "color:red"
     // 如果是style  拼成双{}的形式
@@ -373,7 +375,30 @@
       var text = node.text; //获取文本
       // 如果是普通文本  不带{{}}
 
-      return "_v(".concat(JSON.stringify(text), ")"); //_v(hello)
+      if (!defaultTagRE.test(text)) {
+        return "_v(".concat(JSON.stringify(text), ")"); //_v(hello)
+      }
+
+      // _v('hello {{name}} world {{msg}}')=>_v('hello'+_s(name)+'world'+_s(msg))
+      var tokens = [];
+      var lastIndex = defaultTagRE.lastIndex = 0; //如果正则式全局模式  需要每次使用前置为0
+      var match, index; //每次匹配的结果
+
+      while (match = defaultTagRE.exec(text)) {
+        if (!match.index) {
+          break;
+        }
+        index = match.index; //保存匹配到的索引
+        if (index > lastIndex) {
+          tokens.push(JSON.stringify(text.slice(lastIndex, index)));
+        }
+        tokens.push("_s(".concat(match[1].trim(), ")"));
+        lastIndex = index + match[0].length;
+      }
+      if (lastIndex < text.length) {
+        tokens.push(JSON.stringify(text.slice(lastIndex)));
+      }
+      return "_v(".concat(tokens.join('+'), ")");
     }
   }
   function getChildren(el) {
@@ -403,8 +428,13 @@
     //  2.优化i静态节点
 
     // 3.通过这棵树 重新生成的代码
-    var render = generate(ast);
-    console.log(render, 'render');
+    var code = generate(ast);
+
+    // 4.将字符串变成函数  限制取值范围  通过with来进行取值  稍后调用render函数
+    // 就可以通过改变this  让这个函数内部取到结果了
+    var render = new Function("with(this){return ".concat(code, "}"));
+    console.log(render);
+    return render;
   }
 
   function initMixin(Vue) {
@@ -431,7 +461,7 @@
 
         // 将模板转换成render函数
         var render = compileToFunction(template);
-        console.log(template, el, 'template');
+        console.log(render, 'render');
         options.render = render;
       }
 

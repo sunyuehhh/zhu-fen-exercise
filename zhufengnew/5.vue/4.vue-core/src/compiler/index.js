@@ -15,9 +15,16 @@ export function compileToFunction(template){
 
 
   // 3.通过这棵树 重新生成的代码
-  const render=generate(ast)
+  const code=generate(ast)
 
-  console.log(render,'render')
+  // 4.将字符串变成函数  限制取值范围  通过with来进行取值  稍后调用render函数
+  // 就可以通过改变this  让这个函数内部取到结果了
+  let render=new Function(`with(this){return ${code}}`)
+
+
+  console.log(render)
+
+  return render
 
 
 

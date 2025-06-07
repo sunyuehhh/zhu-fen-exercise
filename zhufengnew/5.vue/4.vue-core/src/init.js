@@ -34,7 +34,7 @@ export function initMixin(Vue){
       const render=compileToFunction(template)
 
 
-      console.log(template,el,'template')
+      console.log(render,'render')
 
       options.render=render
 
