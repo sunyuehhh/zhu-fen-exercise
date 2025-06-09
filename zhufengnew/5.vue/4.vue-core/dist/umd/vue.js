@@ -437,6 +437,18 @@
     return render;
   }
 
+  function lifecycleMixin(Vue) {
+    Vue.prototype._update = function (vnode) {
+      console.log(vnode, 'vnode');
+    };
+  }
+  function mountComponent(vm, el) {
+    // 调用render方法去渲染  el属性
+
+    // 先调用render方法创建虚拟节点  再将虚拟节点渲染到页面上
+    vm._update(vm._render());
+  }
+
   function initMixin(Vue) {
     Vue.prototype._init = function (options) {
       var vm = this;
@@ -461,11 +473,57 @@
 
         // 将模板转换成render函数
         var render = compileToFunction(template);
-        console.log(render, 'render');
         options.render = render;
       }
 
-      // console.log(render,'最后用的都是这个render方法')
+      // 渲染时用的就是这个render
+      // 需要挂载这个组件
+      mountComponent(vm);
+    };
+  }
+
+  function renderMixin(Vue) {
+    Vue.prototype._c = function () {
+      //创建虚拟dom元素
+      return createElement.apply(void 0, arguments);
+    };
+    Vue.prototype._s = function (val) {
+      //stringify
+      return val == null ? '' : _typeof(val) === 'object' ? JSON.stringify(val) : val;
+    };
+    Vue.prototype._v = function (text) {
+      //创建虚拟dom文本元素
+      return createTextVnode(text);
+    };
+    Vue.prototype._render = function () {
+      var vm = this;
+      var render = vm.$options.render;
+      return render.call(vm);
+    };
+  }
+
+  //  _c('div',{},1,2,3,4,5)
+  function createElement(tag) {
+    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    for (var _len = arguments.length, children = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      children[_key - 2] = arguments[_key];
+    }
+    console.log(arguments, 'arguments');
+    return vnode(tag, data, data.key, children);
+  }
+  function createTextVnode(text) {
+    console.log(text, 'text');
+    return vnode(undefined, undefined, undefined, undefined, text);
+  }
+
+  // 用来产生虚拟的
+  function vnode(tag, data, key, children, text) {
+    return {
+      tag: tag,
+      data: data,
+      key: key,
+      children: children,
+      text: text
     };
   }
 
@@ -473,6 +531,8 @@
     this._init(options); //入口方法  做初始化操作
   }
   initMixin(Vue);
+  lifecycleMixin(Vue);
+  renderMixin(Vue);
 
   return Vue;
 

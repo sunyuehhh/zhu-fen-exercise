@@ -6,9 +6,8 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="app">
-    {{app}}app内容
-    <span>hello {{name}} bb{{aa}} world</span>
+  <div id="app" style="color:red">
+    hello {{arr}}{{school.name}}
   </div>
   <script src="dist/umd/vue.js"></script>
 
@@ -18,7 +17,10 @@
       el:'#app',
       data:function(){
         return {
-          arr:[1,2,3]
+         arr:[1,2,3],
+         school:{
+          name:'学校名称'
+         }
         }
       },
       // template:'<div id="app">{{arr}}</div>'
