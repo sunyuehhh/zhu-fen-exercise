@@ -369,26 +369,18 @@
     return "{".concat(str.slice(0, -1), "}");
   }
   function gen(node) {
-    if (node.type == 1) {
-      return generate(node); //生成元素节点的字符串
+    if (node.type === 1) {
+      return generate(node);
     } else {
-      var text = node.text; //获取文本
-      // 如果是普通文本  不带{{}}
-
+      var text = node.text;
       if (!defaultTagRE.test(text)) {
-        return "_v(".concat(JSON.stringify(text), ")"); //_v(hello)
+        return "_v(".concat(JSON.stringify(text), ")");
       }
-
-      // _v('hello {{name}} world {{msg}}')=>_v('hello'+_s(name)+'world'+_s(msg))
       var tokens = [];
-      var lastIndex = defaultTagRE.lastIndex = 0; //如果正则式全局模式  需要每次使用前置为0
-      var match, index; //每次匹配的结果
-
+      var lastIndex = defaultTagRE.lastIndex = 0;
+      var match, index;
       while (match = defaultTagRE.exec(text)) {
-        if (!match.index) {
-          break;
-        }
-        index = match.index; //保存匹配到的索引
+        index = match.index;
         if (index > lastIndex) {
           tokens.push(JSON.stringify(text.slice(lastIndex, index)));
         }
@@ -437,9 +429,38 @@
     return render;
   }
 
+  function patch(oldVnode, vnode) {
+    // 将虚拟节点转换成真实节点
+    var el = createElm(vnode); //产生真实的dom
+    var parentElm = oldVnode.parentNode; //获取老的app的父亲 =>body
+    parentElm.insertBefore(el, oldVnode.nextSibling); //当前的真实元素插入到app的后面
+    parentElm.removeChild(oldVnode); //删除老的节点
+  }
+  function createElm(vnode) {
+    var tag = vnode.tag,
+      children = vnode.children;
+      vnode.key;
+      vnode.data;
+      var text = vnode.text;
+    if (typeof tag == 'string') {
+      //创建元素  放到vnode.el上
+      vnode.el = document.createElement(tag);
+      children.forEach(function (child) {
+        //遍历儿子  将儿子渲染后的结果扔到父亲中
+        vnode.el.appendChild(createElm(child));
+      });
+    } else {
+      //创建文件  放到vnode.el上
+      vnode.el = document.createTextNode(text);
+    }
+    return vnode.el;
+  }
+
   function lifecycleMixin(Vue) {
     Vue.prototype._update = function (vnode) {
       console.log(vnode, 'vnode');
+      var vm = this;
+      patch(vm.$el, vnode);
     };
   }
   function mountComponent(vm, el) {
@@ -465,6 +486,7 @@
       var vm = this;
       var options = vm.$options;
       el = document.querySelector(el);
+      vm.$el = el;
       if (!options.render) {
         var template = options.template;
         if (!template && el) {
