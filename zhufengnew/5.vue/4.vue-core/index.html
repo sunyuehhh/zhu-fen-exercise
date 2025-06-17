@@ -31,7 +31,7 @@
     })
 
 
-    const vue=new Vue({
+    const vm=new Vue({
       el:'#app',
       data:function(){
         return {
@@ -48,7 +48,10 @@
       // template:'<div id="app">{{arr}}</div>'
     })
 
-    console.log(vue,'Vue')
+    setTimeout(()=>{
+      vm.school.name='zs'
+      // vm._update(vm._render())
+    },1000)
     
 
 

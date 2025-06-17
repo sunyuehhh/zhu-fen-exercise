@@ -1,5 +1,6 @@
 import { arrayMethods } from "./array"
 import { defineProperty } from "../utils"
+import Dep from "./dep"
 
 class Observer{
   constructor(value){
@@ -37,8 +38,12 @@ class Observer{
 
 function defineReactive(data,key,value){
   observer(value)
+  let dep=new Dep();//每个属性都有一个dep
   Object.defineProperty(data,key,{
     get(){
+      if(Dep.target){
+        dep.depend()
+      }
       console.log('用户获取值了')
       return value
     },
@@ -47,6 +52,8 @@ function defineReactive(data,key,value){
       if(newValue===value)  return
       observer(newValue) //如果用户将值改为对象  继续监控
       value=newValue
+
+      dep.notify()
     }
   })
 

@@ -193,6 +193,36 @@
     return options;
   }
 
+  var Dep = /*#__PURE__*/function () {
+    function Dep() {
+      _classCallCheck(this, Dep);
+      this.subs = [];
+    }
+    return _createClass(Dep, [{
+      key: "depend",
+      value: function depend() {
+        this.subs.push(Dep.target);
+      }
+    }, {
+      key: "notify",
+      value: function notify() {
+        this.subs.forEach(function (watcher) {
+          return watcher.update();
+        });
+      }
+    }]);
+  }();
+  function pushTarget(watcher) {
+    Dep.target = watcher;
+  }
+  function popTarget(watcher) {
+    Dep.target = null; //将变量删除掉
+  }
+
+  // 多对多的关系  一个属性有一个dep是用来收集watcher的
+  // dep  可以存搓个watcher
+  // 一个watcher 可以对应多个dep
+
   var Observer = /*#__PURE__*/function () {
     function Observer(value) {
       _classCallCheck(this, Observer);
@@ -229,8 +259,12 @@
   }();
   function defineReactive(data, key, value) {
     observer(value);
+    var dep = new Dep(); //每个属性都有一个dep
     Object.defineProperty(data, key, {
       get: function get() {
+        if (Dep.target) {
+          dep.depend();
+        }
         console.log('用户获取值了');
         return value;
       },
@@ -239,6 +273,7 @@
         if (newValue === value) return;
         observer(newValue); //如果用户将值改为对象  继续监控
         value = newValue;
+        dep.notify();
       }
     });
   }
@@ -489,6 +524,8 @@
     var parentElm = oldVnode.parentNode; //获取老的app的父亲 =>body
     parentElm.insertBefore(el, oldVnode.nextSibling); //当前的真实元素插入到app的后面
     parentElm.removeChild(oldVnode); //删除老的节点
+
+    return el;
   }
   function createElm(vnode) {
     var tag = vnode.tag,
@@ -530,11 +567,40 @@
     }
   }
 
+  var Watcher = /*#__PURE__*/function () {
+    // vm实例
+    // exprOrFn  vm._update(vm._render())
+    function Watcher(vm, exprOrFn, cb, options) {
+      _classCallCheck(this, Watcher);
+      this.vm = vm;
+      this.exprOrFn = exprOrFn;
+      this.cb = cb;
+      this.options = options;
+      if (typeof exprOrFn === 'function') {
+        this.getter = exprOrFn;
+      }
+      this.get();
+    }
+    return _createClass(Watcher, [{
+      key: "get",
+      value: function get() {
+        pushTarget(this); //当前watcher实例
+        this.getter();
+        popTarget();
+      }
+    }, {
+      key: "update",
+      value: function update() {
+        this.get();
+      }
+    }]);
+  }();
+
   function lifecycleMixin(Vue) {
     Vue.prototype._update = function (vnode) {
       console.log(vnode, 'vnode');
       var vm = this;
-      patch(vm.$el, vnode);
+      vm.$el = patch(vm.$el, vnode);
     };
   }
   function mountComponent(vm, el) {
@@ -542,7 +608,15 @@
     // 调用render方法去渲染  el属性
 
     // 先调用render方法创建虚拟节点  再将虚拟节点渲染到页面上
-    vm._update(vm._render());
+    // vm._update(vm._render())
+    var updateComponent = function updateComponent() {
+      vm._update(vm._render());
+    };
+
+    // 这个watcher是用来渲染的   暂时没有任何功能
+    new Watcher(vm, updateComponent, function () {
+      callHook(vm, 'beforeUpdate');
+    }, true);
     callHook(vm, 'mounted');
   }
 
