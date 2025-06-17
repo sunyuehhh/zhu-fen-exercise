@@ -12,6 +12,14 @@ function createElm(vnode){
   let {tag,children,key,data,text}=vnode
   if(typeof tag=='string'){ //创建元素  放到vnode.el上
     vnode.el=document.createElement(tag)
+
+
+    // 只有元素才有属性
+    updateProperties(vnode)
+
+
+
+
     children.forEach(child => { //遍历儿子  将儿子渲染后的结果扔到父亲中
       vnode.el.appendChild(createElm(child))
       
@@ -21,5 +29,27 @@ function createElm(vnode){
   }
 
   return vnode.el
+
+}
+
+// vue 的渲染流程=>先初始化数据=>将模板进行编译=>render函数=>生成虚拟节点=>生成真实的dom=>扔到页面上
+
+
+function updateProperties(vnode){
+  let el=vnode.el;
+  let newProps=vnode.data||{}
+  for(let key in newProps){
+
+    if(key=='style'){
+      for(let styleName in newProps.style){
+        el.style[styleName]=newProps.style[styleName]
+      }
+    }else if(key=='class'){
+      el.className=el.class
+    }
+
+
+    el.setAttribute(key,newProps[key])
+  }
 
 }

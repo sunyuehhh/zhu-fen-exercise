@@ -138,6 +138,60 @@
       value: value
     });
   }
+  var LIFECYCLE_HOOKS = ['beforeCreate', 'created', 'beforeMount', 'mounted', 'beforeUpdate', 'updated', 'beforeDestroy', 'destroyed'];
+  var strats = {};
+  strats.data = function (parentVal, childValue) {
+    return childValue;
+  };
+  strats.computed = function () {};
+  strats.watch = function () {};
+  function mergeHook(parentVal, childValue) {
+    //生命周期的合并
+    if (childValue) {
+      if (childValue) {
+        if (parentVal) {
+          return parentVal.concat(childValue);
+        } else {
+          return [childValue]; //{}  {created:function}
+        }
+      }
+    } else {
+      return parentVal; //不合并了  采用父亲的
+    }
+  }
+  LIFECYCLE_HOOKS.forEach(function (hook) {
+    strats[hook] = mergeHook;
+  });
+  function mergeOptions(parent, child) {
+    console.log(parent, child, 'patent  child');
+    // 遍历父亲  可能时父亲有  儿子没有
+    var options = {};
+    for (var key in parent) {
+      //父亲和儿子都有在这儿就处理了
+      mergeField(key);
+      console.log(1, key);
+    }
+
+    // 儿子有  父亲没有  在这儿处理
+    for (var _key in child) {
+      //将儿子多的赋予给父亲
+      if (!parent.hasOwnProperty(_key)) {
+        console.log(2, _key);
+        mergeField(_key);
+      }
+    }
+    function mergeField(key) {
+      //合并字段
+      // 根据key  不同的策略来进行合并
+      if (strats[key]) {
+        options[key] = strats[key](parent[key], child[key]);
+      } else {
+        // todo
+        options[key] = child[key];
+      }
+    }
+    return options;
+  }
 
   var Observer = /*#__PURE__*/function () {
     function Observer(value) {
@@ -445,6 +499,9 @@
     if (typeof tag == 'string') {
       //创建元素  放到vnode.el上
       vnode.el = document.createElement(tag);
+
+      // 只有元素才有属性
+      updateProperties(vnode);
       children.forEach(function (child) {
         //遍历儿子  将儿子渲染后的结果扔到父亲中
         vnode.el.appendChild(createElm(child));
@@ -456,6 +513,23 @@
     return vnode.el;
   }
 
+  // vue 的渲染流程=>先初始化数据=>将模板进行编译=>render函数=>生成虚拟节点=>生成真实的dom=>扔到页面上
+
+  function updateProperties(vnode) {
+    var el = vnode.el;
+    var newProps = vnode.data || {};
+    for (var key in newProps) {
+      if (key == 'style') {
+        for (var styleName in newProps.style) {
+          el.style[styleName] = newProps.style[styleName];
+        }
+      } else if (key == 'class') {
+        el.className = el["class"];
+      }
+      el.setAttribute(key, newProps[key]);
+    }
+  }
+
   function lifecycleMixin(Vue) {
     Vue.prototype._update = function (vnode) {
       console.log(vnode, 'vnode');
@@ -464,17 +538,33 @@
     };
   }
   function mountComponent(vm, el) {
+    callHook(vm, 'beforeMount');
     // 调用render方法去渲染  el属性
 
     // 先调用render方法创建虚拟节点  再将虚拟节点渲染到页面上
     vm._update(vm._render());
+    callHook(vm, 'mounted');
+  }
+
+  // callHook(vm,'beforeCreate')
+  function callHook(vm, hook) {
+    var handlers = vm.$options[hook];
+    if (handlers) {
+      for (var i = 0; i < handlers.length; i++) {
+        handlers[i].call(vm);
+      }
+    }
   }
 
   function initMixin(Vue) {
     Vue.prototype._init = function (options) {
       var vm = this;
-      vm.$options = options;
+      // vm.$options=options
+      vm.$options = mergeOptions(vm.constructor.options, options);
+      console.log(vm.$options, 'vm.$option');
+      callHook(vm, 'beforeCreate');
       initState(vm);
+      callHook(vm, 'created');
 
       // 如果当前有el属性说明要渲染模板
       if (vm.$options.el) {
@@ -549,12 +639,22 @@
     };
   }
 
+  function initGlobalApi(Vue) {
+    Vue.options = {};
+    Vue.mixin = function (mixin) {
+      // 合并对象  (我先考虑生命周期)  不考虑其他的合并   data computed watch
+      this.options = mergeOptions(this.options, mixin);
+      // this.options={created:[a(){},b(){}]}
+    };
+  }
+
   function Vue(options) {
     this._init(options); //入口方法  做初始化操作
   }
   initMixin(Vue);
   lifecycleMixin(Vue);
   renderMixin(Vue);
+  initGlobalApi(Vue);
 
   return Vue;
 

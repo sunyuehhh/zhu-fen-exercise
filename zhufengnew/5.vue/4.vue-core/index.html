@@ -19,6 +19,18 @@
 
   <script>
 
+    Vue.mixin({
+      created:function a(){
+        console.log('created  a...')
+      }
+    })
+    Vue.mixin({
+      created:function b(){
+        console.log('created  b...')
+      }
+    })
+
+
     const vue=new Vue({
       el:'#app',
       data:function(){
@@ -30,8 +42,14 @@
          }
         }
       },
+      created(){//生命周期  就是回调函数  先订阅好  后续会触发此方法
+        console.log('bbb')
+      }
       // template:'<div id="app">{{arr}}</div>'
     })
+
+    console.log(vue,'Vue')
+    
 
 
   </script>
