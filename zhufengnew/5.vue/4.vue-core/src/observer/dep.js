@@ -1,10 +1,17 @@
+let id=0
 class Dep{
   constructor(){
     this.subs=[]
+    this.id=id++
   }
   depend(){
-    this.subs.push(Dep.target)
+    // this.subs.push(Dep.target)
+    Dep.target.addDep(this)
 
+  }
+
+  addSub(watcher){
+    this.subs.push(watcher)
   }
 
   notify(){

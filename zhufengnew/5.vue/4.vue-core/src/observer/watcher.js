@@ -10,6 +10,9 @@ export class Watcher{
     this.cb=cb
     this.options=options
 
+    this.deps=[];//watcher记录有多少dep依赖他
+    this.depsId=new Set()
+
     if(typeof exprOrFn==='function'){
       this.getter=exprOrFn
     }
@@ -17,6 +20,16 @@ export class Watcher{
     this.get()
 
 
+  }
+
+
+  addDep(dep){
+    let id=dep.id
+    if(!this.depsId.has(id)){
+      this.deps.push(dep)
+      this.depsId.add(id)
+      dep.addSub(this)
+    }
   }
 
   get(){

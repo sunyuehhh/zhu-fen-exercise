@@ -16,6 +16,8 @@ let methods=[
 
 methods.forEach(method=>{
   arrayMethods[method]=function(...args){
+    // 当调用数组我们劫持后的这7个方法  页面应该更新
+    // 我要知道数组对应哪个dep
     const result=oldArrayProtoMethods[method].apply(this,args)
     let inserted;
     let ob=this.__ob__;
@@ -33,6 +35,7 @@ methods.forEach(method=>{
     }
 
     if(inserted) ob.observeArray(inserted) //给数组新增的值也要进行观测
+    ob.dep.notify()
     return result
   }
 })

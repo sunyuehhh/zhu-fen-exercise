@@ -4,6 +4,7 @@ import Dep from "./dep"
 
 class Observer{
   constructor(value){
+    this.dep=new Dep();
     // 判断一个对象是否被观测过看他有没有__ob__这个属性
     defineProperty(value,'__ob__',this)
 
@@ -37,12 +38,17 @@ class Observer{
 }
 
 function defineReactive(data,key,value){
-  observer(value)
+  // 获取数组对应的dep
+  let childDep=observer(value)
   let dep=new Dep();//每个属性都有一个dep
   Object.defineProperty(data,key,{
     get(){
       if(Dep.target){
         dep.depend()
+        if(childDep){
+          // 默认给数组增加一个dep属性  当对数组这个对象取值的时候
+          childDep.dep.depend();//数组存起来了这个渲染watcher
+        }
       }
       console.log('用户获取值了')
       return value
@@ -61,7 +67,7 @@ function defineReactive(data,key,value){
 
 export function observer(data){
   if(typeof data!=='object'&&data!==null){
-    return  data
+    return  
   }
 
   if(data.__ob__){

@@ -101,6 +101,8 @@
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
+      // 当调用数组我们劫持后的这7个方法  页面应该更新
+      // 我要知道数组对应哪个dep
       var result = oldArrayProtoMethods[method].apply(this, args);
       var inserted;
       var ob = this.__ob__;
@@ -116,6 +118,7 @@
           break;
       }
       if (inserted) ob.observeArray(inserted); //给数组新增的值也要进行观测
+      ob.dep.notify();
       return result;
     };
   });
@@ -193,15 +196,23 @@
     return options;
   }
 
+  var id = 0;
   var Dep = /*#__PURE__*/function () {
     function Dep() {
       _classCallCheck(this, Dep);
       this.subs = [];
+      this.id = id++;
     }
     return _createClass(Dep, [{
       key: "depend",
       value: function depend() {
-        this.subs.push(Dep.target);
+        // this.subs.push(Dep.target)
+        Dep.target.addDep(this);
+      }
+    }, {
+      key: "addSub",
+      value: function addSub(watcher) {
+        this.subs.push(watcher);
       }
     }, {
       key: "notify",
@@ -226,6 +237,7 @@
   var Observer = /*#__PURE__*/function () {
     function Observer(value) {
       _classCallCheck(this, Observer);
+      this.dep = new Dep();
       // 判断一个对象是否被观测过看他有没有__ob__这个属性
       defineProperty(value, '__ob__', this);
 
@@ -258,12 +270,17 @@
     }]);
   }();
   function defineReactive(data, key, value) {
-    observer(value);
+    // 获取数组对应的dep
+    var childDep = observer(value);
     var dep = new Dep(); //每个属性都有一个dep
     Object.defineProperty(data, key, {
       get: function get() {
         if (Dep.target) {
           dep.depend();
+          if (childDep) {
+            // 默认给数组增加一个dep属性  当对数组这个对象取值的时候
+            childDep.dep.depend(); //数组存起来了这个渲染watcher
+          }
         }
         console.log('用户获取值了');
         return value;
@@ -279,7 +296,7 @@
   }
   function observer(data) {
     if (_typeof(data) !== 'object' && data !== null) {
-      return data;
+      return;
     }
     if (data.__ob__) {
       return data;
@@ -576,12 +593,24 @@
       this.exprOrFn = exprOrFn;
       this.cb = cb;
       this.options = options;
+      this.deps = []; //watcher记录有多少dep依赖他
+      this.depsId = new Set();
       if (typeof exprOrFn === 'function') {
         this.getter = exprOrFn;
       }
       this.get();
     }
     return _createClass(Watcher, [{
+      key: "addDep",
+      value: function addDep(dep) {
+        var id = dep.id;
+        if (!this.depsId.has(id)) {
+          this.deps.push(dep);
+          this.depsId.add(id);
+          dep.addSub(this);
+        }
+      }
+    }, {
       key: "get",
       value: function get() {
         pushTarget(this); //当前watcher实例
