@@ -26,6 +26,14 @@
       writable: !1
     }), e;
   }
+  function _defineProperty(e, r, t) {
+    return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+      value: t,
+      enumerable: !0,
+      configurable: !0,
+      writable: !0
+    }) : e[r] = t, e;
+  }
   function _iterableToArrayLimit(r, l) {
     var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
     if (null != t) {
@@ -55,6 +63,27 @@
   }
   function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function ownKeys(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var o = Object.getOwnPropertySymbols(e);
+      r && (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable;
+      })), t.push.apply(t, o);
+    }
+    return t;
+  }
+  function _objectSpread2(e) {
+    for (var r = 1; r < arguments.length; r++) {
+      var t = null != arguments[r] ? arguments[r] : {};
+      r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+        _defineProperty(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+        Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+      });
+    }
+    return e;
   }
   function _slicedToArray(r, e) {
     return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
@@ -146,8 +175,13 @@
   strats.data = function (parentVal, childValue) {
     return childValue;
   };
-  strats.computed = function () {};
-  strats.watch = function () {};
+  // strats.computed=function(){
+
+  // }
+  // strats.watch=function(){
+
+  // }
+
   function mergeHook(parentVal, childValue) {
     //生命周期的合并
     if (childValue) {
@@ -194,6 +228,48 @@
       }
     }
     return options;
+  }
+
+  // 先调自己的nextTick  再调用户的nextTick
+  var callbacks = [];
+  var pending$1 = false;
+  function flushCallbacks() {
+    callbacks.forEach(function (cb) {
+      return cb();
+    });
+    pending$1 = false;
+    callbacks = [];
+  }
+  var timerFunc;
+  if (Promise) {
+    timerFunc = function timerFunc() {
+      Promise.resolve().then(flushCallbacks); //异步处理更新
+    };
+  } else if (MutationObserver) {
+    var observe = new MutationObserver(flushCallbacks);
+    var textNode = document.createTextNode(1);
+    observe.observe(textNode, {
+      characterData: true
+    });
+    timerFunc = function timerFunc() {
+      textNode.textContent = 2;
+    };
+  } else if (setImmediate) {
+    timerFunc = function timerFunc() {
+      setImmediate(flushCallbacks);
+    };
+  } else {
+    timerFunc = function timerFunc() {
+      setTimeout(flushCallbacks);
+    };
+  }
+  function nextTick(fun) {
+    callbacks.push(fun);
+    if (!pending$1) {
+      // vue3 里的nextTick原理就是promise.then 没有做兼容性处理
+      timerFunc(); //这个方法是异步方法  做了兼容性处理
+      pending$1 = true;
+    }
   }
 
   var id = 0;
@@ -304,6 +380,100 @@
     return new Observer(data);
   }
 
+  var Watcher = /*#__PURE__*/function () {
+    // vm实例
+    // exprOrFn  vm._update(vm._render())
+    function Watcher(vm, exprOrFn, cb) {
+      var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      _classCallCheck(this, Watcher);
+      this.vm = vm;
+      this.exprOrFn = exprOrFn;
+      this.cb = cb;
+      this.options = options;
+      this.user = options.user; //这是一个用户watcher
+
+      this.isWatcher = !!options; //是渲染watcher
+
+      this.deps = []; //watcher记录有多少dep依赖他
+      this.depsId = new Set();
+      if (typeof exprOrFn === 'function') {
+        this.getter = exprOrFn;
+      } else {
+        this.getter = function () {
+          // exprOrFn 可能传递过来的是一个字符串a 
+          // 当去当前实例上取值时  才会触发依赖收集
+          var path = exprOrFn.split('.'); //['a','a','a']
+          var obj = vm;
+          for (var i = 0; i < path.length; i++) {
+            obj = obj[path[i]];
+          }
+          return obj;
+        };
+      }
+
+      // 默认会先调用一次get方法  进行取值  将结果保留下来
+      this.value = this.get(); //默认会调用get方法
+    }
+    return _createClass(Watcher, [{
+      key: "addDep",
+      value: function addDep(dep) {
+        var id = dep.id;
+        if (!this.depsId.has(id)) {
+          this.deps.push(dep);
+          this.depsId.add(id);
+          dep.addSub(this);
+        }
+      }
+    }, {
+      key: "get",
+      value: function get() {
+        pushTarget(this); //当前watcher实例
+        var result = this.getter();
+        popTarget();
+        return result;
+      }
+    }, {
+      key: "run",
+      value: function run() {
+        var newValue = this.get(); //渲染逻辑
+        var oldValue = this.value;
+        if (this.user) {
+          this.cb.call(this.vm, newValue, oldValue);
+        }
+      }
+    }, {
+      key: "update",
+      value: function update() {
+        // 这里不要每次都调用get方法   get方法会重新渲染页面
+        // this.get();//重新渲染
+        queueWatcher(this); //暂存的概念
+      }
+    }]);
+  }();
+  function flushSchedulerQueue() {
+    queue.forEach(function (watcher) {
+      watcher.run();
+      // watcher.cb()
+    });
+    queue = [];
+    has = {};
+    pending = false;
+  }
+  var queue = []; //将需要批量更新的watcher 存在一个队列中  稍后让watcher执行
+  var has = {};
+  var pending = false;
+  function queueWatcher(watcher) {
+    var id = watcher.id;
+    if (has[id] == null) {
+      queue.push(watcher);
+      has[id] = true;
+      // 等待所有同步代码执行完毕后再执行
+      if (!pending) {
+        nextTick(flushSchedulerQueue);
+      }
+    }
+  }
+
   function initState(vm) {
     var opts = vm.$options;
     if (opts.props) ;
@@ -312,7 +482,9 @@
       initData(vm);
     }
     if (opts.computed) ;
-    if (opts.watch) ;
+    if (opts.watch) {
+      initWatch(vm);
+    }
   }
   function initData(vm) {
     var data = vm.$options.data;
@@ -329,6 +501,45 @@
     // 
 
     observer(data);
+  }
+  function initWatch(vm) {
+    var watch = vm.$options.watch;
+    console.log(watch, 'watch');
+    for (var key in watch) {
+      var handler = watch[key]; //handler可能是数组  字符串  对象  函数
+      if (Array.isArray(handler)) {
+        createWatcher(vm, key, handler);
+      } else {
+        createWatcher(vm, key, handler); //字符串  对象  函数
+      }
+    }
+  }
+  function createWatcher(vm, exprOrFn, handler) {
+    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+    if (_typeof(handler) == 'object') {
+      options = handler;
+      handler = handler.handler; //是一个函数
+    }
+    if (typeof handler === 'string') {
+      handler = vm[handler]; //将实例的方法作为handler
+    }
+
+    // key handler 用户传入的选项
+    return vm.$watch(exprOrFn, handler, options);
+  }
+  function stateMixin(Vue) {
+    Vue.prototype.$nextTick = function (cb) {
+      nextTick(cb);
+    };
+    Vue.prototype.$watch = function (exprOrFn, cb, options) {
+      //数据应该依赖这个watcher  数据变化后应该让watcher从新执行
+      new Watcher(this, exprOrFn, cb, _objectSpread2(_objectSpread2({}, options), {}, {
+        user: true
+      }));
+      if (options.immediate) {
+        cb(); //如果是immediate应该立即执行
+      }
+    };
   }
 
   // <div id="app">hello {{name}} <span>world</span></div>
@@ -584,47 +795,6 @@
     }
   }
 
-  var Watcher = /*#__PURE__*/function () {
-    // vm实例
-    // exprOrFn  vm._update(vm._render())
-    function Watcher(vm, exprOrFn, cb, options) {
-      _classCallCheck(this, Watcher);
-      this.vm = vm;
-      this.exprOrFn = exprOrFn;
-      this.cb = cb;
-      this.options = options;
-      this.deps = []; //watcher记录有多少dep依赖他
-      this.depsId = new Set();
-      if (typeof exprOrFn === 'function') {
-        this.getter = exprOrFn;
-      }
-      this.get();
-    }
-    return _createClass(Watcher, [{
-      key: "addDep",
-      value: function addDep(dep) {
-        var id = dep.id;
-        if (!this.depsId.has(id)) {
-          this.deps.push(dep);
-          this.depsId.add(id);
-          dep.addSub(this);
-        }
-      }
-    }, {
-      key: "get",
-      value: function get() {
-        pushTarget(this); //当前watcher实例
-        this.getter();
-        popTarget();
-      }
-    }, {
-      key: "update",
-      value: function update() {
-        this.get();
-      }
-    }]);
-  }();
-
   function lifecycleMixin(Vue) {
     Vue.prototype._update = function (vnode) {
       console.log(vnode, 'vnode');
@@ -757,6 +927,7 @@
   initMixin(Vue);
   lifecycleMixin(Vue);
   renderMixin(Vue);
+  stateMixin(Vue);
   initGlobalApi(Vue);
 
   return Vue;

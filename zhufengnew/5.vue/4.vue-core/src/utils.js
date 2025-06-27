@@ -37,12 +37,12 @@ strats.data=function(parentVal,childValue){
   return childValue
 
 }
-strats.computed=function(){
+// strats.computed=function(){
 
-}
-strats.watch=function(){
+// }
+// strats.watch=function(){
 
-}
+// }
 
 function mergeHook(parentVal,childValue){//生命周期的合并
   if(childValue){
@@ -97,5 +97,47 @@ export function mergeOptions(parent,child){
 
 
   return options
+
+}
+
+// 先调自己的nextTick  再调用户的nextTick
+let callbacks=[]
+let pending=false
+function flushCallbacks(){
+  callbacks.forEach(cb=>cb())
+  pending=false
+  callbacks=[]
+}
+
+let timerFunc;
+if(Promise){
+  timerFunc=()=>{
+    Promise.resolve().then(flushCallbacks);//异步处理更新
+  }
+}else if(MutationObserver){
+  let observe=new MutationObserver(flushCallbacks)
+  let textNode=document.createTextNode(1)
+  observe.observe(textNode,{characterData:true})
+
+  timerFunc=()=>{
+    textNode.textContent=2
+  }
+
+}else if(setImmediate){
+  timerFunc=()=>{
+    setImmediate(flushCallbacks)
+  }
+}else{
+  timerFunc=()=>{
+    setTimeout(flushCallbacks)
+  }
+}
+export function nextTick(fun){
+  callbacks.push(fun)
+  if(!pending){
+  // vue3 里的nextTick原理就是promise.then 没有做兼容性处理
+  timerFunc();//这个方法是异步方法  做了兼容性处理
+  pending=true
+  }
 
 }
