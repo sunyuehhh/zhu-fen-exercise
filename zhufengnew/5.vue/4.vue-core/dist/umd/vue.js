@@ -747,13 +747,39 @@
   }
 
   function patch(oldVnode, vnode) {
-    // 将虚拟节点转换成真实节点
-    var el = createElm(vnode); //产生真实的dom
-    var parentElm = oldVnode.parentNode; //获取老的app的父亲 =>body
-    parentElm.insertBefore(el, oldVnode.nextSibling); //当前的真实元素插入到app的后面
-    parentElm.removeChild(oldVnode); //删除老的节点
+    if (oldVnode.nodeType == 1) {
+      //真实的节点
+      // 将虚拟节点转换成真实节点
+      var el = createElm(vnode); //产生真实的dom
+      var parentElm = oldVnode.parentNode; //获取老的app的父亲 =>body
+      parentElm.insertBefore(el, oldVnode.nextSibling); //当前的真实元素插入到app的后面
+      parentElm.removeChild(oldVnode); //删除老的节点
 
-    return el;
+      return el;
+    } else {
+      console.log(oldVnode, vnode);
+      // 1.比较两个元素的标签  标签不一样直接替换掉即可
+      if (oldVnode.tag !== vnode.tag) {
+        // 老的dom元素
+        return oldVnode.el.parentNode.replaceChild(createElm(vnode), oldVnode.el);
+      }
+
+      // 2.有种可能是标签一样  <div>1</div> <div>2</div>
+      // 文本节点的虚拟节点tag 都是undefined
+      if (!oldVnode.tag) {
+        //文本的比对
+        if (oldVnode.text !== vnode.text) {
+          return oldVnode.el.textContent = vnode.text;
+        }
+      }
+
+      // 3.标签一样  并且需要开始比对标签的属性  和  儿子了
+      // 标签一样直接复用即可
+      vnode.el = oldVnode.el; //复用老节点
+
+      // 更新属性  用新的虚拟节点的属性和老的比较 去更新节点
+      updateProperties(vnode, oldVnode.data);
+    }
   }
   function createElm(vnode) {
     var tag = vnode.tag,
@@ -781,17 +807,39 @@
   // vue 的渲染流程=>先初始化数据=>将模板进行编译=>render函数=>生成虚拟节点=>生成真实的dom=>扔到页面上
 
   function updateProperties(vnode) {
-    var el = vnode.el;
+    var oldProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var newProps = vnode.data || {};
-    for (var key in newProps) {
-      if (key == 'style') {
-        for (var styleName in newProps.style) {
-          el.style[styleName] = newProps.style[styleName];
-        }
-      } else if (key == 'class') {
-        el.className = el["class"];
+    var el = vnode.el;
+
+    // 删除老的属性：老的有新的没有
+    for (var key in oldProps) {
+      if (!newProps.hasOwnProperty(key)) {
+        el.removeAttribute(key);
       }
-      el.setAttribute(key, newProps[key]);
+    }
+
+    // 样式处理
+    var newStyle = newProps.style || {};
+    var oldStyle = oldProps.style || {};
+
+    // 删除旧样式中新的没有的部分
+    for (var _key in oldStyle) {
+      if (!newStyle.hasOwnProperty(_key)) {
+        el.style[_key] = '';
+      }
+    }
+
+    // 设置新属性
+    for (var _key2 in newProps) {
+      if (_key2 === 'style') {
+        for (var styleName in newStyle) {
+          el.style[styleName] = newStyle[styleName];
+        }
+      } else if (_key2 === 'class') {
+        el.className = newProps["class"];
+      } else {
+        el.setAttribute(_key2, newProps[_key2]);
+      }
     }
   }
 
@@ -929,6 +977,25 @@
   renderMixin(Vue);
   stateMixin(Vue);
   initGlobalApi(Vue);
+  var vm1 = new Vue({
+    data: {
+      name: 'zf11111111'
+    }
+  });
+  var render1 = compileToFunction('<div id="a" style="color:red">{{name}}</div>');
+  var vnode1 = render1.call(vm1); //render方法返回的是虚拟dom
+  createElm(vnode1);
+  document.body.appendChild(createElm(vnode1));
+  var vm2 = new Vue({
+    data: {
+      name: 'jw'
+    }
+  });
+  var render2 = compileToFunction('<div id="b" style="background:blue">{{name}}</div>');
+  var vnode2 = render2.call(vm2);
+  setTimeout(function () {
+    patch(vnode1, vnode2); //传入新的虚拟节点和老的  做一个对比
+  }, 1000);
 
   return Vue;
 
