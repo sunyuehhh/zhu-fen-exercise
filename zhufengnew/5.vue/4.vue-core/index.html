@@ -7,17 +7,29 @@
 </head>
 <body>
   <div id="app" >
-    <span>哈哈</span>
-    <p>
-      {{name}}
-    </p>
+  {{name}}
+  <my-button></my-button>
   </div>
   <script src="dist/umd/vue.js"></script>
 
   <script>
 
+    // 全局组件
+    Vue.component('my-button',{
+      template:'<button>点我啊</button>'
+    })
+
+    // 组件的合并策略  就近策略 我们可以将全局组件放到原型链上
     let vm=new Vue({
       el:'#app',
+      components:{
+        aa:{
+          template:'<div>hello</div>'
+        },
+        bb:{
+          template:'<div>world</div>'
+        }
+      },
       data:{
         name:'zf',
         firstName:'张',
@@ -32,7 +44,6 @@
       }
     })
 
-    console.log(vm.fullName,'vm.fullName')
 
     // setTimeout(()=>{
     //   vm.name='jw'

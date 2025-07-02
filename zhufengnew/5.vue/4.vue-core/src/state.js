@@ -2,6 +2,7 @@ import { observer } from "./observer/index.js"
 import { Watcher } from "./observer/watcher.js"
 import { proxy } from "./utils.js"
 import { nextTick } from "./utils.js"
+import Dep from './observer/dep.js'
 export function initState(vm){
   const opts=vm.$options
   if(opts.props){
@@ -56,12 +57,16 @@ function initData(vm){
 function initComputed(vm){
   let computed=vm.$options.computed
   console.log(computed,'computed1111111')
-  //const watchers=vm._computedWatchers={};//用来稍后存放计算属性的watcher
+  const watchers=vm._computedWatchers={};//用来稍后存放计算属性的watcher
 
   for(let key in computed){
     const userDef=computed[key];//取出对应的值来
     // 获取get方法
-    //const getter=typeof userDef=='function'?userDef:userDef.get//watcher
+    const getter=typeof userDef=='function'?userDef:userDef.get//watcher
+
+    watchers[key]=new Watcher(vm,getter,()=>{},{
+      lazy:true
+    })//watcher很懒
 
     // defineComputed
     defineComputed(vm,key,userDef) 
@@ -72,12 +77,34 @@ function initComputed(vm){
 const sharedPropertyDefinition={}
 function defineComputed(target,key,userDef){
   if(typeof userDef==='function'){
-    sharedPropertyDefinition.get=userDef
+    sharedPropertyDefinition.get=createComputedGetter(key)//dirty来控制是否调用
   }else{
-    sharedPropertyDefinition.get=userDef.get  //需要加缓存
+    sharedPropertyDefinition.get=createComputedGetter(key) //需要加缓存
     sharedPropertyDefinition.set=userDef.set
   }
   Object.defineProperty(target,key,sharedPropertyDefinition)
+
+}
+
+function createComputedGetter(key){
+  return function(){//此方法是我们包装的方法，每次取值会调用此方法
+    // if(dirty){//判断到底要不要执行用户传递的方法
+    //   // 执行
+    // }
+    const watcher=this._computedWatchers[key];//拿到这个属性对应watcher
+    if(watcher){
+      if(watcher.dirty){//默认肯定是脏的
+        watcher.evaluate();//对当前watcher求值
+      }
+      if(Dep.target){//说明还有渲染watcher 也应该一并收集起来
+        watcher.depend()
+
+      }
+
+      return watcher.value
+    }
+  }
+
 
 }
 function initWatch(vm){

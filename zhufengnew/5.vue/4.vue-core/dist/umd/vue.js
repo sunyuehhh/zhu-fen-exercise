@@ -172,6 +172,15 @@
   }
   var LIFECYCLE_HOOKS = ['beforeCreate', 'created', 'beforeMount', 'mounted', 'beforeUpdate', 'updated', 'beforeDestroy', 'destroyed'];
   var strats = {};
+  strats.components = function (parentVal, childVal) {
+    var res = Object.create(parentVal); //res.__proto__=parentVal
+    if (childVal) {
+      for (var key in childVal) {
+        res[key] = childVal[key];
+      }
+    }
+    return res;
+  };
   strats.data = function (parentVal, childValue) {
     return childValue;
   };
@@ -223,8 +232,12 @@
       if (strats[key]) {
         options[key] = strats[key](parent[key], child[key]);
       } else {
-        // todo
-        options[key] = child[key];
+        // todo 默认合并
+        if (child[key]) {
+          options[key] = child[key];
+        } else {
+          options[key] = parent[key];
+        }
       }
     }
     return options;
@@ -299,11 +312,16 @@
       }
     }]);
   }();
+  Dep.target = null; //静态属性  就一份
+  var stack = [];
   function pushTarget(watcher) {
-    Dep.target = watcher;
+    Dep.target = watcher; //保留watcher
+    stack.push(watcher); //有渲染watcher 其他watcher
   }
   function popTarget(watcher) {
-    Dep.target = null; //将变量删除掉
+    // Dep.target=null //将变量删除掉
+    stack.pop();
+    Dep.target = stack[stack.length - 1]; //将变量删除掉
   }
 
   // 多对多的关系  一个属性有一个dep是用来收集watcher的
@@ -394,6 +412,9 @@
 
       this.isWatcher = !!options; //是渲染watcher
 
+      this.lazy = options.lazy; //如果watcher上有lazy属性 说明是一个计算属性
+      this.dirty = this.lazy; //dirty代表取值时是否执行用户提供的方法
+
       this.deps = []; //watcher记录有多少dep依赖他
       this.depsId = new Set();
       if (typeof exprOrFn === 'function') {
@@ -412,9 +433,24 @@
       }
 
       // 默认会先调用一次get方法  进行取值  将结果保留下来
-      this.value = this.get(); //默认会调用get方法
+      this.value = this.lazy ? void 0 : this.get(); //默认会调用get方法
     }
     return _createClass(Watcher, [{
+      key: "evaluate",
+      value: function evaluate() {
+        this.value = this.get();
+        this.dirty = false; //取过一次值之后  就表示已经取过值了
+      }
+    }, {
+      key: "depend",
+      value: function depend() {
+        // 计算属性watcher 会存储dep  dep会存储watcher
+        var i = this.deps.length;
+        while (i--) {
+          this.deps[i].depend(); //让dep去存储渲染watcher
+        }
+      }
+    }, {
       key: "addDep",
       value: function addDep(dep) {
         var id = dep.id;
@@ -428,7 +464,7 @@
       key: "get",
       value: function get() {
         pushTarget(this); //当前watcher实例
-        var result = this.getter();
+        var result = this.getter.call(this.vm); //调用exprOrFn
         popTarget();
         return result;
       }
@@ -444,9 +480,14 @@
     }, {
       key: "update",
       value: function update() {
-        // 这里不要每次都调用get方法   get方法会重新渲染页面
-        // this.get();//重新渲染
-        queueWatcher(this); //暂存的概念
+        if (this.lazy) {
+          //是计算属性
+          this.dirty = true; //页面重新渲染就可以获得最新的值了
+        } else {
+          // 这里不要每次都调用get方法   get方法会重新渲染页面
+          // this.get();//重新渲染
+          queueWatcher(this); //暂存的概念
+        }
       }
     }]);
   }();
@@ -507,12 +548,16 @@
   function initComputed(vm) {
     var computed = vm.$options.computed;
     console.log(computed, 'computed1111111');
-    //const watchers=vm._computedWatchers={};//用来稍后存放计算属性的watcher
+    var watchers = vm._computedWatchers = {}; //用来稍后存放计算属性的watcher
 
     for (var key in computed) {
       var userDef = computed[key]; //取出对应的值来
       // 获取get方法
-      //const getter=typeof userDef=='function'?userDef:userDef.get//watcher
+      var getter = typeof userDef == 'function' ? userDef : userDef.get; //watcher
+
+      watchers[key] = new Watcher(vm, getter, function () {}, {
+        lazy: true
+      }); //watcher很懒
 
       // defineComputed
       defineComputed(vm, key, userDef);
@@ -521,12 +566,32 @@
   var sharedPropertyDefinition = {};
   function defineComputed(target, key, userDef) {
     if (typeof userDef === 'function') {
-      sharedPropertyDefinition.get = userDef;
+      sharedPropertyDefinition.get = createComputedGetter(key); //dirty来控制是否调用
     } else {
-      sharedPropertyDefinition.get = userDef.get; //需要加缓存
+      sharedPropertyDefinition.get = createComputedGetter(key); //需要加缓存
       sharedPropertyDefinition.set = userDef.set;
     }
     Object.defineProperty(target, key, sharedPropertyDefinition);
+  }
+  function createComputedGetter(key) {
+    return function () {
+      //此方法是我们包装的方法，每次取值会调用此方法
+      // if(dirty){//判断到底要不要执行用户传递的方法
+      //   // 执行
+      // }
+      var watcher = this._computedWatchers[key]; //拿到这个属性对应watcher
+      if (watcher) {
+        if (watcher.dirty) {
+          //默认肯定是脏的
+          watcher.evaluate(); //对当前watcher求值
+        }
+        if (Dep.target) {
+          //说明还有渲染watcher 也应该一并收集起来
+          watcher.depend();
+        }
+        return watcher.value;
+      }
+    };
   }
   function initWatch(vm) {
     var watch = vm.$options.watch;
@@ -1116,12 +1181,50 @@
     };
   }
 
+  function initExtend(Vue) {
+    // 核心就是创建一个子类继承我们得父类
+    Vue.extend = function (extendOptions) {
+      var Super = this;
+      var Sub = function VueComponent(params) {
+        this._init(options);
+      };
+
+      // 子类要继承父类原型上得方法  原型继承
+      Sub.prototype = Object.create(Super.prototype);
+      Sub.prototype.constructor = Sub;
+      Sub.options = mergeOptions(Super.options, extendOptions);
+      Sub.components = Super.components;
+      // ...
+
+      return Sub;
+    };
+  }
+
+  // 组件得渲染流程
+  // 1.调用Vue.component
+  // 2.内部用Vue.extend 就是产生一个子类来继承父类
+  // 3.等会创建子类实例时会调用父类的_init方法
+  // 4.组件的初始化就是new 这个组件的构造函数并且调用$mount方法
+
   function initGlobalApi(Vue) {
     Vue.options = {};
     Vue.mixin = function (mixin) {
       // 合并对象  (我先考虑生命周期)  不考虑其他的合并   data computed watch
       this.options = mergeOptions(this.options, mixin);
       // this.options={created:[a(){},b(){}]}
+    };
+    Vue.options._base = Vue; //_base 最终的Vue的构造函数我保留在options对象中
+    Vue.options.components = {};
+    initExtend(Vue);
+    Vue.component = function (id, definition) {
+      // Vue.extend
+      definition.name = definition.name || id; //默认会以name属性为准
+      // 根据当前组件对象  生成了一个子类的构造函数
+      // 用的时候得 new definition().$mount()
+      definition = this.options._base.extend(definition); //永远是父类
+
+      // Vue.component 注册组件  等价于Vue.options.components[id]=definition
+      Vue.options.components[id] = definition;
     };
   }
 

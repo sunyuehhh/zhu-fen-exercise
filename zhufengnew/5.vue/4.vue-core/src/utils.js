@@ -33,6 +33,19 @@ export const LIFECYCLE_HOOKS=[
 ]
 
 const strats={}
+
+strats.components=function(parentVal,childVal){
+  const res=Object.create(parentVal);//res.__proto__=parentVal
+  if(childVal){
+    for(let key in childVal){
+      res[key]=childVal[key]
+    }
+  }
+  return res
+
+}
+
+
 strats.data=function(parentVal,childValue){
   return childValue
 
@@ -88,8 +101,12 @@ export function mergeOptions(parent,child){
     if(strats[key]){
       options[key]= strats[key](parent[key],child[key])
     }else{
-      // todo
-      options[key]=child[key]
+      // todo 默认合并
+      if(child[key]){
+        options[key]=child[key]
+      }else{
+        options[key]=parent[key]
+      }
     }
 
   }
