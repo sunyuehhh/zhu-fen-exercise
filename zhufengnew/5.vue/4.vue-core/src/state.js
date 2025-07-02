@@ -54,6 +54,30 @@ function initData(vm){
 
 }
 function initComputed(vm){
+  let computed=vm.$options.computed
+  console.log(computed,'computed1111111')
+  //const watchers=vm._computedWatchers={};//用来稍后存放计算属性的watcher
+
+  for(let key in computed){
+    const userDef=computed[key];//取出对应的值来
+    // 获取get方法
+    //const getter=typeof userDef=='function'?userDef:userDef.get//watcher
+
+    // defineComputed
+    defineComputed(vm,key,userDef) 
+  }
+
+}
+
+const sharedPropertyDefinition={}
+function defineComputed(target,key,userDef){
+  if(typeof userDef==='function'){
+    sharedPropertyDefinition.get=userDef
+  }else{
+    sharedPropertyDefinition.get=userDef.get  //需要加缓存
+    sharedPropertyDefinition.set=userDef.set
+  }
+  Object.defineProperty(target,key,sharedPropertyDefinition)
 
 }
 function initWatch(vm){

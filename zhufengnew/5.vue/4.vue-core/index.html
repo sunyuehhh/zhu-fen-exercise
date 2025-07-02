@@ -6,18 +6,37 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="app" style="color:red">
-    <!-- <p>hello world zf</p>
-    <li>
-      {{school.name}}
-    </li>
-    <li>
-      {{school.age}}
-    </li> -->
+  <div id="app" >
+    <span>哈哈</span>
+    <p>
+      {{name}}
+    </p>
   </div>
   <script src="dist/umd/vue.js"></script>
 
   <script>
+
+    let vm=new Vue({
+      el:'#app',
+      data:{
+        name:'zf',
+        firstName:'张',
+        lastName:'三'
+      },
+      computed:{//内部也使用了defineProperty 内部有一个变量 dirty
+        // computed还是一个watcher 内部依赖的属性会收集这个watcher
+        // 会依据依赖的数据  重新执行
+        fullName(){
+          return this.firstName+this.lastName
+        }
+      }
+    })
+
+    console.log(vm.fullName,'vm.fullName')
+
+    // setTimeout(()=>{
+    //   vm.name='jw'
+    // },1000)
 
     // Vue.mixin({
     //   created:function a(){
