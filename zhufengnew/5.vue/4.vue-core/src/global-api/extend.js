@@ -1,14 +1,18 @@
 import { mergeOptions } from "../utils"
 
 export default function initExtend(Vue){
+  let cid=0
 
   // 核心就是创建一个子类继承我们得父类
   Vue.extend=function(extendOptions){
+    // 如果对象相同  应该复用构造函数(缓存)
     const Super=this
-    const Sub=function VueComponent(params){
+    const Sub=function VueComponent(options){
       this._init(options)
 
     }
+
+    Sub.cid=cid++
 
     // 子类要继承父类原型上得方法  原型继承
     Sub.prototype=Object.create(Super.prototype)

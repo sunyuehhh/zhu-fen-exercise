@@ -158,3 +158,22 @@ export function nextTick(fun){
   }
 
 }
+
+
+function makeMpa(str){
+  const mapping={}
+  const list=str.split(",")
+  for(let i=0;i<list.length;i++){
+    mapping[list[i]]=true
+  }
+
+  return (key)=>{//判断这个标签名是不是原生标签
+    return mapping[key]
+  }
+
+}
+
+
+export const isReservedTag=makeMpa(
+  'a,div,img,image,text,span,p,button,input,textarea,ul,li'
+)

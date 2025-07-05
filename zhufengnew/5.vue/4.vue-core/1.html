@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+
+
+    function mergeHook(parentVal,childVal){
+      if(childVal){
+        if(parentVal){
+          return parentVal.concat(childVal)
+        }else{
+          return [childVal];//将钩子函数  包装成一个数组
+        }
+      }else{
+        return parentVal
+      }
+
+    }
+
+    function mergeOptions(parent,child){
+      let opts={};
+      for(let key in child){//undefined  function
+        opts[key]=mergeHook(parent[key],child[key])
+      }//合并钩子方法
+
+      return opts
+
+    }
+
+    function callHook(vm,hookName){
+      vm.options[hookName].forEach(h=>h());
+
+    }
+    function Vue(options){//合并操作
+      this.options=mergeOptions(this.constructor.options,options)
+
+
+      callback(this,'beforeCreated')
+      callback(this,'created')
+    }
+
+
+    // 全局组件  全局过滤器
+    Vue.options={};//默认的
+
+
+    Vue.mixin=function(obj){
+      this.options=mergeOptions(this.options,obj)
+    }
+
+
+    Vue.mixin({
+      beforeCreate(){
+        console.log('before create ok')
+      }
+    })
+
+    new Vue({
+      beforeCreate(){
+        console.log('before create ok')
+      }
+    })
+
+
+  </script>
+</body>
+</html>

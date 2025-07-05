@@ -284,6 +284,18 @@
       pending$1 = true;
     }
   }
+  function makeMpa(str) {
+    var mapping = {};
+    var list = str.split(",");
+    for (var i = 0; i < list.length; i++) {
+      mapping[list[i]] = true;
+    }
+    return function (key) {
+      //判断这个标签名是不是原生标签
+      return mapping[key];
+    };
+  }
+  var isReservedTag = makeMpa('a,div,img,image,text,span,p,button,input,textarea,ul,li');
 
   var id = 0;
   var Dep = /*#__PURE__*/function () {
@@ -838,6 +850,10 @@
   }
 
   function patch(oldVnode, vnode) {
+    if (!oldVnode) {
+      //如果是组件 这个oldVnode是undefined
+      return createElm(vnode); //vnode是组件中的内容
+    }
     if (oldVnode.nodeType == 1) {
       //真实的节点
       // 将虚拟节点转换成真实节点
@@ -991,7 +1007,18 @@
       }
     }
   }
+  function createComponent$1(vnode) {
+    // 调用hook中的init方法
+    var i = vnode.data;
+    if ((i = i.hook) && (i = i.init)) {
+      i(vnode);
+    }
+    if (vnode.componentInstance) {
+      return true;
+    }
+  }
   function createElm(vnode) {
+    console.log(vnode, 'createElm');
     var tag = vnode.tag,
       children = vnode.children;
       vnode.key;
@@ -999,6 +1026,11 @@
       var text = vnode.text;
     if (typeof tag == 'string') {
       //创建元素  放到vnode.el上
+
+      if (createComponent$1(vnode)) {
+        //组件渲染后的结果  放到当前组件的实例上 vm.$el
+        return vnode.componentInstance.$el; //组件对应的dom元素
+      }
       vnode.el = document.createElement(tag);
 
       // 只有元素才有属性
@@ -1139,7 +1171,7 @@
   function renderMixin(Vue) {
     Vue.prototype._c = function () {
       //创建虚拟dom元素
-      return createElement.apply(void 0, arguments);
+      return createElement.apply(void 0, [this].concat(Array.prototype.slice.call(arguments)));
     };
     Vue.prototype._s = function (val) {
       //stringify
@@ -1157,13 +1189,48 @@
   }
 
   //  _c('div',{},1,2,3,4,5)
-  function createElement(tag) {
-    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    for (var _len = arguments.length, children = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      children[_key - 2] = arguments[_key];
+  function createElement(vm, tag) {
+    var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    for (var _len = arguments.length, children = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+      children[_key - 3] = arguments[_key];
     }
-    console.log(arguments, 'arguments');
-    return vnode(tag, data, data.key, children);
+    // 如果是组件 我产生虚拟接待你时 需要把组件的构造函数传入
+    // new Ctor().$mount()
+    // 根据tag名字 需要判断他是不是一个组件
+
+    // const vm=this
+
+    if (isReservedTag(tag)) {
+      return vnode(tag, data, data.key, children);
+    } else {
+      var Ctor = vm.$options.components[tag];
+      // 创建组件的虚拟节点  children就是组件的插槽了
+
+      return createComponent(vm, tag, data, data.key, children, Ctor);
+    }
+  }
+  function createComponent(vm, tag, data, key, children, Ctor) {
+    var baseCtor = vm.$options._base; //Vue
+    if (_typeof(Ctor) == 'object') {
+      Ctor = baseCtor.extend(Ctor);
+    }
+
+    // 给组件增加生命周期
+    data.hook = {
+      //稍后初始化组件时  会调用此init方法
+      init: function init(vnode) {
+        var child = vnode.componentInstance = new Ctor({});
+        child.$mount(); //挂载逻辑  组件的$mount方法中不传递参数的
+
+        // vnode.componentInstance.$el 指代的是当前组件的真实dom
+      }
+    };
+
+    // vue-component-0-app
+    return vnode("vue-component-".concat(Ctor.cid, "-").concat(tag), data, key, undefined, undefined, {
+      Ctor: Ctor,
+      children: children
+    });
   }
   function createTextVnode(text) {
     console.log(text, 'text');
@@ -1171,23 +1238,28 @@
   }
 
   // 用来产生虚拟的
-  function vnode(tag, data, key, children, text) {
+  function vnode(tag, data, key, children, text, componentOptions) {
     return {
       tag: tag,
       data: data,
       key: key,
       children: children,
-      text: text
+      text: text,
+      componentOptions: componentOptions //组件的虚拟节点他多一个componentOptions属性  用来保存当前组件的构造函数和他的插槽
     };
   }
 
   function initExtend(Vue) {
+    var cid = 0;
+
     // 核心就是创建一个子类继承我们得父类
     Vue.extend = function (extendOptions) {
+      // 如果对象相同  应该复用构造函数(缓存)
       var Super = this;
-      var Sub = function VueComponent(params) {
+      var Sub = function VueComponent(options) {
         this._init(options);
       };
+      Sub.cid = cid++;
 
       // 子类要继承父类原型上得方法  原型继承
       Sub.prototype = Object.create(Super.prototype);

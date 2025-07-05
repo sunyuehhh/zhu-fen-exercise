@@ -1,4 +1,7 @@
 export function patch(oldVnode,vnode){
+  if(!oldVnode){//如果是组件 这个oldVnode是undefined
+    return createElm(vnode);//vnode是组件中的内容
+  }
   if(oldVnode.nodeType==1){//真实的节点
   // 将虚拟节点转换成真实节点
   let el=createElm(vnode)//产生真实的dom
@@ -181,9 +184,38 @@ export function updateChildren(oldChildren,newChildren,parent){
 }
 
 
+function createComponent(vnode){
+  // 调用hook中的init方法
+  let i=vnode.data
+  if((i=i.hook)&&(i=i.init)){
+    i(vnode)
+
+  }
+
+  if(vnode.componentInstance){
+    return true
+  }
+
+}
+
+
 export function createElm(vnode){
+  console.log(vnode,'createElm')
   let {tag,children,key,data,text}=vnode
   if(typeof tag=='string'){ //创建元素  放到vnode.el上
+
+    if(createComponent(vnode)){//组件渲染后的结果  放到当前组件的实例上 vm.$el
+      return vnode.componentInstance.$el;//组件对应的dom元素
+
+    }
+
+
+
+
+
+
+
+
     vnode.el=document.createElement(tag)
 
 
