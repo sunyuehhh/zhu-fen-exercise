@@ -1,0 +1,20 @@
+{
+  "name": "jiagou-vue3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.5"
+  }
+}
