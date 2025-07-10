@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+
+  <script type="module">
+    import {reactive,effect} from './reactivity.js'
+
+
+    const state=reactive({
+      name:'jw',
+    })
+
+ 
+    let a=1
+    const runner=effect(()=>{
+      console.log('runner')
+      app.innerHTML=state.name+a
+    },{
+      scheduler:()=>{
+        
+      }
+    })
+
+    console.log(runner,'runner')
+
+    runner.effect.stop();//停止effect的响应式能力  不再收集相关依赖了
+
+    // 默认情况下是自动的更新 数据变化后更新  effect
+    // 数据变化不更新  我可以自己决定更新
+    setTimeout(()=>{
+      // state.name='jiang'
+      // state.name='a'
+      // state.name='b'
+
+      a=100
+
+      runner();//forceUpdate
+    },1000)
+
+
+  </script>
+</body>
+</html>

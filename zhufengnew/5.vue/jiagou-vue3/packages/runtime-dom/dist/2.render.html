@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import {createVNode,render,h} from './runtime-dom.js'
+
+    // 方案1: 自己渲染 一般是自己想写一套针对某个平台渲染的逻辑
+
+
+    // console.log(nodeOps,'nodeOps')
+    // let vDom=h('h1','hello')
+    // render(vDom,app)
+
+
+    // 方案2: 直接用vue的渲染器来进行渲染
+    // 我们想写个弹框  element-plus  message组件
+
+
+    // 什么情况下会使用h方法  1.模板搞不定  2.不想引入jsx写法
+
+    // console.log(createVNode('div',null,createVNode('span',null,'hello')))
+    render(h('div',{style:{color:'red'}},'abc'),app)
+
+
+    setTimeout(()=>{
+    render(h('div',{style:{color:'blue'}},'bbb'),app)
+    },1000)
+
+  </script>
+</body>
+</html>
