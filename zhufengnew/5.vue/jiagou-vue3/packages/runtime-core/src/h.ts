@@ -3,7 +3,7 @@ import { createVNode, isVNode } from './createVnode';
 export function h(type,propsOrChildren?,children?){
   const l=arguments.length
   if(l==2){
-    if(isObject(propsOrChildren)&&Array.isArray(propsOrChildren)){
+    if(isObject(propsOrChildren)&&!Array.isArray(propsOrChildren)){
       if(isVNode(propsOrChildren)){
 
         return createVNode(type,null,[propsOrChildren])

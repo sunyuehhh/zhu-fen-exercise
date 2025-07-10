@@ -348,6 +348,7 @@ export function createRenderer(renderOptions){
     }
 
     instance.attrs=attrs
+    console.log(props,instance,userProps,'props的内容')
     instance.props=reactive(props)
 
   }
@@ -358,6 +359,7 @@ export function createRenderer(renderOptions){
 
 
   const mountComponent=(n2,el,anchor)=>{
+    console.log(n2,el,anchor,'mountComponent')
     // 组件的数据和渲染函数
     const {data=()=>({}),render,props:propsOptions={}}=n2.type
 
@@ -367,12 +369,16 @@ export function createRenderer(renderOptions){
       state:{},
       isMounted:false,//默认组件没有初始化  初始化后会将此属性isMounted true
       subTree:null,
+      vnode:n2,//组件的虚拟节点
       update:null,
       attrs:{},
       props:{},
       propsOptions,//组件中接受的props
-      proxy:null
+      proxy:null,
+      render:null
     }//此实例就是用来记录组件的属性的  相关信息的
+
+    instance.vnode.component=instance
 
     // 实例上 props和attrs n2.props 是组件的虚拟节点的props
     initProps(instance,n2.props);//用户传递给虚拟节点的props
@@ -411,6 +417,31 @@ export function createRenderer(renderOptions){
       }
     })
 
+
+    const updateProps=(instance,nextProps)=>{
+      // 应该考虑吧一下attrs  和props
+      let prevProps=instance.props
+      for(let key in nextProps){
+        prevProps[key]=nextProps[key]
+      }
+
+      for(let key in prevProps){
+        if(!(key in nextProps)){
+          delete prevProps[key]
+        }
+      }
+
+
+    }
+
+    const updatePreRender=(instance,next)=>{
+      instance.next=null
+      instance.vnode=next;//更新虚拟节点
+
+      updateProps(instance,next.props)
+
+    }
+
     const componentUpdateFn=()=>{
       // 组件要渲染的 虚拟节点是render函数返回的结果
       // 组件有自己的虚拟节点,返回的虚拟节点 subTree
@@ -428,6 +459,15 @@ export function createRenderer(renderOptions){
         console.log(subTree,'初始化')
       }else{
         const prevSubTree=instance.subTree
+
+        //这里再下次渲染前需要更新属性  更新属性后再渲染 获取最新的虚拟DOM
+        const next=instance.next
+        if(next){
+          // 说明属性有更新
+          updatePreRender(instance,next)
+        }
+
+
         const nextSubTree=render.call(instance.proxy,instance.proxy)
         instance.subTree=nextSubTree
         patch(prevSubTree,nextSubTree,el,anchor)
@@ -452,6 +492,44 @@ export function createRenderer(renderOptions){
   }
 
   const updateComponent=(n1,n2,el,anchor)=>{
+    // 这里我们  属性发生了变化  会执行到这里
+    // 插槽更新也会执行
+    const instance=(n2.component=n1.component)
+
+
+    if(shouldComponentUpdate(n1,n2)){
+    instance.next=n2;//暂存新的虚拟节点
+    instance.update()
+    }
+
+  }
+
+  function hasChanged(oldProps={},newProps={}){
+    // 直接查看数量  数量后变化  就不用遍历了
+    let oldKeys=Object.keys(oldProps)
+    let newKeys=Object.keys(newProps)
+    if(oldKeys.length!==newKeys.length){
+      return true
+    }
+
+    for(let i=0;i<newKeys.length;i++){
+      const key=newKeys[i]
+      if(newProps[key]!==oldProps[key]){
+        return true
+      }
+    }
+
+    return false
+
+  }
+
+
+  function shouldComponentUpdate(n1,n2){
+    const oldProps=n1.props;
+    const newProps=n2.props;
+
+    if(oldProps==newProps) return false
+    return hasChanged(oldProps,newProps)
 
   }
 

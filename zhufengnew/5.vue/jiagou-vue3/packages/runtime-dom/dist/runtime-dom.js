@@ -683,25 +683,31 @@ function createRenderer(renderOptions2) {
       }
     }
     instance.attrs = attrs;
+    console.log(props, instance, userProps, "props\u7684\u5185\u5BB9");
     instance.props = reactive(props);
   };
   const publicProperties = {
     $attrs: (i) => i.attrs
   };
   const mountComponent = (n2, el, anchor) => {
+    console.log(n2, el, anchor, "mountComponent");
     const { data = () => ({}), render: render3, props: propsOptions = {} } = n2.type;
     const instance = {
       state: {},
       isMounted: false,
       //默认组件没有初始化  初始化后会将此属性isMounted true
       subTree: null,
+      vnode: n2,
+      //组件的虚拟节点
       update: null,
       attrs: {},
       props: {},
       propsOptions,
       //组件中接受的props
-      proxy: null
+      proxy: null,
+      render: null
     };
+    instance.vnode.component = instance;
     initProps(instance, n2.props);
     instance.state = reactive(data.call(instance.proxy));
     instance.proxy = new Proxy(instance, {
@@ -729,6 +735,22 @@ function createRenderer(renderOptions2) {
         return true;
       }
     });
+    const updateProps = (instance2, nextProps) => {
+      let prevProps = instance2.props;
+      for (let key in nextProps) {
+        prevProps[key] = nextProps[key];
+      }
+      for (let key in prevProps) {
+        if (!(key in nextProps)) {
+          delete prevProps[key];
+        }
+      }
+    };
+    const updatePreRender = (instance2, next) => {
+      instance2.next = null;
+      instance2.vnode = next;
+      updateProps(instance2, next.props);
+    };
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         const subTree = render3.call(instance.proxy, instance.proxy);
@@ -738,6 +760,10 @@ function createRenderer(renderOptions2) {
         console.log(subTree, "\u521D\u59CB\u5316");
       } else {
         const prevSubTree = instance.subTree;
+        const next = instance.next;
+        if (next) {
+          updatePreRender(instance, next);
+        }
         const nextSubTree = render3.call(instance.proxy, instance.proxy);
         instance.subTree = nextSubTree;
         patch(prevSubTree, nextSubTree, el, anchor);
@@ -751,7 +777,32 @@ function createRenderer(renderOptions2) {
     update();
   };
   const updateComponent = (n1, n2, el, anchor) => {
+    const instance = n2.component = n1.component;
+    if (shouldComponentUpdate(n1, n2)) {
+      instance.next = n2;
+      instance.update();
+    }
   };
+  function hasChanged(oldProps = {}, newProps = {}) {
+    let oldKeys = Object.keys(oldProps);
+    let newKeys = Object.keys(newProps);
+    if (oldKeys.length !== newKeys.length) {
+      return true;
+    }
+    for (let i = 0; i < newKeys.length; i++) {
+      const key = newKeys[i];
+      if (newProps[key] !== oldProps[key]) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function shouldComponentUpdate(n1, n2) {
+    const oldProps = n1.props;
+    const newProps = n2.props;
+    if (oldProps == newProps) return false;
+    return hasChanged(oldProps, newProps);
+  }
   const processComponent = (n1, n2, el, anchor) => {
     if (n1 == null) {
       mountComponent(n2, el, anchor);
@@ -802,7 +853,7 @@ function createRenderer(renderOptions2) {
 function h(type, propsOrChildren, children) {
   const l = arguments.length;
   if (l == 2) {
-    if (isObject(propsOrChildren) && Array.isArray(propsOrChildren)) {
+    if (isObject(propsOrChildren) && !Array.isArray(propsOrChildren)) {
       if (isVNode(propsOrChildren)) {
         return createVNode(type, null, [propsOrChildren]);
       }
