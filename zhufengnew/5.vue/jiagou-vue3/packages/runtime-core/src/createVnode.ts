@@ -1,5 +1,6 @@
-import { isString,ShapeFlags } from '@vue/shared';
+import { isObject, isString,ShapeFlags } from '@vue/shared';
 export const Text=Symbol()
+export const Fragment=Symbol()
 export function isVNode(value){
   return !!value.__v_isVNode;//用来判断是否是虚拟节点
 
@@ -10,8 +11,9 @@ export function isSameVnode(n1,n2){//如果前后没有Key 都是undefined 仍�
 
 }
 export function createVNode(type,props,children=null){
-  // 虚拟节点需要一些重要的属性
-  const shapeFlag=isString(type)?ShapeFlags.ELEMENT:0
+  // 虚拟节点需要一些重要的属性  type 是对象 说明是一个组件了
+  console.log(type,'type')
+  const shapeFlag=isString(type)?ShapeFlags.ELEMENT:(isObject(type)?ShapeFlags.STATEFUL_COMPONENT:0)
   const vnode={
     __v_isVNode:true,//判断对象是不是虚拟接待你
     type,

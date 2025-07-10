@@ -116,6 +116,7 @@ function isString(value) {
 
 // packages/runtime-core/src/createVnode.ts
 var Text = Symbol();
+var Fragment = Symbol();
 function isVNode(value) {
   return !!value.__v_isVNode;
 }
@@ -123,7 +124,8 @@ function isSameVnode(n1, n2) {
   return n1.type === n2.type && n1.key == n2.key;
 }
 function createVNode(type, props, children = null) {
-  const shapeFlag = isString(type) ? 1 /* ELEMENT */ : 0;
+  console.log(type, "type");
+  const shapeFlag = isString(type) ? 1 /* ELEMENT */ : isObject(type) ? 4 /* STATEFUL_COMPONENT */ : 0;
   const vnode = {
     __v_isVNode: true,
     //判断对象是不是虚拟接待你
@@ -187,253 +189,6 @@ function getSeq(arr) {
     last = p[last];
   }
   return result;
-}
-
-// packages/runtime-core/src/renderer.ts
-function createRenderer(renderOptions2) {
-  const {
-    createElement: hostCreateElement,
-    createText: hostCreateText,
-    insert: hostInsert,
-    remove: hostRemove,
-    querySelector: hostQuerySelector,
-    setElementText: hostSetElementText,
-    setText: hostSetText,
-    createComment: hostCreateComment,
-    nextSibling: hostNextSibling,
-    parentNode: hostParentNode,
-    patchProp: hostPatchProp
-  } = renderOptions2;
-  const unmount = (vnode) => {
-    const { shapeFlag } = vnode;
-    if (shapeFlag & 1 /* ELEMENT */) {
-      hostRemove(vnode.el);
-    }
-  };
-  const mountChildren = (children, container) => {
-    children.forEach((child) => {
-      patch(null, child, container);
-    });
-  };
-  const unmountChildren = (children) => {
-    children.forEach((child) => {
-      unmount(child);
-    });
-  };
-  const mountElement = (vnode, container, anchor) => {
-    const { type, props, children, shapeFlag } = vnode;
-    const el = vnode.el = hostCreateElement(type);
-    if (props) {
-      for (let key in props) {
-        hostPatchProp(el, key, null, props[key]);
-      }
-    }
-    if (children) {
-      if (shapeFlag & 8 /* TEXT_CHILDREN */) {
-        hostSetElementText(el, children);
-      } else if (shapeFlag & 16 /* ARRAY_CHILDREN */) {
-        mountChildren(children, el);
-      }
-    }
-    hostInsert(el, container, anchor);
-  };
-  const patchProps = (oldProps, newProps, el) => {
-    if (oldProps == newProps) return;
-    for (let key in newProps) {
-      let prevVal = oldProps[key];
-      let nextVal = newProps[key];
-      if (prevVal !== nextVal) {
-        hostPatchProp(el, key, prevVal, nextVal);
-      }
-    }
-    for (let key in oldProps) {
-      if (!(key in newProps)) {
-        hostPatchProp(el, key, oldProps[key], null);
-      }
-    }
-  };
-  const patchKeyChildren = (c1, c2, el) => {
-    let i = 0;
-    let e1 = c1.length - 1;
-    let e2 = c2.length - 1;
-    while (i <= e1 && i <= e2) {
-      const n1 = c1[i];
-      const n2 = c2[i];
-      if (isSameVnode(n1, n2)) {
-        patch(n1, n2, el);
-      } else {
-        break;
-      }
-      i++;
-    }
-    while (i <= e1 && i <= e2) {
-      const n1 = c1[e1];
-      const n2 = c2[e2];
-      if (isSameVnode(n1, n2)) {
-        patch(n1, n2, e1);
-      } else {
-        break;
-      }
-      e1--;
-      e2--;
-    }
-    if (i > e1) {
-      while (i <= e2) {
-        const nextPos = e2 + 1;
-        const anchor = c2[nextPos]?.el;
-        patch(null, c2[i], el, anchor);
-        i++;
-      }
-    } else if (i > e2) {
-      while (i <= e1) {
-        unmount(c1[i]);
-        i++;
-      }
-    }
-    let s1 = i;
-    let s2 = i;
-    const keyToNewIndexMap = /* @__PURE__ */ new Map();
-    const toBePatched = e2 - s2 + 1;
-    const newIndexToOldIndex = new Array(toBePatched).fill(0);
-    for (let i2 = s2; i2 <= e2; i2++) {
-      keyToNewIndexMap.set(c2[i2].key, i2);
-    }
-    for (let i2 = s1; i2 <= e2; i2++) {
-      const vnode = c1[i2];
-      let newIndex = keyToNewIndexMap.get(vnode.key);
-      if (newIndex == void 0) {
-        unmount(vnode);
-      } else {
-        newIndexToOldIndex[newIndex - s2] = i2 + 1;
-        patch(vnode, c2[newIndex], el);
-      }
-    }
-    const increasingNewIndexSequence = getSeq(newIndexToOldIndex);
-    let j = increasingNewIndexSequence.length - 1;
-    for (let i2 = toBePatched - 1; i2 >= 0; i2--) {
-      const curIndex = s2 + i2;
-      const nextChild = c2[curIndex + 1]?.el;
-      if (newIndexToOldIndex[i2] == 0) {
-        patch(null, c2[curIndex], el, nextChild);
-      } else {
-        if (i2 == increasingNewIndexSequence[j]) {
-          j--;
-        } else {
-          hostInsert(c2[curIndex].el, el, nextChild);
-        }
-      }
-    }
-  };
-  const patchChildren = (n1, n2, el) => {
-    const c1 = n1.children;
-    const c2 = n2.children;
-    const prevShapeFlag = n1.shapeFlag;
-    const shapeFlag = n2.shapeFlag;
-    if (shapeFlag & 8 /* TEXT_CHILDREN */) {
-      if (prevShapeFlag & 16 /* ARRAY_CHILDREN */) {
-        unmountChildren(c1);
-      }
-      if (c1 !== c2) {
-        hostSetElementText(el, c2);
-      }
-    } else {
-      if (prevShapeFlag & 16 /* ARRAY_CHILDREN */) {
-        if (shapeFlag & 16 /* ARRAY_CHILDREN */) {
-          patchKeyChildren(c1, c2, el);
-        } else {
-          unmountChildren(c1);
-        }
-      } else {
-        if (prevShapeFlag & 8 /* TEXT_CHILDREN */) {
-          hostSetElementText(el, "");
-        }
-        if (shapeFlag & 16 /* ARRAY_CHILDREN */) {
-          mountChildren(c2, el);
-        }
-      }
-    }
-  };
-  const patchElement = (n1, n2) => {
-    let el = n2.el = n1.el;
-    const oldProps = n1.props || {};
-    const newProps = n2.props || {};
-    patchProps(oldProps, newProps, el);
-    patchChildren(n1, n2, el);
-  };
-  const processElement = (n1, n2, container, anchor) => {
-    if (n1 == null) {
-      mountElement(n2, container, anchor);
-    } else {
-      patchElement(n1, n2);
-    }
-  };
-  const processText = (n1, n2, el) => {
-    console.log(n1, n2, el, "********");
-    if (n1 == null) {
-      hostInsert(n2.el = hostCreateText(n2.children), el);
-    } else {
-      let el2 = n2.el = n1.el;
-      if (n1.children === n2.children) {
-        return;
-      }
-      hostSetText(el2, n2.children);
-    }
-  };
-  const patch = (n1, n2, container, anchor = null) => {
-    if (n1 && !isSameVnode(n1, n2)) {
-      unmount(n1);
-      n1 = null;
-    }
-    const { type, shapeFlag } = n2;
-    console.log(type, "type");
-    switch (type) {
-      case Text:
-        processText(n1, n2, container);
-        break;
-      default:
-        if (shapeFlag & 1 /* ELEMENT */) {
-          processElement(n1, n2, container, anchor);
-        } else if (shapeFlag & 6 /* COMPONENT */) {
-        }
-    }
-  };
-  const render2 = (vnode, container) => {
-    console.log(renderOptions2, vnode, container);
-    if (vnode == null) {
-      if (container._vnode) {
-        unmount(container._vnode);
-      }
-    } else {
-      patch(container._vnode || null, vnode, container);
-    }
-    container._vnode = vnode;
-  };
-  return {
-    render: render2
-  };
-}
-
-// packages/runtime-core/src/h.ts
-function h(type, propsOrChildren, children) {
-  const l = arguments.length;
-  if (l == 2) {
-    if (isObject(propsOrChildren) && Array.isArray(propsOrChildren)) {
-      if (isVNode(propsOrChildren)) {
-        return createVNode(type, null, [propsOrChildren]);
-      }
-      return createVNode(type, propsOrChildren);
-    } else {
-      return createVNode(type, null, propsOrChildren);
-    }
-  } else {
-    if (l > 3) {
-      children = Array.from(arguments).slice(2);
-    }
-    if (l === 3 && isVNode(children)) {
-      children = [children];
-    }
-    return createVNode(type, propsOrChildren, children);
-  }
 }
 
 // packages/reactivity/src/effect.ts
@@ -691,6 +446,303 @@ function computed(getterOrOptions) {
   return new ComputedRefImpl(getter, setter);
 }
 
+// packages/runtime-core/src/renderer.ts
+function createRenderer(renderOptions2) {
+  const {
+    createElement: hostCreateElement,
+    createText: hostCreateText,
+    insert: hostInsert,
+    remove: hostRemove,
+    querySelector: hostQuerySelector,
+    setElementText: hostSetElementText,
+    setText: hostSetText,
+    createComment: hostCreateComment,
+    nextSibling: hostNextSibling,
+    parentNode: hostParentNode,
+    patchProp: hostPatchProp
+  } = renderOptions2;
+  const unmount = (vnode) => {
+    const { shapeFlag, type, children } = vnode;
+    if (type === Fragment) {
+      return unmountChildren(children);
+    }
+    hostRemove(vnode.el);
+  };
+  const mountChildren = (children, container) => {
+    children.forEach((child) => {
+      patch(null, child, container);
+    });
+  };
+  const unmountChildren = (children) => {
+    children.forEach((child) => {
+      unmount(child);
+    });
+  };
+  const mountElement = (vnode, container, anchor) => {
+    const { type, props, children, shapeFlag } = vnode;
+    const el = vnode.el = hostCreateElement(type);
+    if (props) {
+      for (let key in props) {
+        hostPatchProp(el, key, null, props[key]);
+      }
+    }
+    if (children) {
+      if (shapeFlag & 8 /* TEXT_CHILDREN */) {
+        hostSetElementText(el, children);
+      } else if (shapeFlag & 16 /* ARRAY_CHILDREN */) {
+        mountChildren(children, el);
+      }
+    }
+    hostInsert(el, container, anchor);
+  };
+  const patchProps = (oldProps, newProps, el) => {
+    if (oldProps == newProps) return;
+    for (let key in newProps) {
+      let prevVal = oldProps[key];
+      let nextVal = newProps[key];
+      if (prevVal !== nextVal) {
+        hostPatchProp(el, key, prevVal, nextVal);
+      }
+    }
+    for (let key in oldProps) {
+      if (!(key in newProps)) {
+        hostPatchProp(el, key, oldProps[key], null);
+      }
+    }
+  };
+  const patchKeyChildren = (c1, c2, el) => {
+    let i = 0;
+    let e1 = c1.length - 1;
+    let e2 = c2.length - 1;
+    while (i <= e1 && i <= e2) {
+      const n1 = c1[i];
+      const n2 = c2[i];
+      if (isSameVnode(n1, n2)) {
+        patch(n1, n2, el);
+      } else {
+        break;
+      }
+      i++;
+    }
+    while (i <= e1 && i <= e2) {
+      const n1 = c1[e1];
+      const n2 = c2[e2];
+      if (isSameVnode(n1, n2)) {
+        patch(n1, n2, e1);
+      } else {
+        break;
+      }
+      e1--;
+      e2--;
+    }
+    if (i > e1) {
+      while (i <= e2) {
+        const nextPos = e2 + 1;
+        const anchor = c2[nextPos]?.el;
+        patch(null, c2[i], el, anchor);
+        i++;
+      }
+    } else if (i > e2) {
+      while (i <= e1) {
+        unmount(c1[i]);
+        i++;
+      }
+    }
+    let s1 = i;
+    let s2 = i;
+    const keyToNewIndexMap = /* @__PURE__ */ new Map();
+    const toBePatched = e2 - s2 + 1;
+    const newIndexToOldIndex = new Array(toBePatched).fill(0);
+    for (let i2 = s2; i2 <= e2; i2++) {
+      keyToNewIndexMap.set(c2[i2].key, i2);
+    }
+    for (let i2 = s1; i2 <= e2; i2++) {
+      const vnode = c1[i2];
+      let newIndex = keyToNewIndexMap.get(vnode.key);
+      if (newIndex == void 0) {
+        unmount(vnode);
+      } else {
+        newIndexToOldIndex[newIndex - s2] = i2 + 1;
+        patch(vnode, c2[newIndex], el);
+      }
+    }
+    const increasingNewIndexSequence = getSeq(newIndexToOldIndex);
+    let j = increasingNewIndexSequence.length - 1;
+    for (let i2 = toBePatched - 1; i2 >= 0; i2--) {
+      const curIndex = s2 + i2;
+      const nextChild = c2[curIndex + 1]?.el;
+      if (newIndexToOldIndex[i2] == 0) {
+        patch(null, c2[curIndex], el, nextChild);
+      } else {
+        if (i2 == increasingNewIndexSequence[j]) {
+          j--;
+        } else {
+          hostInsert(c2[curIndex].el, el, nextChild);
+        }
+      }
+    }
+  };
+  const patchChildren = (n1, n2, el) => {
+    const c1 = n1.children;
+    const c2 = n2.children;
+    const prevShapeFlag = n1.shapeFlag;
+    const shapeFlag = n2.shapeFlag;
+    if (shapeFlag & 8 /* TEXT_CHILDREN */) {
+      if (prevShapeFlag & 16 /* ARRAY_CHILDREN */) {
+        unmountChildren(c1);
+      }
+      if (c1 !== c2) {
+        hostSetElementText(el, c2);
+      }
+    } else {
+      if (prevShapeFlag & 16 /* ARRAY_CHILDREN */) {
+        if (shapeFlag & 16 /* ARRAY_CHILDREN */) {
+          patchKeyChildren(c1, c2, el);
+        } else {
+          unmountChildren(c1);
+        }
+      } else {
+        if (prevShapeFlag & 8 /* TEXT_CHILDREN */) {
+          hostSetElementText(el, "");
+        }
+        if (shapeFlag & 16 /* ARRAY_CHILDREN */) {
+          mountChildren(c2, el);
+        }
+      }
+    }
+  };
+  const patchElement = (n1, n2) => {
+    let el = n2.el = n1.el;
+    const oldProps = n1.props || {};
+    const newProps = n2.props || {};
+    patchProps(oldProps, newProps, el);
+    patchChildren(n1, n2, el);
+  };
+  const processElement = (n1, n2, container, anchor) => {
+    if (n1 == null) {
+      mountElement(n2, container, anchor);
+    } else {
+      patchElement(n1, n2);
+    }
+  };
+  const processText = (n1, n2, el) => {
+    console.log(n1, n2, el, "********");
+    if (n1 == null) {
+      hostInsert(n2.el = hostCreateText(n2.children), el);
+    } else {
+      let el2 = n2.el = n1.el;
+      if (n1.children === n2.children) {
+        return;
+      }
+      hostSetText(el2, n2.children);
+    }
+  };
+  const processFragment = (n1, n2, el) => {
+    if (n1 == null) {
+      mountChildren(n2.children, el);
+    } else {
+      console.log(n1, n2, "fragment");
+      patchKeyChildren(n1.children, n2.children, el);
+    }
+  };
+  const mountComponent = (n2, el, anchor) => {
+    const { data = () => ({}), render: render3 } = n2.type;
+    const state = reactive(data());
+    const instance = {
+      state,
+      isMounted: false,
+      //默认组件没有初始化  初始化后会将此属性isMounted true
+      subTree: null
+    };
+    const componentUpdateFn = () => {
+      if (!instance.isMounted) {
+        const subTree = render3.call(state, state);
+        patch(null, subTree, el, anchor);
+        instance.subTree = subTree;
+        instance.isMounted = true;
+        console.log(subTree, "\u521D\u59CB\u5316");
+      } else {
+        const prevSubTree = instance.subTree;
+        const nextSubTree = render3.call(state, state);
+        instance.subTree = nextSubTree;
+        patch(prevSubTree, nextSubTree, el, anchor);
+        console.log(prevSubTree, nextSubTree, "\u72B6\u6001\u53D8\u5316\u4E86");
+      }
+    };
+    const effect2 = new ReactiveEffect(componentUpdateFn);
+    effect2.run();
+  };
+  const updateComponent = (n1, n2, el, anchor) => {
+  };
+  const processComponent = (n1, n2, el, anchor) => {
+    if (n1 == null) {
+      mountComponent(n2, el, anchor);
+    } else {
+      updateComponent(n1, n2, el, anchor);
+    }
+  };
+  const patch = (n1, n2, container, anchor = null) => {
+    if (n1 && !isSameVnode(n1, n2)) {
+      unmount(n1);
+      n1 = null;
+    }
+    const { type, shapeFlag } = n2;
+    console.log(type, "type");
+    switch (type) {
+      case Text:
+        processText(n1, n2, container);
+        break;
+      case Fragment:
+        processFragment(n1, n2, container);
+        break;
+      default:
+        if (shapeFlag & 1 /* ELEMENT */) {
+          processElement(n1, n2, container, anchor);
+        } else if (shapeFlag & 6 /* COMPONENT */) {
+          console.log(n1, n2, container, anchor, "COMPONENT");
+          processComponent(n1, n2, container, anchor);
+        }
+    }
+  };
+  const render2 = (vnode, container) => {
+    console.log(renderOptions2, vnode, container);
+    if (vnode == null) {
+      if (container._vnode) {
+        unmount(container._vnode);
+      }
+    } else {
+      patch(container._vnode || null, vnode, container);
+    }
+    container._vnode = vnode;
+  };
+  return {
+    render: render2
+  };
+}
+
+// packages/runtime-core/src/h.ts
+function h(type, propsOrChildren, children) {
+  const l = arguments.length;
+  if (l == 2) {
+    if (isObject(propsOrChildren) && Array.isArray(propsOrChildren)) {
+      if (isVNode(propsOrChildren)) {
+        return createVNode(type, null, [propsOrChildren]);
+      }
+      return createVNode(type, propsOrChildren);
+    } else {
+      return createVNode(type, null, propsOrChildren);
+    }
+  } else {
+    if (l > 3) {
+      children = Array.from(arguments).slice(2);
+    }
+    if (l === 3 && isVNode(children)) {
+      children = [children];
+    }
+    return createVNode(type, propsOrChildren, children);
+  }
+}
+
 // packages/runtime-dom/src/index.ts
 var renderOptions = Object.assign(nodeOps, {
   patchProp
@@ -703,6 +755,7 @@ function render(vnode, container) {
   return renderer.render(vnode, container);
 }
 export {
+  Fragment,
   ReactiveEffect,
   ReactiveFlags,
   Text,

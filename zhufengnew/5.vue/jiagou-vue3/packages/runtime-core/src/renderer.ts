@@ -1,6 +1,7 @@
 import { ShapeFlags } from '@vue/shared'
-import { isSameVnode,Text } from './createVnode'
+import { isSameVnode,Text,Fragment } from './createVnode'
 import { getSeq } from './seq'
+import { reactive, ReactiveEffect } from '@vue/reactivity'
 
 export function createRenderer(renderOptions){
   const {
@@ -20,7 +21,10 @@ export function createRenderer(renderOptions){
   }=renderOptions
 
   const unmount=(vnode)=>{
-    // const {shapeFlag}=vnode
+    const {shapeFlag,type,children}=vnode
+    if(type===Fragment){
+      return unmountChildren(children)
+    }
     // if(shapeFlag&ShapeFlags.ELEMENT){
       hostRemove(vnode.el);//对于元素来说  直接删除dom即可
     // }
@@ -312,6 +316,77 @@ export function createRenderer(renderOptions){
 
   }
 
+  const processFragment=(n1,n2,el)=>{
+    if(n1==null){
+      mountChildren(n2.children,el)
+    }else{
+      console.log(n1,n2,'fragment')
+      patchKeyChildren(n1.children,n2.children,el)
+    }
+
+  }
+
+
+  const mountComponent=(n2,el,anchor)=>{
+    // 组件的数据和渲染函数
+    const {data=()=>({}),render}=n2.type
+
+    const state=reactive(data());//将数据变成响应式的
+
+    // getCurrentInstance
+    const instance={
+      state,
+      isMounted:false,//默认组件没有初始化  初始化后会将此属性isMounted true
+      subTree:null,
+      update:null
+    }//此实例就是用来记录组件的属性的  相关信息的
+
+    const componentUpdateFn=()=>{
+      // 组件要渲染的 虚拟节点是render函数返回的结果
+      // 组件有自己的虚拟节点,返回的虚拟节点 subTree
+      
+
+      // 当调用render方法的时候  会触发响应式的数据访问  进行effect的收集
+      // 所以数据变化后会重新触发effect执行
+
+      if(!instance.isMounted){
+
+        const subTree=render.call(state,state);//这里先暂时将proxy 设置为状态
+        patch(null,subTree,el,anchor)
+        instance.subTree=subTree
+        instance.isMounted=true
+        console.log(subTree,'初始化')
+      }else{
+        const prevSubTree=instance.subTree
+        const nextSubTree=render.call(state,state)
+        instance.subTree=nextSubTree
+        patch(prevSubTree,nextSubTree,el,anchor)
+        console.log(prevSubTree,nextSubTree,'状态变化了')
+    
+      }
+
+
+    }
+
+    const effect=new ReactiveEffect(componentUpdateFn);//对应的effect
+    const update= instance.update =effect.run.bind(effect)
+    update()
+
+  }
+
+  const updateComponent=(n1,n2,el,anchor)=>{
+
+  }
+
+  const processComponent=(n1,n2,el,anchor)=>{
+    if(n1==null){
+      mountComponent(n2,el,anchor)
+    }else{
+      updateComponent(n1,n2,el,anchor);//组件的属性变化了  或者插槽变化了
+    }
+
+  }
+
   const patch=(n1,n2,container,anchor=null)=>{
     // 更新和初次渲染
 
@@ -329,13 +404,16 @@ export function createRenderer(renderOptions){
       case Text:
         processText(n1,n2,container)
         break;
+      case Fragment:
+        processFragment(n1,n2,container)
+        break;
       default:
         if(shapeFlag&ShapeFlags.ELEMENT){
           // 元素的处理
           processElement(n1,n2,container,anchor)
         }else if(shapeFlag&ShapeFlags.COMPONENT){
-
-
+          console.log(n1,n2,container,anchor,'COMPONENT')
+          processComponent(n1,n2,container,anchor)
         }
     }
 

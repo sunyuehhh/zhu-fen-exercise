@@ -9,7 +9,7 @@
   <div id="app"></div>
 
   <script type="module">
-    import {createVNode,render,h,Text} from './runtime-dom.js'
+    import {createVNode,render,h,Text,Fragment} from './runtime-dom.js'
 
     render(h('div',{style:{color:'red'}},[
       h('li',{key:'a'},'a'),
@@ -22,6 +22,12 @@
     render(h(Text,'hello'),app)
     // render(h())
     },1000)
+
+
+    setTimeout(()=>{
+    render(h(Fragment,{},[h(Text,'hello'),h(Text,'world')]),app)
+    // render(h())
+    },3000)
 
   </script>
 </body>
