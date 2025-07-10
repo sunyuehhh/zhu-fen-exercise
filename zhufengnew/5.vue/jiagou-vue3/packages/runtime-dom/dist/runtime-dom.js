@@ -155,7 +155,7 @@ function createVNode(type, props, children = null) {
 function getSeq(arr) {
   const result = [0];
   const len = arr.length;
-  const p = arr.slice(0).fill(-1);
+  const p2 = arr.slice(0).fill(-1);
   let start;
   let end;
   let middle;
@@ -165,7 +165,7 @@ function getSeq(arr) {
       let resultLastIndex = result[result.length - 1];
       if (arr[resultLastIndex] < arrI) {
         result.push(i2);
-        p[i2] = resultLastIndex;
+        p2[i2] = resultLastIndex;
         continue;
       }
       start = 0;
@@ -178,7 +178,7 @@ function getSeq(arr) {
           end = middle;
         }
       }
-      p[i2] = result[start - 1];
+      p2[i2] = result[start - 1];
       result[start] = i2;
     }
   }
@@ -186,7 +186,7 @@ function getSeq(arr) {
   let last = result[i - 1];
   while (i-- > 0) {
     result[i] = last;
-    last = p[last];
+    last = p2[last];
   }
   return result;
 }
@@ -268,6 +268,7 @@ function trigger(target, key, value, oldValue) {
   triggerEffects(dep);
 }
 function triggerEffects(dep) {
+  if (!dep) return;
   const effects = [...dep];
   effects && effects.forEach((effect2) => {
     if (effect2 !== activeEffect) {
@@ -444,6 +445,28 @@ function computed(getterOrOptions) {
     setter = getterOrOptions.set;
   }
   return new ComputedRefImpl(getter, setter);
+}
+
+// packages/runtime-core/src/scheduler.ts
+var queue = [];
+var isFlushing = false;
+var p = Promise.resolve();
+function queueJob(job) {
+  if (!queue.includes(job)) {
+    queue.push(job);
+  }
+  if (!isFlushing) {
+    isFlushing = true;
+    p.then(() => {
+      isFlushing = true;
+      let copyQueue = queue.slice(0);
+      queue.length = 0;
+      copyQueue.forEach((job2) => {
+        job2();
+      });
+      copyQueue.length = 0;
+    });
+  }
 }
 
 // packages/runtime-core/src/renderer.ts
@@ -645,32 +668,87 @@ function createRenderer(renderOptions2) {
       patchKeyChildren(n1.children, n2.children, el);
     }
   };
+  const initProps = (instance, userProps) => {
+    const attrs = {};
+    const props = {};
+    const options = instance.propsOptions || {};
+    if (userProps) {
+      for (let key in userProps) {
+        const value = userProps[key];
+        if (key in options) {
+          props[key] = value;
+        } else {
+          attrs[key] = value;
+        }
+      }
+    }
+    instance.attrs = attrs;
+    instance.props = reactive(props);
+  };
+  const publicProperties = {
+    $attrs: (i) => i.attrs
+  };
   const mountComponent = (n2, el, anchor) => {
-    const { data = () => ({}), render: render3 } = n2.type;
-    const state = reactive(data());
+    const { data = () => ({}), render: render3, props: propsOptions = {} } = n2.type;
     const instance = {
-      state,
+      state: {},
       isMounted: false,
       //默认组件没有初始化  初始化后会将此属性isMounted true
-      subTree: null
+      subTree: null,
+      update: null,
+      attrs: {},
+      props: {},
+      propsOptions,
+      //组件中接受的props
+      proxy: null
     };
+    initProps(instance, n2.props);
+    instance.state = reactive(data.call(instance.proxy));
+    instance.proxy = new Proxy(instance, {
+      get(target, key, receiver) {
+        const { state, props } = target;
+        if (state && key in state) {
+          return state[key];
+        } else if (key in props) {
+          return props[key];
+        }
+        let getter = publicProperties[key];
+        if (getter) {
+          return getter(instance);
+        }
+      },
+      set(target, key, value, receiver) {
+        const { state, props } = target;
+        if (state && key in state) {
+          state[key] = value;
+          return true;
+        } else if (key in props) {
+          console.warn("\u4E0D\u5141\u8BB8\u4FEE\u6539props");
+          return true;
+        }
+        return true;
+      }
+    });
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
-        const subTree = render3.call(state, state);
+        const subTree = render3.call(instance.proxy, instance.proxy);
         patch(null, subTree, el, anchor);
         instance.subTree = subTree;
         instance.isMounted = true;
         console.log(subTree, "\u521D\u59CB\u5316");
       } else {
         const prevSubTree = instance.subTree;
-        const nextSubTree = render3.call(state, state);
+        const nextSubTree = render3.call(instance.proxy, instance.proxy);
         instance.subTree = nextSubTree;
         patch(prevSubTree, nextSubTree, el, anchor);
         console.log(prevSubTree, nextSubTree, "\u72B6\u6001\u53D8\u5316\u4E86");
       }
     };
-    const effect2 = new ReactiveEffect(componentUpdateFn);
-    effect2.run();
+    const effect2 = new ReactiveEffect(componentUpdateFn, () => {
+      queueJob(instance.update);
+    });
+    const update = instance.update = effect2.run.bind(effect2);
+    update();
   };
   const updateComponent = (n1, n2, el, anchor) => {
   };

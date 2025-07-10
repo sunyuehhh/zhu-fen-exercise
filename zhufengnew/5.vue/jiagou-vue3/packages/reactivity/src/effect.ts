@@ -132,6 +132,7 @@ export function trigger(target,key,value,oldValue){
 }
 
 export function triggerEffects(dep){
+  if(!dep) return
     const effects=[...dep]
 
   effects&&effects.forEach(effect => {

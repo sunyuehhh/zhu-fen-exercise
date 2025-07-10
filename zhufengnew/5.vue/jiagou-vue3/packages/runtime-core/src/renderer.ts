@@ -2,6 +2,7 @@ import { ShapeFlags } from '@vue/shared'
 import { isSameVnode,Text,Fragment } from './createVnode'
 import { getSeq } from './seq'
 import { reactive, ReactiveEffect } from '@vue/reactivity'
+import {queueJob} from './scheduler'
 
 export function createRenderer(renderOptions){
   const {
@@ -326,20 +327,89 @@ export function createRenderer(renderOptions){
 
   }
 
+  const initProps=(instance,userProps)=>{
+    const attrs={}
+    const props={}
+
+    const options=instance.propsOptions||{};//组件上接受的props
+    if(userProps){
+      for(let key in userProps){
+        // 属性中应该包含属性的校验
+        const value=userProps[key]
+
+        if(key in options){
+          props[key]=value
+
+        }else{
+          attrs[key]=value
+        }
+
+      }
+    }
+
+    instance.attrs=attrs
+    instance.props=reactive(props)
+
+  }
+
+  const publicProperties={
+    $attrs:(i)=>i.attrs,
+  }
+
 
   const mountComponent=(n2,el,anchor)=>{
     // 组件的数据和渲染函数
-    const {data=()=>({}),render}=n2.type
+    const {data=()=>({}),render,props:propsOptions={}}=n2.type
 
-    const state=reactive(data());//将数据变成响应式的
 
     // getCurrentInstance
     const instance={
-      state,
+      state:{},
       isMounted:false,//默认组件没有初始化  初始化后会将此属性isMounted true
       subTree:null,
-      update:null
+      update:null,
+      attrs:{},
+      props:{},
+      propsOptions,//组件中接受的props
+      proxy:null
     }//此实例就是用来记录组件的属性的  相关信息的
+
+    // 实例上 props和attrs n2.props 是组件的虚拟节点的props
+    initProps(instance,n2.props);//用户传递给虚拟节点的props
+
+    instance.state=reactive(data.call(instance.proxy));//将数据变成响应式的
+
+    instance.proxy=new Proxy(instance,{
+      get(target,key,receiver){
+        const {state,props}=target
+        if(state&&key in state){
+          return state[key]
+        }else if(key in props){
+          return props[key]
+
+        }
+
+        let getter=publicProperties[key]
+        if(getter){
+          return getter(instance)
+        }
+
+      },
+      set(target,key,value,receiver){
+        const {state,props}=target
+        if(state&&key in state){
+          state[key]=value
+          return true
+        }else if(key in props){
+          console.warn('不允许修改props')
+          return true
+
+        }
+
+        return true
+
+      }
+    })
 
     const componentUpdateFn=()=>{
       // 组件要渲染的 虚拟节点是render函数返回的结果
@@ -351,14 +421,14 @@ export function createRenderer(renderOptions){
 
       if(!instance.isMounted){
 
-        const subTree=render.call(state,state);//这里先暂时将proxy 设置为状态
+        const subTree=render.call(instance.proxy,instance.proxy);//这里先暂时将proxy 设置为状态
         patch(null,subTree,el,anchor)
         instance.subTree=subTree
         instance.isMounted=true
         console.log(subTree,'初始化')
       }else{
         const prevSubTree=instance.subTree
-        const nextSubTree=render.call(state,state)
+        const nextSubTree=render.call(instance.proxy,instance.proxy)
         instance.subTree=nextSubTree
         patch(prevSubTree,nextSubTree,el,anchor)
         console.log(prevSubTree,nextSubTree,'状态变化了')
@@ -368,7 +438,14 @@ export function createRenderer(renderOptions){
 
     }
 
-    const effect=new ReactiveEffect(componentUpdateFn);//对应的effect
+    const effect=new ReactiveEffect(componentUpdateFn,()=>{
+      // 这里我们可以延迟调用componentUpdateFn
+
+      // 批处理 + 去重
+
+      queueJob(instance.update)
+
+    });//对应的effect方法
     const update= instance.update =effect.run.bind(effect)
     update()
 
