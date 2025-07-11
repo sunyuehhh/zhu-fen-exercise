@@ -1,4 +1,4 @@
-import { ShapeFlags } from '@vue/shared'
+import { isFunction, ShapeFlags } from '@vue/shared'
 import { isSameVnode,Text,Fragment } from './createVnode'
 import { getSeq } from './seq'
 import { reactive, ReactiveEffect } from '@vue/reactivity'
@@ -361,7 +361,7 @@ export function createRenderer(renderOptions){
   const mountComponent=(n2,el,anchor)=>{
     console.log(n2,el,anchor,'mountComponent')
     // 组件的数据和渲染函数
-    const {data=()=>({}),render,props:propsOptions={}}=n2.type
+    const {data=()=>({}),render,props:propsOptions={},setup}=n2.type
 
 
     // getCurrentInstance
@@ -383,7 +383,22 @@ export function createRenderer(renderOptions){
     // 实例上 props和attrs n2.props 是组件的虚拟节点的props
     initProps(instance,n2.props);//用户传递给虚拟节点的props
 
+
+    if(setup){
+      const setupResult=setup()
+
+      if(isFunction(setupResult)){
+
+      }
+    }
+
+    if(isFunction(data)){
     instance.state=reactive(data.call(instance.proxy));//将数据变成响应式的
+    }
+
+    if(!instance.render){
+      instance.render=render
+    }
 
     instance.proxy=new Proxy(instance,{
       get(target,key,receiver){
