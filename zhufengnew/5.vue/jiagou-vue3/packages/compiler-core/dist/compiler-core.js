@@ -1,4 +1,4 @@
-// packages/compiler-core/src/index.ts
+// packages/compiler-core/src/parse.ts
 function createParserContext(template) {
   return {
     line: 1,
@@ -169,6 +169,7 @@ function parserChildren(context) {
     let node;
     if (s[0] === "<") {
       node = parserTag(context);
+      node.children = parserChildren(context);
       if (context.source.startsWith("/>")) {
         parserTag(context);
       }
@@ -183,13 +184,113 @@ function parserChildren(context) {
   }
   return nodes;
 }
+function createRoot(children, loc) {
+  return {
+    type: 0 /* ROOT */,
+    children,
+    loc
+  };
+}
 function parser(template) {
   const context = createParserContext(template);
-  const nodes = parserChildren(context);
-  console.log(nodes, "nodes");
+  const start = getCursor(context);
+  return createRoot(parserChildren(context), getSelection(context, start));
+}
+
+// packages/compiler-core/src/runtimeHelpers.ts
+var TO_DISPLAY_STRING = Symbol();
+var helpNameMap = {
+  [TO_DISPLAY_STRING]: "toDisplayString"
+};
+
+// packages/compiler-core/src/index.ts
+function transformExpression(node, context) {
+  if (node.type === 5 /* INTERPOLATION */) {
+    console.log("\u8868\u8FBE\u5F0F\u8FDB\u5165", node, context);
+    node.content.content = `_ctx.${node.content.content}`;
+    return () => {
+    };
+  }
+}
+function transformElement(node, context) {
+  if (node.type === 1 /* ELEMENT */) {
+    console.log("\u5143\u7D20\u8FDB\u5165", node, context);
+    return () => {
+      console.log("\u5143\u7D20\u63A8\u51FA");
+    };
+  }
+}
+function transformText(node, context) {
+  if (node.type === 2 /* TEXT */ || node.type === 5 /* INTERPOLATION */) {
+    console.log("\u6587\u672C\u8FDB\u5165", node, context);
+    return () => {
+      console.log("\u6587\u672C\u63A8\u51FA");
+    };
+  }
+}
+function createTransformContext(root) {
+  const context = {
+    currentNode: root,
+    parent: null,
+    helpers: /* @__PURE__ */ new Map(),
+    //用于存储用的方法
+    helper(name) {
+      const count = context.helpers.get(name) || 0;
+      context.helpers.set(name, count + 1);
+      return name;
+    },
+    removeHelper(name) {
+      const count = context.helpers.get(name);
+      const currentCount = count - 1;
+      if (!currentCount) {
+        context.helpers.delete(name);
+      } else {
+        context.helpers.set(name, currentCount);
+      }
+    },
+    nodeTransform: [
+      transformExpression,
+      transformElement,
+      transformText
+    ]
+  };
+  return context;
+}
+function traverseNode(node, context) {
+  console.log(node, context, "traverseNode");
+  context.currentNode = node;
+  const transforms = context.nodeTransform;
+  let exitFns = [];
+  for (let i = 0; i < transforms.length; i++) {
+    let exitFn = transforms[i](node, context);
+    exitFn && exitFns.push(exitFn);
+  }
+  switch (node.type) {
+    case 0 /* ROOT */:
+    case 1 /* ELEMENT */:
+      for (let i = 0; i < node.children.length; i++) {
+        context.parent = node;
+        traverseNode(node.children[i], context);
+      }
+    case 5 /* INTERPOLATION */:
+      context.helper(TO_DISPLAY_STRING);
+      break;
+  }
+  let len = exitFns.length;
+  context.currentNode = node;
+  while (len--) {
+    exitFns[len]();
+  }
+}
+function transform(root) {
+  const context = createTransformContext(root);
+  traverseNode(root, context);
 }
 function compile(template) {
-  return parser(template);
+  const ast = parser(template);
+  console.log(ast, "ast");
+  transform(ast);
+  return;
 }
 export {
   compile
