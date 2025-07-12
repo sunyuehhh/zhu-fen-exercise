@@ -1,3 +1,8 @@
+// packages/shared/src/index.ts
+function isString(value) {
+  return typeof value == "string";
+}
+
 // packages/compiler-core/src/parse.ts
 function createParserContext(template) {
   return {
@@ -198,12 +203,45 @@ function parser(template) {
 }
 
 // packages/compiler-core/src/runtimeHelpers.ts
-var TO_DISPLAY_STRING = Symbol();
+var TO_DISPLAY_STRING = Symbol("toDisplayString");
+var CREATE_TEXT = Symbol("createTextVNode");
+var CREATE_ELEMENT_VNODE = Symbol("createElementVNode");
+var OPEN_BLOCK = Symbol("openBlock");
+var CREATE_ELEMENT_BLOCK = Symbol("createElementBlock");
+var FRAGMENT = Symbol("fragment");
 var helpNameMap = {
-  [TO_DISPLAY_STRING]: "toDisplayString"
+  [TO_DISPLAY_STRING]: "toDisplayString",
+  [CREATE_TEXT]: "createTextVNode",
+  [CREATE_ELEMENT_VNODE]: "createElementVNode",
+  [OPEN_BLOCK]: "openBlock",
+  [CREATE_ELEMENT_BLOCK]: "createElementBlock",
+  [FRAGMENT]: "fragment"
 };
+function createCallExpression(context, args) {
+  context.helper(CREATE_TEXT);
+  return {
+    type: 14 /* JS_CALL_EXPRESSION */,
+    arguments: args
+  };
+}
+function createVNodeCall(context, tag, props, children) {
+  context.helper(CREATE_ELEMENT_VNODE);
+  return {
+    type: 13 /* VNODE_CALL */,
+    //createElementVNode()
+    tag,
+    props,
+    children
+  };
+}
+function createObjectExpression(properties) {
+  return {
+    type: 15 /* JS_OBJECT_EXPRESSION */,
+    properties
+  };
+}
 
-// packages/compiler-core/src/index.ts
+// packages/compiler-core/src/transform.ts
 function transformExpression(node, context) {
   if (node.type === 5 /* INTERPOLATION */) {
     console.log("\u8868\u8FBE\u5F0F\u8FDB\u5165", node, context);
@@ -217,13 +255,88 @@ function transformElement(node, context) {
     console.log("\u5143\u7D20\u8FDB\u5165", node, context);
     return () => {
       console.log("\u5143\u7D20\u63A8\u51FA");
+      const properties = [];
+      const props = node.props;
+      for (let i = 0; i < props.length; i++) {
+        let { name, value } = props[i];
+        properties.push({
+          key: name,
+          value: value.content
+        });
+      }
+      const vnodeProps = properties.length > 0 ? createObjectExpression(properties) : null;
+      const vnodeTag = JSON.stringify(node.tag);
+      let vnodeChildren = null;
+      if (node.children.length === 1) {
+        vnodeChildren = node.children[0];
+      } else {
+        if (node.children.length > 1) {
+          vnodeChildren = node.children;
+        }
+      }
+      return node.codegenNode = createVNodeCall(
+        context,
+        vnodeTag,
+        vnodeProps,
+        vnodeChildren
+      );
     };
   }
+}
+function isText(node) {
+  return node.type === 5 /* INTERPOLATION */ || node.type == 2 /* TEXT */;
 }
 function transformText(node, context) {
   if (node.type === 2 /* TEXT */ || node.type === 5 /* INTERPOLATION */) {
     console.log("\u6587\u672C\u8FDB\u5165", node, context);
     return () => {
+      let hasText = false;
+      const children = node.children;
+      let currentContainer;
+      for (let i = 0; i < children?.length; i++) {
+        let child = children[i];
+        if (isText(child)) {
+          hasText = true;
+          for (let j = i + 1; j < children?.length; j++) {
+            const nextNode = children[j];
+            if (isText(nextNode)) {
+              if (!currentContainer) {
+                currentContainer = children[i] = {
+                  type: 8 /* COMPOUND_EXPRESSION */,
+                  //组合表达式
+                  children: [child]
+                };
+              }
+              currentContainer.children.push(nextNode);
+              children.splice(j, 1);
+              j--;
+            } else {
+              currentContainer = null;
+            }
+          }
+        }
+      }
+      if (!hasText || children.length == 1) {
+        return;
+      }
+      for (let i = 0; i < children?.length; i++) {
+        const child = children[i];
+        if (isText(child) || child.type == 8 /* COMPOUND_EXPRESSION */) {
+          const callArgs = [];
+          callArgs.push(child);
+          if (child.type !== 2 /* TEXT */) {
+            callArgs.push("PatchFlags.TEXT");
+          }
+          children[i] = {
+            // type是ast的标识
+            type: 12 /* TEXT_CALL */,
+            //生成文本调用
+            content: child,
+            // 生成代码  再transform中会生成一些额外的信息 用于代码生成ed
+            codegenNode: createCallExpression(context, callArgs)
+          };
+        }
+      }
       console.log("\u6587\u672C\u63A8\u51FA");
     };
   }
@@ -282,14 +395,207 @@ function traverseNode(node, context) {
     exitFns[len]();
   }
 }
+function createRootCodegen(root, context) {
+  const { children } = root;
+  if (children.length == 1) {
+    const child = children[0];
+    if (child.type === 1 /* ELEMENT */) {
+      root.codegenNode = child.codegenNode;
+      context.removeHelper(CREATE_ELEMENT_VNODE);
+      context.helper(OPEN_BLOCK);
+      context.helper(CREATE_ELEMENT_BLOCK);
+      root.codegenNode.isBlock = true;
+    } else {
+      root.codegenNode = child;
+    }
+  } else {
+    context.helper(OPEN_BLOCK);
+    context.helper(CREATE_ELEMENT_BLOCK);
+    root.codegenNode = createVNodeCall(
+      context,
+      context.helper(FRAGMENT),
+      null,
+      children
+    );
+  }
+}
 function transform(root) {
   const context = createTransformContext(root);
   traverseNode(root, context);
+  createRootCodegen(root, context);
+  root.helpers = [...context.helpers.keys()];
+}
+
+// packages/compiler-core/src/index.ts
+function createCodegenContext() {
+  const context = {
+    helper: (type) => "_" + helpNameMap[type],
+    code: ``,
+    //存储拼接后的代码
+    push(code) {
+      context.code += code;
+    },
+    level: 0,
+    indent() {
+      context.newLine(++context.level);
+    },
+    deindent(needNewLine = false) {
+      if (!needNewLine) {
+        --context.level;
+      } else {
+        context.newLine(--context.level);
+      }
+    },
+    newLine(level = context.level) {
+      context.push("\n" + " ".repeat(level));
+    }
+  };
+  return context;
+}
+function genText(node, context) {
+  context.push(JSON.stringify(node.content));
+}
+function genFunctionPreamble(ast, context) {
+  if (ast.helpers.length > 0) {
+    context.push(
+      `import {${ast.helpers.map((helper) => `${helpNameMap[helper]} as _${helpNameMap[helper]}`).join(",")}} from "vue"`
+    );
+    context.newLine();
+  }
+}
+function genInterpolation(node, context) {
+  context.push(`${context.helper(TO_DISPLAY_STRING)}(`);
+  genNode(node.content, context);
+  context.push(")");
+}
+function genExpression(node, context) {
+  context.push(node.content);
+}
+function genList(list, context) {
+  for (let i = 0; i < list.length; i++) {
+    let node = list[i];
+    if (isString(node)) {
+      context.push(node);
+    } else if (Array.isArray(node)) {
+      genList(node, context);
+    } else {
+      genNode(node, context);
+    }
+    if (i < list.length - 1) {
+      context.push(",");
+    }
+  }
+}
+function genVNodeCall(node, context) {
+  const { push, helper } = context;
+  const { tag, props, children, isBlock } = node;
+  if (isBlock) {
+    push(`(${helper(OPEN_BLOCK)}(),`);
+  }
+  if (isBlock) {
+    push(helper(CREATE_ELEMENT_BLOCK));
+  } else {
+    push(helper(CREATE_ELEMENT_VNODE));
+  }
+  push("(");
+  let list = [tag, props, children].filter(Boolean);
+  genList([tag, props, children].map((item) => item || "undefined"), context);
+  push(")");
+  if (isBlock) {
+    push(")");
+  }
+}
+function genObjectExpression(node, context) {
+  const { properties } = node;
+  const { push } = context;
+  if (!properties) {
+    return;
+  }
+  push("{");
+  for (let i = 0; i < properties.length; i++) {
+    const { key, value } = properties[i];
+    push(key);
+    push(":");
+    push(JSON.stringify(value));
+    if (i < properties.length - 1) {
+      push(",");
+    }
+  }
+  push("}");
+}
+function genCallExpression(node, context) {
+  context.push(context.helper(CREATE_TEXT));
+  context.push("(");
+  genList(node.arguments, context);
+  context.push(")");
+}
+function genCompoundExpression(node, context) {
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i];
+    if (isString(child)) {
+      context.push(child);
+    } else {
+      genNode(child, context);
+    }
+  }
+}
+function genNode(node, context) {
+  if (typeof node === "symbol") {
+    context.push(context.helper(FRAGMENT));
+    return;
+  }
+  switch (node.type) {
+    case 2 /* TEXT */:
+      genText(node, context);
+      break;
+    case 5 /* INTERPOLATION */:
+      genInterpolation(node, context);
+      break;
+    case 4 /* SIMPLE_EXPRESSION */:
+      genExpression(node, context);
+      break;
+    case 13 /* VNODE_CALL */:
+      genVNodeCall(node, context);
+      break;
+    case 15 /* JS_OBJECT_EXPRESSION */:
+      genObjectExpression(node, context);
+      break;
+    case 1 /* ELEMENT */:
+      genNode(node.codegenNode, context);
+      break;
+    case 12 /* TEXT_CALL */:
+      genNode(node.codegenNode, context);
+      break;
+    case 20 /* JS_CACHE_EXPRESSION */:
+      genCallExpression(node.codegenNode, context);
+      break;
+    case 8 /* COMPOUND_EXPRESSION */:
+      genCompoundExpression(node, context);
+  }
+}
+function generate(ast) {
+  const context = createCodegenContext();
+  genFunctionPreamble(ast, context);
+  context.push(
+    `export function (_ctx, _cache, $props, $setup, $data, $options){`
+  );
+  context.indent();
+  context.push(`return `);
+  if (ast.codegenNode) {
+    genNode(ast.codegenNode, context);
+  } else {
+    context.push(null);
+  }
+  context.newLine();
+  context.push("}");
+  console.log(context.code, "context.code");
+  return context.code;
 }
 function compile(template) {
   const ast = parser(template);
   console.log(ast, "ast");
   transform(ast);
+  generate(ast);
   return;
 }
 export {

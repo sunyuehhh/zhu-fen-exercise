@@ -78,13 +78,13 @@ function transformText(node,context){
 
   const children=node.children;//先获取所有儿子
   let currentContainer;
-  for(let i=0;i<children.length;i++){
+  for(let i=0;i<children?.length;i++){
     let child=children[i]
     if(isText(child)){
       // 是文本
       hasText=true
 
-      for(let j=i+1;j<children.length;j++){
+      for(let j=i+1;j<children?.length;j++){
         const nextNode=children[j]
         if(isText(nextNode)){//要将两个节点合并再一起
           if(!currentContainer){
@@ -115,7 +115,7 @@ function transformText(node,context){
 
 
   // 对于文本我们需要采用createTextVnode 来进行方法生成
-  for(let i=0;i<children.length;i++){
+  for(let i=0;i<children?.length;i++){
     const child=children[i]
     if(isText(child)||child.type==NodeTypes.COMPOUND_EXPRESSION){
       const callArgs=[]
