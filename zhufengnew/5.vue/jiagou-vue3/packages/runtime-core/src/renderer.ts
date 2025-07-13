@@ -467,7 +467,13 @@ export function createRenderer(renderOptions){
 
       if(!instance.isMounted){
 
-        const subTree=render.call(instance.proxy,instance.proxy);//这里先暂时将proxy 设置为状态
+        let subTree;
+
+        if(instance.vnode.shapeFlag&&ShapeFlags.FUNCTIONAL_COMPONENT){
+          subTree=instance.vnode.type(instance.attrs,instance)
+        }else{
+         subTree=render.call(instance.proxy,instance.proxy);//这里先暂时将proxy 设置为状态
+        }
         patch(null,subTree,el,anchor)
         instance.subTree=subTree
         instance.isMounted=true

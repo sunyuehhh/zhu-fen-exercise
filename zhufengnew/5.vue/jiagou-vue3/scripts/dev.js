@@ -2,7 +2,7 @@ const {build}=require('esbuild')
 const {resolve}=require('path')
 
 
-const target='compiler-core'
+const target='runtime-dom'
 
 build({
   // 打包的入口
