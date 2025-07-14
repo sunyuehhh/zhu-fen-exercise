@@ -1,21 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>History Router</title>
-</head>
-<body>
-
-  <button onclick="myRouter.push('/')">首页</button>
-  <button onclick="myRouter.push('/about')">关于我</button>
-  <button onclick="myRouter.replace('/xxx')">替换</button>
-
-  <script>
     function createCurrentLocation(base){
       const { pathname, search, hash } = window.location;
 
-      const hasPos=base.indexOf('#')
+      const hasPos=base?.indexOf('#')
       if(hasPos>-1){
         return base.slice(1)||'/'
       }
@@ -116,7 +102,7 @@
 
     }
 
-    function createWebHistory(base=''){
+ export function createWebHistory(base=''){
       const historyNavigation= useHistoryStateNavigation(base)
 
       const historyListeners=useHistoryListeners(historyNavigation.state,historyNavigation.location)
@@ -143,13 +129,8 @@
     // })
 
 
-    function createWebHashHistory(){
+   export  function createWebHashHistory(){
       return createWebHistory('#')
     }
 
 
-    const routerHistory = createWebHashHistory()
-
-  </script>
-</body>
-</html>
