@@ -1,0 +1,37 @@
+{
+  "name": "lerna2",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "孙悦 <11075393+sinking-fallen-leaves@user.noreply.gitee.com>",
+  "homepage": "https://github.com/sunyuehhh/zhu-fen-exercise#readme",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmmirror.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunyuehhh/zhu-fen-exercise.git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/sunyuehhh/zhu-fen-exercise/issues"
+  },
+  "bin": {
+    "lerna2": "cli.js"
+  },
+  "dependencies": {
+    "@lerna2/cli": "^0.0.0",
+    "@lerna2/init": "^0.0.0",
+    "@lerna2/add": "^0.0.0"
+  }
+}

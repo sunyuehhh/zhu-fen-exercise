@@ -1,0 +1,28 @@
+{
+  "name": "@lerna2/add",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "孙悦 <11075393+sinking-fallen-leaves@user.noreply.gitee.com>",
+  "homepage": "https://github.com/sunyuehhh/zhu-fen-exercise#readme",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunyuehhh/zhu-fen-exercise.git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/sunyuehhh/zhu-fen-exercise/issues"
+  }
+}

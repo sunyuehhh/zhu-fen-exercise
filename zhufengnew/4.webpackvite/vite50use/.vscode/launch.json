@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Vite50",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dev.js", // 根据你的入口文件调整
+      "args": ["serve", "--config", "/path/to/your-app-project/vite.config.js"],
+      "cwd": "${workspaceFolder}",
+      "autoAttachChildProcesses": true,
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}

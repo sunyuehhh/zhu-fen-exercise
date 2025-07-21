@@ -1,0 +1,29 @@
+{
+  "name": "vite50",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "vite50": "./bin/vite50.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "check-is-array": "^2.0.6",
+    "chokidar": "^4.0.3",
+    "connect": "^3.7.0",
+    "es-module-lexer": "^1.6.0",
+    "esbuild": "^0.24.2",
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.0",
+    "hash-sum": "^2.0.0",
+    "magic-string": "^0.30.17",
+    "resolve": "^1.22.10",
+    "serve-static": "^1.16.2",
+    "ws": "^8.18.0"
+  }
+}
