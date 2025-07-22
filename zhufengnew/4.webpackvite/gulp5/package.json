@@ -1,0 +1,20 @@
+{
+  "name": "gulp5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "gulp5": "./bin/gulp5.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^11.3.0",
+    "undertaker": "^2.0.0",
+    "vinyl-fs": "^4.0.2"
+  }
+}
