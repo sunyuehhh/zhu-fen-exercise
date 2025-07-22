@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                       // ✅ 支持 async/await 等现代语法
+    "module": "ESNext",                       // ✅ 使用 ESM 模块系统
+    "moduleResolution": "Node",              // ✅ 适配 Node 风格路径解析
+    "esModuleInterop": true,                 // ✅ 支持 default import
+    "allowSyntheticDefaultImports": true,    // ✅ 允许默认导入
+    "noEmit": true,                          // ✅ 不输出 JS，只供运行时编译
+    "resolveJsonModule": true,               // ✅ 支持导入 JSON
+    "strict": true                           // ✅ 开启严格模式（可选）
+  },
+  "include": ["vite.config.ts", "ssr-entry.ts"]
+}
