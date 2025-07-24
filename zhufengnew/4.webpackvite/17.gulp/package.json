@@ -1,0 +1,20 @@
+{
+  "name": "17.gulp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^11.3.0",
+    "undertaker": "^2.0.0",
+    "vinyl-fs": "^4.0.2"
+  },
+  "bin": {
+    "gulp6": "bin/gulp6.js"
+  }
+}
