@@ -1,0 +1,16 @@
+module.exports={
+  "env":{
+    "browser":true,
+    "node":true
+  },
+  "extends":[
+    "eslint:recommended"
+  ],
+  "rules":{
+    "quotes":["error","double"],
+    "@typescript-eslint/no-inferrable-types":"error"
+  },
+  globals:{
+    custom:"writable"
+  }
+}
