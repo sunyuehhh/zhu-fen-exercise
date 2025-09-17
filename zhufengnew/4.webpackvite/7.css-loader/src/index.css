@@ -1,0 +1,11 @@
+@import './global.css';
+body{
+  color:red
+}
+
+#root{
+  background-image: url(./1.png);
+  background-size: 200px 200px;
+  
+  
+}
