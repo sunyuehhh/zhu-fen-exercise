@@ -2,30 +2,26 @@ import React,{ReactNode} from 'react';
 import { Todo } from '../../module/todos';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
+import { connect } from 'react-redux'
+import * as actions from '@/store/actions/todo'
+import { CombinedState,TodoState } from '@/store/reducers'
 
-interface Props{
 
-}
+type Props=TodoState&typeof actions
 
 interface State{
   todos:Array<Todo>
 }
 
-export default class Todos extends React.Component<Props,State>{
-  state={todos:[] as Array<Todo>}
-
-  addTodo=(todo:Todo)=>{
-    this.setState({
-      todos:[...this.state.todos,todo]
-    })
-  }
+class Todos extends React.Component<Props,State>{
   render(): ReactNode {
+    const {addTodo,list}=this.props
     return (
       <div>
-        <TodoInput addTodo={this.addTodo} />
+        <TodoInput addTodo={addTodo} />
         <ul>
           {
-            this.state.todos.map(todo=>(
+            list.map(todo=>(
               <TodoItem todo={todo} key={todo.id}></TodoItem>
             ))
           }
@@ -35,3 +31,11 @@ export default class Todos extends React.Component<Props,State>{
   }
 
 }
+
+
+const mapStateToProps=(state:CombinedState):TodoState=>state.todo
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Todos)
