@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Todos from './components/Todos';
+import Counter from './components/Count';
+import store from './store';
+
+console.log(store.getState())
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -8,6 +12,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Todos />
+    <Counter number={1} />
+    {/* <Todos /> */}
   </React.StrictMode>
 );

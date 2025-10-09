@@ -1,9 +1,15 @@
 import React,{ReactNode} from 'react';
 import { Todo } from '../../module/todos';
+import { WithDefaultProps,DefaultProps } from '@/util';
 
-interface Props{
+
+
+
+
+interface OwnProps{
   addTodo:(todo:Todo)=>void
 }
+type Props=OwnProps&DefaultProps
 
 interface State{
   text:string
@@ -11,7 +17,7 @@ interface State{
 
 
 let id=0
-export default class TodoInput extends React.Component<Props,State>{
+ class TodoInput extends React.Component<Props,State>{
   constructor(props:Props){
     super(props)
     this.state={text:''}
@@ -36,12 +42,16 @@ export default class TodoInput extends React.Component<Props,State>{
 
   public render() {
     const {text}=this.state
+    const {settings}=this.props as Props
     const {handleSubmit,handleChange}=this
     return (
       <form onSubmit={handleSubmit}>
-        <input value={this.state.text} onChange={handleChange} />
+        <input maxLength={settings?.maxLength} placeholder={settings?.placeholder} value={this.state.text} onChange={handleChange} />
         <button type="submit">添加</button>
       </form>
     )
   }
 }
+
+
+export default WithDefaultProps(TodoInput)
